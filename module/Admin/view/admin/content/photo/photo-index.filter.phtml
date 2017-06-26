@@ -1,0 +1,41 @@
+<?
+/* @var $this Common\View */
+?>
+<form class="form v-form">
+	
+	<div class="field">
+		<input type="text" name="f[query]" value="<?= $this->filter['query'] ?>" placeholder="Поиск..." />
+	</div>
+		
+	<div class="field">
+		<label>Альбом</label>
+		<select name="f[album]">
+			<?= $this->html()->option('Все фотоальбомы', null, $this->filter['album'], 'class = "empty"') ?>
+			<? foreach ($this->albumOptions as $key => $title){ ?>
+			<?= $this->html()->option($title, $key, $this->filter['album']) ?>
+			<? } ?>			
+		</select>
+	</div>		
+		
+	<div class="button-group">
+		<a href="<?= $this->url(null, ['p' => 1, 'f' => null]) ?>" type="submit" class="button reset">Сбросить</a>
+		<button type="submit" class="button">Искать</button>
+	</div>
+	
+</form>
+
+<h2>Загрузить фотографии</h2>
+<div class="upload" style="min-height: 90px;">
+	<p>Что бы загрузить фотографии просто перетащите их в это окно, или:</p>
+	<a href="javascript: ;" class="button upload-link"><i class="fa fa-upload"></i>Выберите фотографии</a>
+	<? if(empty($this->filter['album'])) {
+		$uploadUrl = $this->url('private/photo-mass-upload');
+		?>
+		<p>При загрузке будет создан новый фотоальбом</p>
+	<? } else { 
+		$uploadUrl = $this->url('private/photo-mass-upload', ['album_id' => $this->filter['album']]);
+		?>
+		<p>Фотографии будут добавлены в альбом "<?= $this->albumOptions[$this->filter['album']] ?>"</p>
+	<? }?>	
+	<input id="fileUploadInput" type="file" multiple data-url="<?= $uploadUrl ?>" />	
+</div>

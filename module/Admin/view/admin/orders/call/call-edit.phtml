@@ -1,0 +1,55 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+
+$this->sidebar()->left('admin/orders/call/call-edit.left.phtml', $this->vars());
+$this->assets(['user-select']);
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/order-call-index') ?>">Заявки на обратный звонок</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новая";
+	$this->headTitle("Новая заявка");
+} else {
+	$title = "№".$this->item['id']. " от ".$this->html()->date($this->item['date']).", ".$this->item['name'];
+	echo $title;
+	$this->headTitle("Звонок ".$title);
+}?>
+</h1>
+
+<?= $form->start() ?>
+
+<div class="common-group">
+	
+</div>
+
+
+<table class="form-wrapper-table">
+	<tr>
+		<td class="left-cell common-group">
+			<h2 id="common">Заявка</h2>
+			<?= $form('name') ?>	
+			<?= $form('phone') ?>		
+			<?= $form('user_id') ?>		
+					
+			<?= $form('message') ?>		
+		</td>
+		<td class="right-cell image-group">
+			<h2>Комментарий менеджера</h2>
+			<?= $form('status') ?>
+			<?= $this->adminComments('order_call') ?>
+		</td>
+	</tr>
+</table>
+
+
+
+
+
+
+<?= $form('*') ?>
+<?= $form->end();?>

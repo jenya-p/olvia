@@ -1,0 +1,78 @@
+<?
+/* @var $this Common\View */
+$this->headTitle("Мое распиание");
+$this->inlineScript()->appendFile("/site/js/user.js");
+$this->headLink()->appendStylesheet("/site/css/user.css");
+
+?>
+
+<ul class="breadcrumb">
+	<li><a href="/">Главная</a></li>
+	<li>Кабинет пользователя</li>
+</ul>
+
+<?= $this->partial('/application/customer/tabs.phtml', $this->vars()); ?>
+
+<? if($this->total != 0 ) {?>
+<style type="text/css">
+
+.info-message{width: 800px;}    
+.info-message .image+div{width: 620px;}
+.main-table-wrapper {margin-top: 230px}
+.info-message+.main-table-wrapper{margin-top: 20px}
+</style>
+<? } ?>
+
+<?= $this->userFlowFlash() ?>
+<div class="white-bg main-table-wrapper">
+	<table class="shedule-list">
+		<tr>
+			<th>Дата</th>
+			<th class="time">Время</th>
+			<th>Предстоящее мероприятие</th>
+			<th>Тариф</th>
+			<th class="pay">
+				<? if($this->total != 0 ) {?>
+				<div class="pay-tip">
+					<p>Здесь можно оплатить выбранные курсы.
+					<? if($this->totalDiscount != 0 ){ A?> 
+					Экономия при оплате online:<br ><span class="value"><?= number_format($this->totalDiscount, 0, '.', ' ')?></span>р</p>
+					<? } ?>
+					<p><a href="/user-courses.php?action=payment" class="button pink">К оплате: <?= number_format($this->total, 0, '.', ' ')?> р.</a></p>						
+				</div>
+				<? } ?>
+			<th></th>
+		</tr>
+		<? foreach ($this->orders as $order){ 
+			if($order['type'] == 'consult'){
+				// echo $this->partial('customer-calendar.consult.phtml', $order);
+			} else if ($order['type'] == 'order' || $order['type'] == 'preorder') {
+				echo $this->partial('customer-calendar.order.phtml', $order);
+			}
+		} ?>
+		<tr class="totals">
+		<? if($this->total != 0 ) { ?>
+			<td colspan="4">
+				<p class="legend">Всего к оплате <span class="value">28 000</span> р.</p>
+			</td>
+			<td colspan="2">
+				<a href="/user-courses.php?action=payment" class="button pink">Оплатить</a>
+			</td>
+		<? } else { ?>
+			<td colspan="6">&nbsp;</td>
+		<? }?>					
+		</tr>
+	</table>
+</div>
+
+
+<div class="twm-popup" id="removeCoursePopup" >	
+	<form action="/" method="post" class="form">
+		<p>Вы уверены, что хотите отменить свою запись на мероприятие?</p>			
+		<div class="buttons">
+			<a href="javascript:;" class="button purple twm-close" >Нет</a>		
+			<a href="javascript:;" class="button purple" >Да</a>
+		</div>		
+	</form>
+</div>
+<br /><br /><br />

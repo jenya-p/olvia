@@ -1,0 +1,37 @@
+<?= '<?' ?>
+
+<?
+/* @var $entity Entity */ ?>
+namespace <?= $entity->getFormNamespace() ?>;
+
+use Common\Form\Form;
+use Common\Traits\Initializable;
+<? foreach ($entity->formTraitsFull as $uses){ 
+?>use <?= $uses?>; 	
+<? } 
+?>use ZfAnnotation\Annotation\Service;
+
+/**
+ * @Service(name="<?= $entity->getFormClassFull() ?>")
+ */
+class <?= $entity->name ?>Form extends Form implements Initializable{
+	<? if(!empty($entity->formTraits)){ ?>
+
+	use <?= implode(', ', $entity->formTraits)?>;
+<?} ?>	
+	var $defaultElementDecorator = 'default';
+		
+	public function init(){
+		
+		<? foreach ($entity->fields as $field){ 
+		if(!empty($field['formType'])){
+		?>$this->field('<?= $field['name'] ?>', '<?= $field['formType'] ?>', '<?= $field['title'] ?>');
+ 		<? } } ?>
+ 		 		
+ 		$this->field('submit', 'submit-group', null, ['label-save' => 'Сохранить', 'label-apply' => 'Применить', 'decorator' => 'simple']);
+ 		
+ 		$this->addClass('g-form');
+ 		  		
+	}
+		
+} 

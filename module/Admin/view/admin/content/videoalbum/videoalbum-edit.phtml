@@ -1,0 +1,51 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+$this->assets(['user-select']);
+$this->sidebar()->left('admin/content/videoalbum/videoalbum-edit.left.phtml', $this->vars());
+$this->sidebar()->right('admin/content/videoalbum/videoalbum-edit.right.phtml', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("Новый раздел");
+} else {
+	$this->headTitle($item['title'] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/videoalbum-index') ?>">Разделы видео</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новый раздел";
+} else {
+	echo empty($this->item['title']) ? ' Видеоальбом № '.$item['id'] : $this->item['title'];
+}?>
+</h1>
+
+<?= $form->start() ?>
+
+
+<div class="minimizable">
+	<table class="form-wrapper-table">
+		<tr>
+			<td class="left-cell common-group">
+				<h2>Общая информация <a href="javascript:;" class="minimize-link"></a></h2>
+				<?= $form('title') ?>
+				<?= $form('alias') ?>
+				<?= $form('status') ?>
+			</td>
+			<td class="right-cell tags-group">
+				<h2>SEO <a href="javascript:;" class="minimize-link"></a></h2>			
+				<?= $form('seo_title') ?>
+				<?= $form('seo_description') ?>
+				<?= $form('seo_keywords') ?>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<?= $form('*') ?>
+<?= $form->end();?>

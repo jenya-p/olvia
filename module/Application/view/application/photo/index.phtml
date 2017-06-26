@@ -1,0 +1,38 @@
+<?
+/* @var $this Common\View */
+$this->headTitle("Фотоальбомы");
+$this->headLink()->appendStylesheet("/site/css/photo-index.css");
+
+?>
+
+<ul class="breadcrumb">
+	<li><a href="/">Главная</a></li>
+	<li>Фотоальбомы</li>
+</ul>
+				
+			
+<div class="block">
+	<h1 class="like-h2">Последние добавленные фото</h1>
+	<div class="photoalbum-wrp"> 
+		<? foreach ($this->top_photos as $photo){ 
+		echo $this->partial('application/photo/index.item.phtml', ['photo'=>$photo]);
+} ?>		
+	</div>
+</div>
+
+<? foreach ($this->albums as $album){ ?>
+<div class="block">
+	<h2><? if(!empty($album['created'])) { 
+		echo '<span class="date">'.$this->html()->date($album['created'], 'M Y', '', '').'</span>';
+		}
+		echo ' '.$album['title'];
+		?>
+	</h2>
+	
+	<div class="photoalbum-wrp"> 
+		<? foreach ($album['photos'] as $photo){ 
+		echo $this->partial('application/photo/index.item.phtml', ['photo'=>$photo, 'album' => $album]);
+		} ?>
+	</div>
+</div>
+<? } ?>

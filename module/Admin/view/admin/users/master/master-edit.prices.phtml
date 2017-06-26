@@ -1,0 +1,26 @@
+<?
+/* @var $this Common\View */
+?>
+<table class="item-list">
+	<thead>
+		<tr>
+			<th>Тариф</th>
+			<th class="tc">Приоритет</th>
+			<th>Цена</th>
+			<th>Расшифровка</th>
+			<th></th>				
+		</tr>
+	</thead>
+	<?foreach ($this->prices as $price) {?>
+	<tr data-href="<?= $this->url('private/master-prices-edit', ['id' => $price['id']]) ?>">
+		<td><?= $price['name'] ?></td>
+		<td class="tc"><?= $price['priority'] ?></td>
+		<td><?= $price['price'] ?></td>
+		<td><?= $price['price_desc'] ?></td>
+		<td class="options">
+			<a href="<?= $this->url('private/master-prices-status', ['id' => $price['id']]) ?>" class="item-status">
+				<i class="fa fa-check <?= $price['status'] ? 'active': '' ?>"></i></a>
+		</td>
+	</tr>
+	<? } ?>
+</table>

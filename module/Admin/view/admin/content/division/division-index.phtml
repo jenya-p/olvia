@@ -1,0 +1,47 @@
+<?
+/* @var $this Common\View */
+/* @var $this Zend\View\Renderer\PhpRenderer */
+$this->headTitle("Разделы");
+$this->assets(['fancybox']);
+$this->sidebar()->left('admin/content/division/division-index.filter.phtml', $this->vars());
+
+
+?><h1 class="page-header">Разделы сайта <small><?= $this->counts['count'] ?></small></h1><?
+$firstPageUrl = $this->url(null, ['p' => 1]);
+?>
+
+<table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить раздел?">
+	<thead>
+		<tr>
+			<th style="width: 60px" class="tc"><?= $this->sorter('№', 'id', $this->filter['sort']) ?></th>
+			<th></th>
+			<th><?= $this->sorter('Название раздела', 'title_ru', $this->filter['sort']) ?></th>
+			<th>Урл</th>
+			<th class="tc"><?= $this->sorter('Приоритет', 'priority', $this->filter['sort']) ?></th>
+			<th class="tc"><?= $this->sorter('Количество статей', 'article_count', $this->filter['sort']) ?></th>			
+			<th></th>			
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<tr data-href="<?=$this->url('private/division-edit', ['id' => $item['id']])?>">
+		<td class="tc"><?= $item['id']?></td>
+		<td class="image">
+			<a href="<?= $this->image( $item['image']) ?>" data-fancybox="gallery" title="<?= htmlspecialchars($item['title']) ?>">
+				<img src="<?= $this->image( $item['image'], 75, 25 ) ?>" />
+			</a>
+		</td>
+		<td><?= $item['title_ru']?></td>
+		<td><?= $item['alias']?></td>
+		<td class="tc"><?= $item['priority']?></td>
+		<td class="tc"><?= $item['article_count']?></td>
+		
+		<td class="options">
+			<a href="<?= $this->url('private/division-status', ['id' => $item['id']]) ?>" class="item-status">
+				<i class="fa fa-check <?= $item['status'] ? 'active': '' ?>"></i></a>
+			<a href="<?= $this->url('private/division-delete', ['id' => $item['id']]) ?>" class="fa fa-trash item-delete"></a>			
+		</td>
+	</tr>
+	<?}?>
+</table>	
+
+<?= $this->html()->pages($this->page, $this->pageCount)?>

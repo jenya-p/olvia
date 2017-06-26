@@ -1,0 +1,8 @@
+<?
+/* @var $this Common\View; */
+$baseUrl = $this->config('base_url');
+?>
+<h1>
+	Вы только что зарегистрировались на сайте <a href="<?= $baseUrl ?>">olvia center</a>
+</h1>
+<p>Для завершения регистрации, пройдите по <a href="<?= $baseUrl ?>/register-confirm?code=<?= $this->user['vir_code'] ?>">ссылке</p>

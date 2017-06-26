@@ -1,0 +1,13 @@
+.form.g-form .price-item-list tr{cursor: default;}
+.form.g-form .price-item-list label.checkbox {margin: 0px}
+.form.g-form .price-item-list input[type=checkbox]:CHECKED+span{font-weight: bold;}
+.form.g-form .price-item-list th:FIRST-CHILD {	font-size: 1em;	color: inherit;	padding-left: 0;}
+.form.g-form .price-item-list .options a {margin-left: 8px;}
+
+.add-dates-weekdays table {width: 100%;}
+.add-dates-weekdays table th{text-align: center;}
+.add-dates-weekdays table th.holiday{color: #d65454;}
+.add-dates-weekdays table td.today span{border: 2px solid #3e32f3;border-radius: 50%;}
+.add-dates-weekdays table td{vertical-align: middle;text-align: left;}      
+.form.g-form .add-dates-weekdays label.checkbox{margin: 5px}
+.form.g-form .add-dates-weekdays label.checkbox span{padding: 2px 0 2px 38px;}     

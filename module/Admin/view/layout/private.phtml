@@ -1,0 +1,115 @@
+<?
+use Common\ViewHelper\Assets;
+use Zend\Session\Container;
+use Common\CRUDController;
+
+/* @var $this Common\View */
+$route = $this->routeName();
+if(empty($this->site_url)){
+	$this->site_url = '/';
+}
+?><?= $this->doctype(); ?>
+<html lang="RU-ru">
+<head>
+	<meta charset="utf-8">	
+	<?
+	$this->assets('commons')->prepend();
+	
+	echo $this->headTitle($this->translate('Olvia Center CRM'))->setSeparator(' - ')->setAutoEscape(false); 
+	
+	echo $this->headMeta()->appendName('viewport', 'width=device-width, initial-scale=1.0')
+			->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
+	
+			
+	echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/favicon.png'));
+	
+	echo "\n";
+	echo $this->headScript();
+			
+	?>
+		
+	</head>
+<body>
+<div id="lay-wrapper">
+	
+    <nav id="lay-main-navigation"<?= $route=='private' ? ' class="expanded"' : '' ?>>				
+        <div class="top-panel">
+	        <a href="<?= $this->url('private') ?>" class="home-link" title="Главная страница CRM"><i class="fa fa-home"></i>Olvia Center CRM</a>
+	        
+			<a href="<?= $this->site_url ?>" class="site-link primary-icon-link fa fa-eye" target="_blank" title="Посмотреть на сатйте"></a>
+						
+			<div class="menu top-menu">
+			<?= $this->navigation("Zend\Navigation\admin-top")->menu()->setPartial('admin/menu') ?>
+				<a href="javascript:;" class="menu-link primary-icon-link fa fa-bars" target="_blank" title="Меню CRM"></a>
+			</div>
+						
+			<form class="search-box">
+				<input type="text" name="search" value="" placeholder="Поиск..."/>
+			</form>
+			
+			<a href="/" class="user"><i class="fa fa-user"></i><span><?= $this->identity()->displayname ?></span></a>
+			<a href="http://studio-205.ru" class="vendor-link" target="_blank">STU<br />DIO<br />205</a>	           
+        </div>
+        
+        <div class="menu main-menu">
+        	<?= $this->navigation("Zend\Navigation\admin")->menu()->setPartial('admin/menu') ?>
+        </div>      
+        <? $this->adminNotificationScripts(); ?>  		
+    </nav>	
+	
+    <div class="lay-content-outer">
+    	<? 
+    	$extraClass = '';
+    	$lsb = $this->sidebar('left');
+    	if($lsb->exists()){ 
+    		$extraClass .= ' lay-content--left-sidebar';
+    	?>
+    	<div class="lay-left-sidebar">
+    		<div class="lay-sidebar-inner">
+		    	<div class="buttons">
+		    		<a href="<?= $this->url('private') ?>" class="fa fa-home home-link"></a>
+		    		<a href="javascript:;" class="fa fa-chevron-up go-to-top-link"></a>	    		
+		    		<a href="javascript:;" class="fa fa-bars menu-link"></a>
+		    	</div>
+	    		<?= $this->partial($lsb->getTemplate(), $lsb->getVars()); ?>
+	    		<? /* <ul><?
+	    		$session = new Container(CRUDController::class);
+	    		foreach ($session['history'] as $h){ ?>
+	    			<li><a href="<?= $h['uri'] ?>"><?= $h['routeName'] ?></li>
+	    		<?}?>
+	    		</ul> <? */?>
+	    	</div>    		
+	    </div>	
+    	<? } ?>
+    	<? 
+    	$rsb = $this->sidebar('right');    	
+    	if($rsb->exists()){
+    		$extraClass .= ' lay-content--right-sidebar';
+    	?>
+    	<div class="lay-right-sidebar">
+    		<div class="lay-sidebar-inner">	    	
+	    		<?= $this->partial($rsb->getTemplate(), $rsb->getVars()); ?>
+	    	</div>    		
+	    </div>
+	    <? } ?>	    
+	    <div class="lay-content<?= $extraClass ?> page-<?= $route?>">					
+			<?php echo $this->content; ?>		
+			<div class="clear"></div>		
+	    </div>	    
+	</div>
+	
+</div>
+<!-- <div id="lay-footer"> -->
+<!-- 	<a href="#" class="author">Студия 205</a> -->
+<!-- </div>	 -->
+
+<ul class="lay-message-wrapper">
+<?php
+	echo $this->flash();
+?>
+</ul>
+<?
+echo $this->inlineScript(); 
+?>	
+</body>
+</html>

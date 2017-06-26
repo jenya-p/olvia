@@ -1,0 +1,29 @@
+<?
+/* @var $this Common\View */
+?>
+<form class="form v-form">
+
+	<div class="field">
+		<input type="text" name="f[query]" value="<?= $this->filter['query'] ?>" placeholder="Поиск..." />
+	</div>
+	
+	<div class="field">
+		<label>Роль</label> 
+		<select name="f[role]">
+			<?= $this->html()->option('Все пользователи', null, $this->filter['division']) ?>
+			<? foreach ($this->roleOptions as $roleKey => $roleName){ ?>
+			<?= $this->html()->option($roleName, $roleKey, $this->filter['role']) ?>
+			<? } ?>			
+		</select>
+	</div>
+	
+	<div class="button-group">
+		<a href="<?= $this->url(null, ['p' => 1, 'f' => null]) ?>" type="submit" class="button reset">Сбросить</a>
+		<button type="submit" class="button">Искать</button>
+	</div>
+	
+</form>
+
+<div>
+	<a href="<?= $this->url('private/user-edit', ['id' => 'new']) ?>" class="button create-item-link"><i class="fa fa-plus-circle"></i>Новый пользователь</a>
+</div>

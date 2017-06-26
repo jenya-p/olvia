@@ -1,0 +1,13 @@
+<?
+/* @var $this Common\View */
+/* @var array $photo */
+$size = $this->image()->getSize($this->photo['image']);
+if(empty($this->album)){
+	$url = $this->url('photo-latest');
+} else {
+	$url =$this->url('photo-album', ['alias' => $this->album['alias']]);
+}
+	?>
+<a href="<?= $url ?>" class="item">
+	<img src="<?= $this->image($this->photo['image'], null, 180) ?>" alt="<?= $this->photo['title'] ?>"/>
+</a>

@@ -1,0 +1,28 @@
+<?
+/* @var $this Common\View */
+$album = $this->album;
+
+$this->assets(['fancybox']);
+$this->seo($album);
+$this->headLink()->appendStylesheet("/site/css/video-index.css");
+
+?>
+
+<ul class="breadcrumb">
+	<li><a href="/home.php">Главная</a></li>
+	<li><a href="<?= $this->url('video-index') ?>">Видео</a></li>
+	<li><?= $this->album['title'] ?></li>
+</ul>
+
+<h1><?= $album ['title'] ?></h1>
+
+<div class="videoalbum-wrp">
+	<div class="video-row">
+	<? 
+	$i = 0;
+	foreach ($this->videos as $video){ ?>
+	<? if($i++ %5 == 0) echo '</div><div class="video-row">'; ?>
+	<? echo $this->partial('application/video/index.item.phtml', ['item'=>$video]); ?>		
+	<? } ?>
+	</div>
+</div>

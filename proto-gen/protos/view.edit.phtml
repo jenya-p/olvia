@@ -1,0 +1,44 @@
+<?= '<?' ?>
+
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+
+$this->sidebar()->left('<?
+
+echo 'admin/'.$entity->getViewPathAndName().'-edit.left.phtml';
+?>', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("<?= $entity->message('new_object') ?>");
+} else {
+	$this->headTitle($item['<?= $entity->nameField ?>'] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= '<?' ?>= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= '<?' ?>= $this->url('private/<?= $entity->route ?>-index') ?>"><?= $entity->message('list_title') ?></a></li>
+</ul>
+<h1 class="page-header"><?= '<?' ?>
+if ($this->isNew) {
+	echo "<?= $entity->message('new_object') ?>";
+} else {
+	echo $this->item['<?= $entity->nameField ?>'];
+}?>
+</h1>
+
+<?= '<?' ?>= $form->start() ?>
+
+<div class="common-group">
+	<h2 id="common">Общая информация</h2>
+		
+<? if(!empty($entity->fields)){foreach ($entity->fields as $field){ 
+	if(!empty($field['formType'])){
+	echo "\t".'<?= $form(\''.$field['name'].'\')'." ?>\n\n";
+ 	} } }?>
+</div>
+
+<?= '<?' ?>= $form('*') ?>
+<?= '<?' ?>= $form->end();?>

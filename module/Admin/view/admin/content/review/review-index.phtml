@@ -1,0 +1,66 @@
+<?
+use Admin\Model\Content\ReviewRefsDb;
+
+/* @var $this Common\View */
+$this->headTitle("Фото");
+
+$this->sidebar()->left('admin/content/review/review-index.filter.phtml', $this->vars());
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+</ul>
+<h1 class="page-header">Отзывы <small><?= $this->counts['count'] ?></small></h1>
+
+<table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
+	<thead>
+		<tr>
+			<th style="width: 60px" class="tc"><?= $this->sorter('№', 'id', $this->filter['sort']) ?></th>
+			<th><?= $this->sorter('Автор', 'id', $this->filter['sort']) ?></th>
+			<th><?= $this->sorter('Дата', 'date', $this->filter['sort']) ?></th>
+			<th>Ссылка в соцсети</th>
+			<th>Связи</th>
+			<th></th>
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<tr data-href="<?=$this->url('private/review-edit', ['id' => $item['id']])?>">
+		<td class="tc"><?= $item['id']?></td>
+		<td><?= $item['name'] ?></td>
+		<td><?= $this->html()->date($item['date']) ?></td>
+		<td>
+			<? if(!empty($item['social'])){ ?>
+				<a href="<?= $item['social'] ?>" target="_blank"><?= $item['social'] ?></a>
+			<? } ?>
+		</td>
+		<td>
+			<? if(count($item['refs']) > 0){ 
+				$ref = $item['refs'][0];
+			?>
+			<? if($ref['entity'] == ReviewRefsDb::ENTITY_MASTER){ ?>
+				<a href="<?= $this->url('private/master-edit', ['id' => $ref['item_id']]) ?>"><i class="fa fa-graduation-cap"></i> <?= $ref['item_displayname'] ?></a>
+			<? } else if($ref['entity'] == ReviewRefsDb::ENTITY_COURSE){ ?>
+				<a href="<?= $this->url('private/course-edit', ['id' => $ref['item_id']]) ?>"><i class="fa fa-book"></i> <?= $ref['item_title'] ?></a>
+			<? } else { ?>
+				<span><i class="fa fa-book"></i> <?= $ref['item_title'] ?></span>
+			<? } ?>	
+			<? 
+			$refCount = count($item['refs']);
+			if($refCount > 1){ ?> 
+				и еще <?= $refCount ?>...
+			<? } ?>
+			<? } ?>
+		</td>
+		<td class="options">
+			<a href="<?= $this->url('private/review-status', ['id' => $item['id']]) ?>" class="item-status">
+				<i class="fa fa-check <?= $item['status'] ? 'active': '' ?>"></i></a>
+			
+			<a href="<?= $this->url('private/review-status', ['id' => $item['id'], 'field' => 'home']) ?>" class="item-home" title="Показывать на главной странице">
+				<i class="fa fa-home <?= $item['home'] ? 'active': '' ?>"></i></a>
+				
+			<a href="<?= $this->url('private/review-delete', ['id' => $item['id']]) ?>" class="fa fa-trash item-delete"></a>			
+		</td>
+	</tr>
+	<?}?>
+</table>	
+
+<?= $this->html()->pages($this->page, $this->pageCount)?>

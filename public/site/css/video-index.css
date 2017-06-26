@@ -1,0 +1,13 @@
+
+/* Video-list page */
+
+section.main h1.like-h2,
+section.main h2 {text-align: left;font-weight: bold;}
+section.main h1.like-h2 a,
+section.main h2 a{margin-left: 14px;font-size: 0.8em;}
+section.main .video-row{vertical-align: top;margin: 0 -18px 2em -18px;}
+section.main .video-entry{display: inline-block;width: 218px;/* height: 200px; */vertical-align: top;margin: 0 0 2.8em 18px;}
+section.main .video-entry img{width: 100%;margin-bottom: 0.8em;}
+section.main .video-entry a:HOVER {text-decoration: none;}
+section.main .video-entry span {line-height: 1.4em;}
+section.main .video-entry span.time {    color: black;    margin-right: 9px;}

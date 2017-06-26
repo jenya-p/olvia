@@ -1,0 +1,53 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+$this->assets(['course-select', 'discounts-element']);
+
+$this->sidebar()->left('admin/courses/tarifs/tarifs-edit.left.phtml', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("Новый тариф");
+} else {
+	$this->headTitle($item['title'] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/tarifs-index') ?>">Список тарифов</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новый тариф";
+} else {
+	echo $this->item['title'];
+}?>
+</h1>
+
+<?= $form->start() ?>
+
+<table class="form-wrapper-table">
+	<tr>
+		<td class="left-cell common-group">
+			<h2>Общая информация</h2>
+			<?= $form('course_id') ?>
+			<?= $form('title') ?>			
+						
+			<?= $form('status') ?>			
+			<?= $form('priority') ?>
+			<?/* = $form('type') */?>				
+			
+		</td>
+		<td class="right-cell seo-group">
+			<h2>Цена и скидки</h2>
+			<?= $form('price') ?>
+			<?= $form('price_desc') ?>
+			<?= $form('subscription') ?>						
+			<?= $form('discounts') ?> 
+		</td>
+	</tr>
+</table>
+
+<?= $form('*') ?>
+<?= $form->end();?>

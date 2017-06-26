@@ -1,0 +1,41 @@
+<?
+/* @var $this Common\View */
+$this->headTitle("Мое распиание");
+$this->inlineScript()->appendFile("/site/js/user.js");
+$this->headLink()->appendStylesheet("/site/css/user.css");
+$this->popup('review');
+
+?>
+
+<ul class="breadcrumb">
+	<li><a href="/">Главная</a></li>
+	<li>Завершенные мероприятия</li>
+</ul>
+
+<?= $this->partial('/application/customer/tabs.phtml', $this->vars()); ?>
+<nav class="month-pager">
+
+<br /><br />
+<?// TODO ПАгинатор на странице истории у клиента 
+
+// = $this->monthPaginator($this->currentDate, ['end' => time()], 3); ?>	
+</nav>	
+<div class="white-bg">
+	<table class="shedule-list">
+		<tr>
+			<th>Дата</th>
+			<th colspan="3">Название пойденного тренинга</th>
+		</tr>
+		<? foreach ($this->orders as $item){ 
+			if($item['type'] == 'consult'){
+				echo $this->partial('/application/customer/calendar/customer-history.consult.phtml', $item);
+			} else {
+				echo $this->partial('/application/customer/calendar/customer-history.order.phtml', $item);
+			}
+		} ?>
+	</table>
+</div>
+
+<nav class="month-pager">
+<?// = $this->monthPaginator($this->currentDate, ['end' => time()], 3); ?>
+</nav>

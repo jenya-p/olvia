@@ -1,0 +1,59 @@
+<?
+use Common\ViewHelper\Phone;
+use Common\Utils;
+
+/* @var $this Common\View */
+$this->headTitle("Заявка на консультацию");
+
+$this->sidebar()->left('admin/orders/consultation/consultation-index.filter.phtml', $this->vars());
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+</ul>
+<h1 class="page-header">Заявка на консультацию <small><?= $this->counts['count'] ?></small></h1>
+
+<table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
+	<thead>
+		<tr>
+			<th style="width: 40px" class="tc"><?= $this->sorter('№', 'oc.id', $this->filter['sort']) ?></th>
+			<th><?= $this->sorter('Дата', 'oc.date', $this->filter['sort']) ?></th>
+			<th style="width: 60px" ><?= $this->sorter('Статус', 'oc.status', $this->filter['sort']) ?></th>
+			<th><?= $this->sorter('Имя', 'oc.name', $this->filter['sort']) ?></th>			
+			<th>Телефон для связи</th>
+			<th>Клиент</th>
+			<th>Сообщение клиента</th>
+			<th>Коментарии менеджера</th>
+			<th></th>
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<tr data-href="<?=$this->url('private/order-consult-edit', ['id' => $item['id']])?>">
+		<td class="tc"><?= $item['id']?></td>
+		<td class="nobr"><?= $this->html()->date($item['date'])?></td>
+		<td class="status-<?= $item['status'] ?>"><?= $item['status_name']?></td>
+		<td class="nobr"><?= $item['name'] ?></td>
+		
+		<td class="nobr"><a href="tel:<?= $item['phone']?>"><?= Phone::format($item['phone']) ?></a></td>
+		<td class="nobr">
+			<? if( $item['customer_id'] !== null) { ?>
+				<a href="<?= $this->url('private/customer-edit', ['id' => $item['customer_id']])?>" title="Зарегестрированный клиент">
+					<i class="fa fa-user"></i> <?= $item['customer_name'] ?></a>
+			<? } else if ($item['user_id'] !== null) { ?>
+				<a href="<?= $this->url('private/user-edit', ['id' => $item['user_id']])?>" title="Пользователь">
+					<i class="fa fa-user" style="color: #aeaeae"></i> <?= $item['displayname'] ?></a>
+			<? } else { ?>
+				гость
+			<? } ?>			
+		</td>
+		
+		<td><?= Utils::substrByWord($item['message'], 100) ?></td>
+		<td><?= $this->partial('admin/parts/comments-info.phtml', ['info' => $item['comments_info']]) ?></td>
+		
+		<td class="options">			 
+				<a href="<?= $this->url('private/order-consult-delete', ['id' => $item['id']]) ?>" class="fa fa-trash item-delete"></a>			
+		</td>
+	</tr>
+	<?}?>
+</table>	
+
+<?= $this->html()->pages($this->page, $this->pageCount) ?>

@@ -1,0 +1,18 @@
+<?
+/* @var $this Common\View */
+$this->assets(['comments']);
+?>
+
+<div class="field field-type-textarea field-comments-wrp">
+	<label>Добавить комментарий:</label>
+	<div class="field-inner">
+		<textarea name="new_comment" id="new_comment" style="overflow: hidden; word-wrap: break-word; resize: vertical;"></textarea>
+		<? if(!empty($this->id)){ ?>
+		<button class="new-comment-add" data-url="<?= $this->url('private/post-comment-ajax', ['entity' => $this->entity, 'id' => $this->id])?>">Добавить</button>
+		<? } ?>
+		<button class="new-comment-reset">Стереть</button>
+	</div>
+	<? foreach ($this->comments as $comment) { 
+		echo $this->partial('admin/parts/comments.item.phtml',['comment' => $comment]);
+	} ?>	
+</div>

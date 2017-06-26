@@ -1,0 +1,47 @@
+<?
+/* @var $this Common\View */
+$this->headTitle("Тарифы");
+$this->assets(['autocomplete']);
+$this->sidebar()->left('admin/courses/tarifs/tarifs-index.filter.phtml', $this->vars());
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+</ul>
+<h1 class="page-header">Тарифы <small><?= $this->counts['count'] ?></small></h1>
+
+<table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
+	<thead>
+		<tr>
+			<th style="width: 60px" class="tc">№</th>
+			<th>Курс</th>
+			<th>Тариф</th>
+			
+			<th class="tc">Приоритет</th>
+			<th>Цена</th>
+			<th class="tc">Скидки</th>
+			
+			<th></th>
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<tr data-href="<?=$this->url('private/tarifs-edit', ['id' => $item['id']])?>">
+		<td class="tc"><?= $item['id']?></td>
+		<td><?= $item['course_title'] ?></td>
+		<td><?= $item['title'] ?></td>		
+		<td class="tc"><?= $item['priority'] ?></td>
+		<td><?= $item['price'] ?></td>
+		<td class="tc"><?
+			if(!empty($item['discounts'])){
+				echo count($item['discounts']);
+			} ?></td>
+		
+		<td class="options">
+			 <a href="<?= $this->url('private/tarifs-status', ['id' => $item['id']]) ?>" class="item-status">
+				<i class="fa fa-check <?= $item['status'] ? 'active': '' ?>"></i></a>
+				<a href="<?= $this->url('private/tarifs-delete', ['id' => $item['id']]) ?>" class="fa fa-trash item-delete"></a>			
+		</td>
+	</tr>
+	<?}?>
+</table>	
+
+<?= $this->html()->pages($this->page, $this->pageCount) ?>

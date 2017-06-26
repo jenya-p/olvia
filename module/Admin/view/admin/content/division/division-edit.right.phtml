@@ -1,0 +1,12 @@
+<?
+/* @var $this Common\View */
+?>
+<h2>Последние статьи раздела:</h2>
+<? foreach ($this->articles as $article){ ?>
+<p><a href="<?= $this->url('private/content-edit', ['id' => $article['id']]) ?>"><?= $article['title'] ?></a></p>
+<? } 
+$options = [
+	'query' => ['f[division]' => $this->item['id']]
+];
+?>
+<p><a href="<?= $this->url('private/content-index', [], $options) ?>">Все статьи раздела (<?= $this->articles_count?> шт)</a></p>

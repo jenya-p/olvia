@@ -1,0 +1,27 @@
+<?
+/* @var $this Common\View */
+/* @var $course_tarifs array */
+$course_tarifs = $this->course_tarifs;
+if($this->form){
+	$value = $this->form->field('tarifs')->value();
+} else {
+	$value = $this->value;
+}
+
+?>
+<? foreach ($course_tarifs as $price){ ?>
+<tr class="item">
+	<td>
+		<?= $this->html()->checkbox($price['title'], 'tarifs[]', $price['id'], $value) ?>					
+	</td>
+	<td class="tr" title="<?= htmlentities($price['price_desc']) ?>"><?= number_format($price['price'], 0,'.',' ') ?></td>
+	<td class="options">
+		<? if( $price['status'] ){ ?>
+		<i class="fa fa-check"></i>
+		<? } ?>
+		<a href="<?= $this->url('private/tarifs-edit', ['id' => $price['id']]) ?>" title="Редактировать тариф">
+			<i class="fa fa-pencil"></i>
+		</a>
+	</td>
+</tr>
+<? } ?>

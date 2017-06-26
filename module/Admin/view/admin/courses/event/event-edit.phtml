@@ -1,0 +1,80 @@
+<?
+use Admin\Model\Courses\EventDb;
+
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+$this->assets(['course-select','user-select']);
+
+$this->sidebar()->left('admin/courses/event/event-edit.left.phtml', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("Новое мероприятие");
+} else {
+	$this->headTitle($item[''] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/event-index') ?>">Список мероприятий</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новое мероприятие";
+} else {
+	echo $this->item['title_ru'];
+}?>
+</h1>
+
+<?= $form->start() ?>
+
+<table class="form-wrapper-table">
+	<tr>
+		<td class="left-cell common-group">
+			<h2>Общая информация</h2>
+			<?= $form('course_id') ?>
+			<?= $form('title') ?>
+			<?= $form('status') ?>
+			<?= $form('count') ?>
+			<?= $form('place') ?>							
+		</td>
+		<td class="right-cell seo-group">
+			<h2>Расписание</h2>
+			<?= $form('type') ?>
+			<?= $form('expiration_date') ?>
+			<?= $form('date_text') ?>
+			<?= $form('time_text') ?>
+			
+		</td>
+	</tr>
+	<tr>
+		<td class="left-cell common-group">
+			<h2>Ведущие</h2>
+			<?= $form('masters') ?>
+			<h2>Тарифы</h2>			
+			<table class="item-list price-item-list" data-url="<?= $this->url('private/event-edit-tarifs', ['id' => $this->id]) ?>">
+				<thead>
+					<tr>
+						<th>Тариф:</th>
+						<th class="tr">Цена</th>
+						<th></th>				
+					</tr>
+				</thead>	
+				<tbody>
+					<?= $this->partial('admin/courses/event/event-edit.tarifs.phtml', $this->vars())?>
+				</tbody>
+			</table>
+		</td>
+		
+		<td class="right-cell dates-group">
+		<? if($item['type'] != EventDb::TYPE_ANNOUNCE){ ?>		
+			<?= $this->partial('admin/courses/event/event-edit.dates.phtml', $this->vars())?>	
+		<? } ?>
+		</td>		
+	</tr>
+</table>
+
+
+<?= $form('submit') ?>
+<?= $form->end();?>

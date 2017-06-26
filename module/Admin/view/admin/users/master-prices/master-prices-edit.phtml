@@ -1,0 +1,53 @@
+<?
+
+use Common\ViewHelper\Assets;
+use Common\CRUDController;
+/* @var $this Common\View */
+/* @var $form Admin\Forms\UserForm */
+$item = $this->item;
+$this->assets(['user-select']);
+$this->sidebar()->left('admin/users/master-prices/master-prices-edit.left.phtml', $this->vars());
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>
+	<li><a href="<?= $this->url('private/master-index') ?>">Специалисты</a></li>
+	<? if(!empty($this->master)){ ?>
+	<li><a href="<?= $this->url('private/master-edit', ['id' => $this->master['id']]) ?>"><?= $this->master['name'] ?></a></li>
+	<? } ?>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новый тариф";
+} else {
+	echo 'Тариф "'.$item['name'].'"';
+}?>
+</h1>
+
+	
+<?= $form->start() ?>
+
+<table class="form-wrapper-table">
+	<tr>
+		<td class="left-cell common-group">
+			<h2>Общая информация о тарифе</h2>
+			
+			<?= $form('name') ?>
+			<?= $form('master_id') ?>			
+			<?= $form('status') ?>
+			<?= $form('status') ?>					
+			<?= $form('priority') ?>
+		</td>
+		
+		<td class="right-cell common-group">
+			<h2>Параметры</h2>
+			<?= $form('price') ?>
+			<?= $form('price_desc') ?>	
+			<?= $form('need_skype') ?>
+			<?= $form('need_phone') ?>
+		</td>		
+	</tr>	
+</table>
+	
+	
+<?= $form('*') ?>
+<?= $form->end();?>

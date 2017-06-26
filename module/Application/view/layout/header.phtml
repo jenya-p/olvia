@@ -1,0 +1,161 @@
+<?
+use Application\Model\UserDb;
+$this->popup('callme');
+$this->popupSigne();
+/* @var $this Common\View */
+?>
+<header class="lay-header">
+			<div class="lay-wrapper-inner">
+				<a href="/" class="left">
+					<img src="/site/img/logo-s1.png" alt="Ольвия. Центр семейного консультирования" class="logo" />
+				</a>
+				
+				<div class="center-top"> 					
+					<p class="slogan">Центр семейного консультирования &laquo;Ольвия&raquo;</p>
+					<p>
+						<a href="/contacts.php" class="address"><i class="icon-location"></i><span>м. Чеховская</span></a> 
+						<a href="/contacts.php" class="address"><i class="icon-location"></i><span>м. Пушкинская, ул. Малая Дмитровка, 18а</span></a>
+						<a href="/contacts.php" class="phone"><i class="icon-phone"></i><span><span class="code">+7 495</span> 22-66-880</span></a>
+						<a href="/contacts.php" class="phone"><i class="icon-phone"></i><span><span class="code">+7 495</span> 22-66-876</span></a>
+					</p>
+				</div>
+				
+				<div class="center-bottom">
+					<a href="#callMePopup" class="button light twm-popup-link call-me-popup-link">Заказать обратный звонок</a>
+					<a href="<?= $this->url('shedule') ?>" class="button purple">Расписание</a>
+					<a href="#signPopup" class="button pink twm-popup-link sign-popup-link">Записаться</a>
+				</div>
+								
+				<div class="right-top">
+<!-- 					<ul class="lang-switcher"> -->
+<!-- 						<li><span>Рус</span></li> -->
+<!-- 						<li><a href="#">Eng</a></li> -->
+<!-- 					</ul> -->
+					<div id="loginWrapper">
+						<? if($this->identity()->isLogged()){ ?>							
+							<? if($this->identity()->isAdmin()){ ?>
+								<a href="<?= $this->url('customer-calendar') ?>" class="current-user"><i class="icon-user"></i><span><?= $this->identity()->displayname ?></span></a>								
+							<? } else if ($this->identity()->hasRole(UserDb::ROLE_CUSTOMER)) { ?>
+								<a href="<?= $this->url('customer-calendar') ?>" class="current-user"><i class="icon-user"></i><span><?= $this->identity()->displayname ?></span></a>
+							<? } else { ?>
+								<span class="current-user"><i class="icon-user"></i><span><?= $this->identity()->displayname ?></span></span>
+							<? } ?>						
+							<a href="/logout" id="logoutLink"  class="button purple icon-logout"></a>
+							<? if($this->identity()->isAdmin()){
+								if(!empty($this->layout()->admin_url)){ ?>
+								<a href="<?= $this->layout()->admin_url ?>" id="adminLink"  class="button purple icon-cog" target="_blank" title="Редактировать эту страницу"></a>
+								<? } else { ?>
+								<a href="<?= $this->url('private') ?>" id="adminLink"  class="button purple icon-cog" target="_blank" title="Админка"></a>	
+							<?	}
+							}
+						} else {?>
+						<a href="javascript: ;" id="loginLink" class="button purple login">Bойти</a>
+						<div class="login-dialog-overlay"></div>
+						<div class="login-dialog" id="loginDialog">
+					        <span class="stub">Bойти</span>
+					    	<form action="/login" method="post" autocomplete="off" class="form">
+					        	<input type="text" name="login" placeholder="E-Mail" tabindex="1"/>
+					            <input type="password" name="password" placeholder="Пароль" autocomplete="off" tabindex="2"/>
+					            <p class="error-msg">Неверный логин-пароль</p>
+					            <p class="social-login">войти через соц. сети:
+					            	<?php 
+					            	$params = [
+					            		'client_id' => 		$this->config('vk_client_id'),
+					            		'redirect_uri'  => 	$this->config('base_url').$this->url('vkauth')
+					            	];
+					            	$vkUrl = 'http://oauth.vk.com/authorize?' . urldecode(http_build_query($params));
+					            	$params = [
+					            			'client_id' => $this->config('fb_client_id'),
+					            			'redirect_uri'  => $this->config('base_url').$this->url('fbauth'),
+					            			'response_type' => 'code'
+					            	];
+					            	$fbUrl = 'https://www.facebook.com/dialog/oauth?' . urldecode(http_build_query($params));
+					            	?>		            
+					            
+					            	<a href="<?= $vkUrl ?>" class="click-responive"><i class="icon-vkontakte-rect"></i></a>
+					            	<a href="<?= $fbUrl ?>" class="click-responive"><i class="icon-facebook-rect"></i></a> </p>
+					         	<div class="forget">
+							    	<a href="/forget">забыли пароль?</a>
+							        <a href="/login#register">регистрация</a>
+							    </div>
+						    	<input type="submit"class="button light submit" value="Bойти" tabindex="3"/>
+					        </form>				       			        
+					    </div>
+					    <? } ?>
+					</div>
+								
+				</div>
+				<form class="right-bottom search-form" action="" method="get">
+					<input type="text" placeholder="Поиск по сайту..." />
+				</form>
+			</div>
+		</header>
+		<nav class="main-menu">
+			<div class="lay-wrapper-inner">
+				<ul class="lvl-1">
+					<li>
+						<a href="/article/sistemnye-rasstanovki">Системные расстановки</a>
+						<ul class="lvl-2">
+							<li><a href="/article/individualnie-rasstanovki">Индивидуальные</a></li> 
+							<li><a href="/article/semeynye-rasstanovki">Семейные</a></li> 
+							<li><a href="/article/organizacionnye-rasstanovki">Организационные</a></li>
+							<li><a href="/article/strukturnye-rasstanovki">Структурные</a></li>
+							<li><a href="/article/duhovnye-rasstanovki">Духовные</a></li>
+						</ul> 
+					</li>
+					<li>
+						<a href="<?= $this->url('catalog-index') ?>">Услуги</a>
+						<ul class="lvl-2">
+							<li><a href="/article/sistemnye-rasstanovki">Системные расстановки</a></li>
+							<li><a href="<?= $this->url('shedule') ?>">Расписание занятий</a></li>
+							<li><a href="/article/konsultacii-s-psihologom">Консультации с психологом</a></li>
+							<li><a href="/article/kouching">Коучинг</a></li>
+							<li><a href="/article/rabota-s-telom">Работа с телом</a></li>
+							<li><a href="<?= $this->url('catalog-index') ?>">Тренинги</a></li>
+							<li><a href="/article/uslugi-dlya-zhenschin">Для женщин</a></li>
+							<li><a href="/article/ezoterika">Эзотерика</a></li>
+							<li><a href="/article/vyezdnye-intensivy">Выездные интенсивы</a></li>
+							<li><a href="/article/astrologiya">Астрология</a></li>
+							<li><a href="/article/treningi-na-zakaz">Тренинги на заказ</a></li>
+							<li><a href="/article/proekty">Проекты</a></li>							
+						</ul>
+					
+					</li>
+					<li><a href="/article/obuchenie-v-centre-olviya">Обучение</a>
+						<ul class="lvl-2">
+							<li><a href="/article/obuchenie-rasstanovkam">Обучение расстановкам</a></li>
+							<li><a href="/article/telesno-orientirovannaya-terapiya">Телесно-ориентированная терапия</a></li>
+							<li><a href="/article/obuchenie-nlp">Обучение НЛП</a></li>
+							<li><a href="/article/gipnoz">Гипноз</a></li>
+							<li><a href="/article/travmoterapiya">Травмотерапия</a></li>
+							<li><a href="/article/semeynoe-konsultirovanie">Семейное консультирование</a></li>
+							<li><a href="/article/aromakonsultirovanie">Аромаконсультирование</a></li>
+							<li><a href="/article/processualnaya-rabota">Процессуальная работа</a></li>
+							<li><a href="/article/art-terapiya">Арт-терапия</a></li>
+							<li><a href="/article/ekzotericheskoe-obuchenie">Экзотерическое обучение</a></li>
+							<li><a href="/article/shkola-astrologii">Школа астрологии</a></li>							
+						</ul>
+					</li>
+					<li>
+						<a href="/article/biblioteka">Библиотека</a>
+						<ul class="lvl-2">
+							<li><a href="<?= $this->url('video-index') ?>">Видео</a></li> 
+							<li><a href="<?= $this->url('content-index') ?>">Статьи</a></li>
+							<li><a href="<?= $this->url('photo-index') ?>">Фотографии</a></li> 
+							<li><a href="/article/vebinary">Вебинары</a></li>
+						</ul>		
+					</li>
+					<li><a href="<?= $this->url('master-index') ?>">Наши специалисты</a></li>
+					<li><a href="<?= $this->url('catalog-index', ['type' => 'announcements']) ?>">Анонсы</a></li>
+					<li>
+						<span>О нас</span>
+						<ul class="lvl-2">
+							<li><a href="/contacts.php">Контакты</a></li>
+							<li><a href="<?= $this->url('master-index') ?>">Наши специалисты</a></li> 
+							<li><a href="<?= $this->url('review-index') ?>">Отзывы</a></li>
+						</ul>					
+					</li>
+				</ul>
+			</div>
+		</nav>
+<div class="navbar-placeholder"></div>

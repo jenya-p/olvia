@@ -1,0 +1,23 @@
+<?
+/* @var $this Common\View */
+
+$type =  $this->type;
+$meetDate = $this->meet_date;
+$tarif = 	$this->tarif;
+$master = 	$this->master;
+
+?>
+
+<tr>
+	<td>	
+		<p><?= $this->html()->date($meetDate, 'd M') ?></p>
+		<p><?= $this->html()->date($meetDate, 'l') ?></p>
+	</td>	
+	<td>	
+		<p>Персональная консультация со специалистом <a class="" href="<?= $this->url('master-view', ['alias' => $master['alias']]) ?>"><?= $master['name'] ?></a></p>
+	</td>
+	<td><?= $tarif['name'] ?></td>	
+	<td class="status">	
+		<a href="#reviewPopup" class="button pink twm-popup-link" data-subject="master-<?= $master['alias'] ?>">Оставить отзыв</a>
+	</td>
+</tr>

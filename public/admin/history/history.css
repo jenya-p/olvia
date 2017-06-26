@@ -1,0 +1,8 @@
+.history-view .history-header {}
+.history-view .history-header span {font-weight: bold; margin-right: 20px;}
+.history-view .history-header span.date {width: 200px; display: inline-block;}
+.history-view .history-header span.date i {color: #a15791;margin-right: 10px;}
+.history-view .history-desc {margin: 5px 0 25px 0;}
+.history-view .history-desc-line{}
+.history-view .history-desc-line>span{}
+.history-view .history-comment {font-style: italic; margin: 10px 0;}

@@ -1,0 +1,9 @@
+<?
+/* @var $this Zend\View\Renderer\PhpRenderer */
+?><?= $this->doctype(); ?>
+<html lang="RU-ru">
+<?= $this->partial('head.phtml'); ?>
+<body class="<?= $this->mDetect()->getBodyClass() ?>">
+	<? echo $this->content; ?>
+</body>
+</html>

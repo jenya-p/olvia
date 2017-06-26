@@ -1,0 +1,30 @@
+<?
+/* @var $this Common\View */
+/* @var $tarifs array */
+$tarifs = $this->tarifs;
+if($this->form){
+	$value = $this->form->field('tarif_id')->value();
+} else {
+	$value = $this->tarif_id;
+}
+if(empty($value) && !empty($tarifs)){
+	$value = $tarifs[0]['id'];
+}
+
+?>
+<? foreach ($tarifs as $tarif){ ?>
+<tr class="item" title="<?= $tarif['id'] ?>">
+	<td>
+		<?= $this->html()->radio($tarif['title'], 'tarif_id', $tarif['id'], $value) ?>					
+	</td>
+	<td class="tr">		
+		<?= number_format($tarif['price'], 0, '.', ' '); ?></td>
+	<td><?= $tarif['price_desc'] ?></td>
+	<td class="options">
+		<a href="<?= $this->url('private/tarifs-edit', ['id' => $tarif['id']]) ?>"><i class="fa fa-pencil"></i></a>
+		<? if( $tarif['status'] ){ ?>
+		<i class="fa fa-check"></i>
+		<? } ?>
+	</td>
+</tr>
+<? } ?>

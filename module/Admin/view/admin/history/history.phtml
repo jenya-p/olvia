@@ -1,0 +1,24 @@
+
+<h1 class="page-header">История изменений </h1>
+
+<div class="history-view">
+<?
+foreach ($this->history as $item){
+?>
+	<div class="history-header">
+		<span class="date"><i class="fa fa-edit"></i><?= $this->html()->hdate($item['date']).' '?></span>
+		<? if(!empty($item['user'])){ ?>
+		<a href="<?= $this->url('private/user-edit', ['id' => $item['user']['id']])?>" class="user"><?= $item['user']['displayname']?></a>	
+		<? } else { ?>
+		<span class="user unknown">неизвестный пользватель</span>
+		<? } ?>				
+	</div>
+	<div class="history-desc">
+		<?php foreach ( $item['rows'] as $log ) {?>
+		<div class="history-desc-line">
+			<?= sprintf($log['text'], '<span class="log-value">'.$log['value'].'</span>', '<span class="log-fromvalue">'.$log['from_value'].'</span>', '<span class="log-extra">'.$log['extra'].'</span>', '<span class="log-extra2">'.$log['extra2'].'</span>'); ?>
+		</div>	
+	<?php 	} ?>
+	</div>
+<?php }?>
+</div>

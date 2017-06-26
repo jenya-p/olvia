@@ -1,0 +1,46 @@
+<?
+use Common\Utils;
+
+/* @var $this Common\View */
+$this->headTitle("Мероприятие");
+$this->assets(['autocomplete']);
+$this->sidebar()->left('admin/courses/event/event-index.filter.phtml', $this->vars());
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+</ul>
+<h1 class="page-header">Мероприятие <small><?= $this->counts['count'] ?></small></h1>
+
+<table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
+	<thead>
+		<tr>
+			<th style="width: 60px" class="tc">№</th>
+			<th class="tc" style="width: 100px" colspan="3">Дата</th>
+			<th>Курс</th>
+			<th>Периодичность</th>			
+			<th>Заказов</th>
+			<th></th>
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<tr data-href="<?=$this->url('private/event-edit', ['id' => $item['id']])?>">
+		<td class="tc" ><?= $item['id']?></td>
+		<td class="tl" style="width: 40px"><?= $this->html()->date($item['date'],'l') ?></td>
+		<td class="tr" style="width: 30px"><?= $this->html()->date($item['date'],'d') ?></td>
+		<td class="tl" style="width: 70px"><?= $this->html()->date($item['date'],'M', '', '') ?></td>		
+		<td>
+			<a href="<?= $this->url('private/course-edit', ['id' => $item['course_id']]) ?>" title="Курс: <?= htmlentities($item['course_title'])?>">
+				<?= Utils::substrByWord($item['course_title'], 100)  ?>
+			</a></td>
+		<td><?= $item['type_name'] ?></td>		
+		<td><?= $item['order_count'] ?></td>
+		<td class="options">
+			 <a href="<?= $this->url('private/event-status', ['id' => $item['id']]) ?>" class="item-status">
+				<i class="fa fa-check <?= $item['status'] ? 'active': '' ?>"></i></a>
+				<a href="<?= $this->url('private/event-delete', ['id' => $item['id']]) ?>" class="fa fa-trash item-delete"></a>			
+		</td>
+	</tr>
+	<?}?>
+</table>	
+
+<?= $this->html()->pages($this->page, $this->pageCount) ?>

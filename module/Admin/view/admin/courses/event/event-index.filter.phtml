@@ -1,0 +1,42 @@
+<?
+/* @var $this Common\View */
+?>
+<form class="form v-form">
+	
+	<div class="field">
+		<input type="text" name="f[query]" value="<?= $this->filter['query'] ?>" placeholder="Поиск..." />
+	</div>
+	
+	<? 
+	$course = $this->filter_course;
+	?>
+	<div class="field field-course_id">
+		<input type="hidden" name="f[course_id]" value="<?= $this->filter['course_id'] ?>" id="course_id_hidden" />		
+		<? if($course) { 		
+			$urlOptions = ['query' => ['course_id' => $course['id']]];			
+		?>
+		<label>Тарифы для курса</label>
+		<div class="course-description">			
+			<?if (!empty($course['image'])){?>
+			<img src="<?= $this->image($course['image'], 230)?>" />
+			<? } ?>
+			<a href="<?= $this->url('private/course-edit', ['id' => $course['id'] ]) ?>"><?= $course['title']?></a>
+		</div>
+		<? } else { ?>
+		<label>Курс</label>		
+		<div class="field-inner">
+			<input type="text" id="course_id" class="course-select" autocomplete="off" value=""></input>
+		</div>
+	 	<? } ?>
+	</div>
+			
+	<div class="button-group">
+		<a href="<?= $this->url(null, ['p' => 1, 'f' => null]) ?>" type="submit" class="button reset">Сбросить</a>
+		<button type="submit" class="button">Искать</button>
+	</div>
+	
+</form>
+<div>
+	<a href="<?= $this->url('private/event-edit', ['id' => 'new'], $urlOptions) ?>" class="button create-item-link">
+		<i class="fa fa-plus-circle"></i>Новjt мероприятие</a>
+</div>

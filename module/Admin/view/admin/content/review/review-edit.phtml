@@ -1,0 +1,61 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\ReviewForm */
+/* @var $item array */
+$item = $this->item;
+$form = $this->form;
+
+$this->assets(['image-upload', 'autocomplete']);
+$this->sidebar()->left('admin/content/review/review-edit.left.phtml', $this->vars());
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/review-index') ?>">Отзывы</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новый отзыв";
+	$this->headTitle("Новый отзыв");
+} else {
+	echo "Отзыв №" . $this->id;
+	$this->headTitle("Отзыв №" . $this->id);
+}?>
+</h1>
+
+<?= $form->start() ?>
+
+<table class="form-wrapper-table">
+	<tr>
+		<td class="left-cell common-group">
+			<h2 id="common">Общая информация</h2>
+			<?= $form('name') ?>
+			<?= $form('userpic') ?>
+			<?= $form('social') ?>
+			<?= $form('date') ?>
+			<?= $form('body') ?>
+			<?= $form('status') ?>
+			<?= $form('home') ?>						
+		</td>
+		<td class="right-cell refs-group">
+			<h2>Связи</h2>	
+			<? if(!$this->isNew){ ?>
+			<table class="item-list">
+				<tr>
+					<th>Тип</th>
+					<th>ID</th>
+					<th>Название</th>
+					<th class="options"></th>					
+				</tr>
+				<? foreach ($this->refs as $ref) { ?>
+				<?= $this->partial('admin/content/review/review-edit.ref.phtml',['ref' => $ref]) ?>				
+				<? } ?>
+			</table>
+			<input type="text" value="" id="add_ref_input" placeholder="Добавить связанный объект..." data-review_id="<?= $this->item['id'] ?>" />
+			<? } else { ?>
+			<p>Сохраните отзыв перед добавлением связей с другими объектами</p>
+			<? } ?>
+		</td>		
+	</tr>	
+</table>
+
+<?= $form('*') ?>
+<?= $form->end();?>

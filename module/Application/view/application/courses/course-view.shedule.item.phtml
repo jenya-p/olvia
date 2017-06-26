@@ -1,0 +1,94 @@
+<?
+use Application\Controller\CoursesController;
+
+/* @var $this Common\View */
+/* @var $date array */
+/* @var $tarif array */
+$date = $this->date;
+$tarif = $this->tarif;
+$event = $date['event']; 
+$this->layout('layout/home');
+?>
+<tr>
+	<td>	
+		<p><?= $this->html()->date($date['date'], 'd M')?></p>
+		<p><?= $this->html()->date($date['date'], 'l')?></p>
+	</td>
+	<td class="shedule-list--time">
+		<? if(!empty($event['time_text'])){ ?>
+		<p class="time-till-wrp">		
+			<? if(!empty($event['time_text_from'])){ ?>
+			<span class="from"><?= $event['time_text_from'] ?></span>
+			<? if(!empty($event['time_text_till'])){ ?>
+			<span class="till"><?= $event['time_text_till'] ?></span>
+			<? } ?>
+			<? } else { ?> 
+			<span class="till"><?= $event['time_text_duration'] ?></span>
+			<? } ?>		
+		</p>
+		<? }?>	
+		<? /* if ($event['place']){ ?>
+			<a class="location-link"><?= $dateArr[2] ?></a> 
+		<?} */?>
+	</td>
+	<td>	
+		<p><?= $event['title'] ?></p>
+		
+		<p class="info">Ведущий: 
+			<?= implode(', ', array_map(function($master){
+			return '<a class="" href="'. $this->url('master-view', ['alias' => $master['alias']]) .'">'. $master['name'] .'</a>';
+			}, $date['masters'])); ?>
+		</p>	
+		
+	</td>
+	<td><?= $tarif['title'] ?></td>
+	<td class="shedule-list--price">
+		<? if($tarif['price'] == 0){ 
+			echo '<span class="price free">бесплатно</span>';
+		} else { ?>
+		<span class="price-wrp tooltip">
+			<? if($tarif['price'] != $tarif['actual_price']){ ?>
+			<span class="price"><?= number_format($tarif['actual_price'], 0, '.', ' ')?> р.</span>
+			<span class="price-old"><?= number_format($tarif['price'], 0, '.', ' ') ?></span>
+			
+			<span class="icon-help-circled">
+				<div class="tooltip-box">
+					<table class="tarif-details-popup">						
+						<tr><td>Оплата в день мероприятия</td><td class="tarif-details__price"><?= number_format($tarif['price'], 0, '.', ' ') ?>р.</td></tr>
+						<? foreach ($tarif['actual_discounts'] as $discountRec){?>
+						<tr><td>Оплата за <?= $this->html()->grammar('', $discountRec['days'], ' день', ' дня', ' дней', true) ?></td>
+							<td class="tarif-details__price"><?= number_format($discountRec['price'], 0, '.', ' ')?>р.</td></tr>	
+						<? } ?>
+						<?/* <tr><td colspan="2">Количество мест ограничено, осталось 4 из 7</td></tr> */?>
+					</table>
+				</div>
+			</span>
+			
+			<? } else { ?>
+			<span class="price"><?= number_format($tarif['actual_price'], 0, '.', ' ')?> р.</span>
+			<? } ?>				
+		</span>
+		<? } ?>
+	</td>
+	<td>
+		<? 
+		if ($tarif['order_status'] == CoursesController::ORDER_STATUS_EXPIRED) {?>
+			<p class="done">Запись окончена</p>
+		<? } else if ($tarif['order_status'] == CoursesController::ORDER_STATUS_AVAILABLE) {
+				$getQuery = [
+					'event_id' => $event['id'],
+					'tarif_id' => $tarif['id'],
+					'shedule_id' => $date['id']
+				];			
+			?>
+			<a href="<?= $this->url('order-event',[], ['query' => $getQuery]) ?>" class="button purple">Записаться</a>
+		<? } else if (
+				$tarif['order_status'] == CoursesController::ORDER_STATUS_FREE || 
+				$tarif['order_status'] == CoursesController::ORDER_STATUS_PAIED ) {?>
+			<a class="signed" href="<?= $this->url('customer-calendar') ?>">Вы записаны</a>
+		<? } else if ($tarif['order_status'] == CoursesController::ORDER_STATUS_NEED_PAY) {?>
+			<span class="signed">Вы записаны</span>				
+			<a href="<?= $this->url('customer-calendar') ?>" class="button pay-link">Оплатить</a>
+		<? } ?>			
+	</td>
+</tr>		

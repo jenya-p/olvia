@@ -1,0 +1,31 @@
+<?
+/* @var $this Common\View */
+$this->headTitle("Группы тегов");
+
+$this->sidebar()->left('admin/content/tag-group/tag-group-index.filter.phtml', $this->vars());
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+</ul>
+<h1 class="page-header">Группы тегов <small><?= $this->counts['count'] ?></small></h1>
+
+<table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
+	<thead>
+		<tr>
+			<th style="width: 60px" class="tc">№</th>
+			<th>Название</th>
+			<th></th>
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<tr data-href="<?=$this->url('private/tag-groups-edit', ['id' => $item['id']])?>">
+		<td class="tc"><?= $item['id']?></td>
+		<td><?= $item['name'] ?></th>
+		<td class="options">
+			<a href="<?= $this->url('private/tag-groups-delete', ['id' => $item['id']]) ?>" class="fa fa-trash item-delete"></a>			
+		</td>
+	</tr>
+	<?}?>
+</table>	
+
+<?= $this->html()->pages($this->page, $this->pageCount)?>

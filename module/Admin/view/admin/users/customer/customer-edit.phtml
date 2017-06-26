@@ -1,0 +1,47 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\UserForm */
+$item = $this->item;
+$this->sidebar()->left('admin/users/customer/customer-edit.left.phtml', $this->vars());
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>
+	<li><a href="<?= $this->url('private/customer-index') ?>">Клиенты</a></li>
+</ul>
+<h1 class="page-header"><?php
+if ($this->isNew) {
+	$this->headTitle("Новый клиент");
+	echo "Новый клиент";
+} else {
+	$this->headTitle($item['name'] . " - " . $this->id);
+	echo $item['name'] . '';
+}?>
+</h1>
+
+<?= $form->start('');?>
+
+<div class="minimizable">
+<table class="form-wrapper-table">
+	<tr>
+		<td class="left-cell common-group">
+			<h2>Общая информация о пользователе <a href="javascript:;" class="minimize-link"></a></h2>
+			<?= $form('account_displayname') ?>
+			<?= $form('account_email') ?>
+			<?= $form('account_phone') ?>
+			<?= $form('account_skype') ?>
+			<h2>Информация о клиенте <a href="javascript:;" class="minimize-link"></a></h2>	
+			<?= $form('name') ?>
+			<?= $form('city') ?>	
+		</td>
+		
+		<td class="right-cell comments-group">
+			<h2>Комментарий менеджера</h2>
+			<?= $this->adminComments('customer') ?>
+		</td>
+						
+	</tr>
+</table>
+</div>
+<?= $form('submit') ?>
+<?= $form->end();?>

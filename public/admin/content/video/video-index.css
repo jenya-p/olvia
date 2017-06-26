@@ -1,0 +1,3 @@
+.fa-spinner:before {   content: "\f110"!important;}
+.item-list .options .item-top i{color: #bebfbf;width: 16px; text-align: center;}
+.item-list .options .item-top i.active{color: #0bad0b;}

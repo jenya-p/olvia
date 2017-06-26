@@ -1,0 +1,14 @@
+<?= '<?' ?>
+
+/* @var $this Common\View */
+?>
+<h2><?= $entity->message('edit_left_header') ?></h2>
+<div class="scrollspy" style="min-height: 150px;"></div>
+
+<?= '<?' ?> if(!$this->isNew){ ?>
+<h2>Статистика</h2>
+<div class="statistics">
+	<? if($entity->historical){ ?>
+<?= '<?' ?>= $this->partial('admin/parts/stat.phtml', ['stat' => $this->stat]); ?>
+<? } ?></div>
+<?= '<?' ?> } ?>

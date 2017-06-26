@@ -1,0 +1,19 @@
+<?
+/* @var $this Common\View */
+?>
+<h2>Редактирование фотоальбома</h2>
+<div class="scrollspy" style="min-height: 110px;"></div>
+
+<h2>Добавить фотографии</h2>
+<div class="upload" style="min-height: 90px;">
+	<p>Что бы загрузить фотографии просто перетащите их в это окно, или:</p>
+	<a href="javascript: ;" class="button upload-link"><i class="fa fa-upload"></i>Выберите фотографии</a>
+	
+	<input id="fileUploadInput" type="file" multiple data-url="<?= $this->url('private/photoalbum-upload', ['id' => $this->id]) ?>" />
+	
+</div>
+
+<h2>Статистика</h2>
+<div class="statistics">
+	<?= $this->partial('admin/parts/stat.phtml', ['stat' => $this->stat]); ?>
+</div>

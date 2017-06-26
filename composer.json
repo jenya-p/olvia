@@ -1,0 +1,20 @@
+{
+   	"name" : "studio-205/olvia",
+	"description" : "olvia center LMS, CMS and CRM",
+	"license" : "free",
+	"keywords" : ["olvia center LMS, CMS and CRM"],
+	"homepage" : "http://studio-205.ru",
+    "require": {
+        "php" : ">=7.0",
+		"zendframework/zendframework" : "~3",
+		"alex-oleshkevich/zf-annotations" : ">=2.3.3",
+		"sunra/php-simple-html-dom-parser" : "*",
+		"mobiledetect/mobiledetectlib" : "*",
+		"matthiasmullie/minify": "*"		
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ApplicationTest\\": "module/Application/test/"
+        }
+    }
+}

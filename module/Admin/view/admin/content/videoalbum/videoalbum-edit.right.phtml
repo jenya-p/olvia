@@ -1,0 +1,12 @@
+<?
+/* @var $this Common\View */
+?>
+<h2>Последние ролики раздела:</h2>
+<? foreach ($this->videos as $video){ ?>
+<p><a href="<?= $this->url('private/video-edit', ['id' => $video['id']]) ?>"><?= $video['title'] ?></a></p>
+<? } 
+$options = [
+	'query' => ['f[division]' => $this->item['id']]
+];
+?>
+<p><a href="<?= $this->url('private/video-index', [], $options) ?>">Все ролики раздела (<?= $this->articles_count?> шт)</a></p>

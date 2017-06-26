@@ -1,0 +1,38 @@
+<?
+/* @var $this Common\View */
+$route = $this->routeName();
+?>
+<h2>Профили пользователя</h2>
+<div>
+<? if(!$this->isNew) { ?>
+	<ul class="user-profiles-menu">
+	<? if($route == 'private/user-edit'){ ?>
+		<li><span>Аккаунт</span></li>
+	<? } else { ?>
+		<li><a href="<?= $this->url('private/user-edit', ['id' => $this->item['id']]) ?>">Аккаунт</a></li>
+	<? } ?>
+	
+	<? if(array_key_exists('master', $this->profiles)) { ?>	
+		<? if($route == 'private/master-edit'){ ?>
+		<li><span>Профиль специалиста</span></li>
+		<? } else { ?>
+		<li><a href="<?= $this->url('private/master-edit', ['id' => $this->item['id']]) ?>">Профиль специалиста</a></li>
+		<? } ?>
+	<? } else { ?>
+		<li><span class="disabled">Профиль специалиста</span></li>
+	<? } ?>
+	
+	<? if(array_key_exists('customer', $this->profiles)) { ?>
+		<? if($route == 'private/customer-edit'){ ?>
+		<li><span>Профиль клиента</span></li>
+		<? } else { ?>
+		<li><a href="<?= $this->url('private/customer-edit', ['id' => $this->item['id']]) ?>">Профиль клиента</a></li>
+		<? } ?>			
+	<? } else { ?>
+		<li><span class="disabled">Профиль клиента</span></li>
+	<? } ?>
+	</ul> 
+<? } else { ?>
+<p>Профили этого пользователя еще не созданы. Сначала сохраните аккаунт с нужными ролями.</p>
+<? } ?>
+</div>

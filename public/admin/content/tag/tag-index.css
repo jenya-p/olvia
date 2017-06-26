@@ -1,0 +1,3 @@
+.item-list .filter-td{text-align: center; width: 50px;}
+.item-list .filter-td .item-status i.active {color: #0bad0b;}
+.item-list .filter-td .item-status i { color: #bebfbf;} 

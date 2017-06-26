@@ -1,0 +1,73 @@
+<?
+use Application\Controller\CoursesController;
+
+/* @var $this Common\View */
+$item = $this->item;
+$event = $this->item['event'];
+$course = $item['course'];
+$tarifs = $item['tarifs'];
+
+?>
+
+<td class="time">
+	<p class="time-till-wrp">
+		<? if(!empty($event['time_text_from'])){ ?>
+		<span class="from"><?= $event['time_text_from'] ?></span>
+		<? if(!empty($event['time_text_till'])){ ?>
+		<span class="till"><?= $event['time_text_till'] ?></span>
+		<? } ?>
+		<? } else { ?> 
+		<span class="till"><?= $event['time_text_duration'] ?></span>
+		<? } ?>
+	</p>
+	<?/*  if(!empty($place)){ ?>
+		<a href="javascrpt:;" class="place"><?= $place ?></a>
+	<? } */?>				
+</td>
+
+<td class="image" data-href="<?= $this->url('course-view', ['alias' => $course['alias']]) ?>">			
+	<img src="<?= $this->image($course['image'], 201,90) ?>" title="<?= htmlentities($course['title']) ?>"/>			
+</td>
+	
+<td class="info" data-href="<?= $this->url('course-view', ['alias' => $course['alias']]) ?>">
+	<h2 class="name"><?= $event['title'] ?></h2>
+	
+	<? if(!empty($item['masters'])){ ?>
+	<p class="masters">Ведущий: 
+		<?= implode(', ', array_map(function($master){
+		return '<a class="" href="'. $this->url('master-view', ['alias' => $master['alias']]) .'">'. $master['name'] .'</a>';
+		}, $item['masters'])); ?>
+	</p>	
+	<? } ?>
+		
+	<? foreach ($tarifs as $tarif){?>			
+	<p class="tarif"><?= $tarif['title'] ?>
+		<? if ($tarif['price'] != 0) { ?>
+		<span class="tarif-price"><?= number_format($tarif['actual_price'], 0, '.', ' ') ?> р.</span>
+		<? } else { ?>
+		<span class="tarif-price free">бесплатно</span>
+		<? }  ?>		
+	</p>
+	<? } ?>
+	
+</td>
+		
+<td class="status" >
+	<? 
+	if ($item['order_status'] == CoursesController::ORDER_STATUS_EXPIRED) {?>
+		<p class="done">Запись окончена</p>
+	<? } else if ($item['order_status'] == CoursesController::ORDER_STATUS_AVAILABLE) {
+		$query = [
+			'date' => $item['id'],
+		]
+		?>
+		<a href="<?= $this->url('order-event-popup', [], ['query' => $query]) ?>" class="button purple twm-popup-link">Записаться</a>
+	<? } else if (
+			$item['order_status'] == CoursesController::ORDER_STATUS_FREE || 
+			$item['order_status'] == CoursesController::ORDER_STATUS_PAIED ) {?>
+		<a class="signed" href="<?= $this->url('customer-calendar') ?>">Вы записаны</a>
+	<? } else if ($item['order_status'] == CoursesController::ORDER_STATUS_NEED_PAY) {?>
+		<span class="signed">Вы записаны</span>				
+		<a href="<?= $this->url('customer-calendar') ?>" class="button pay-link">Оплатить</a>
+	<? } ?>
+</td>

@@ -1,0 +1,27 @@
+<?
+/* @var $this Common\View */
+
+$this->headLink()->appendStylesheet("/assets/bxslider/jquery.bxslider.min.css");
+$this->headLink()->appendStylesheet("/assets/lightslider/css/lightslider.min.css");
+$this->headLink()->appendStylesheet("/site/css/home.css");
+$this->inlineScript()->appendFile("/assets/bxslider/jquery.bxslider.min.js");
+$this->inlineScript()->appendFile("/assets/lightslider/js/lightslider.min.js");
+$this->inlineScript()->appendFile("/site/js/home.js");
+$this->layout("layout/home");
+
+?>
+		
+<?= $this->partial('home.banner.phtml', $this->vars()) ?>
+<div class="clr"></div>
+<?= $this->partial('home.about.phtml', $this->vars()) ?>
+<div class="clr"></div>
+<?= $this->partial('home.diplomas.phtml', $this->vars()) ?>
+<div class="clr"></div>
+<?= $this->partial('home.services.phtml', $this->vars()) ?>
+<div class="clr"></div>		
+<?= $this->partial('home.reviews.phtml', $this->vars()) ?>	
+<div class="clr"></div>		
+<?= $this->partial('home.main.phtml', $this->vars()) ?> 
+<div class="clr"></div>		
+<?= $this->partial('home.subscription.phtml', $this->vars()) ?> 
+	

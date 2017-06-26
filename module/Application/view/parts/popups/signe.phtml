@@ -1,0 +1,60 @@
+<?
+use Common\ViewHelper\Phone;
+
+/* @var $this Common\View */
+?>
+
+<div class="twm-popup" id="signPopup" >
+   	<form action="<?= $this->url('order-consultation') ?>" method="post" class="form">
+   		<h3>Персональная консультация</h3>
+   		<p>Заполните форму и наш менеджер свяжется с Вами в ближайшее время</p>
+		<p class="error-msg">Заполните все поля</p>
+		
+			<div class="field">
+				<label>Тип консультации</label>
+				<label for="signPopupType1" class="radio">
+					<input type="radio" id="signPopupType1" name="type" value="pers" checked="checked" /><span>Личная</span>
+				</label>
+				<label for="signPopupType2" class="radio">
+					<input type="radio" id="signPopupType2" name="type" value="skype" /><span>По Skype</span>
+				</label>
+			</div>
+			<div class="field">
+				<label>Специалист</label>			 
+				<select name="master_id">
+					<option value="">Я не знаю</option>
+					<? foreach ($this->masters as $master){ ?>
+					<option value="<?= $master['id'] ?>"><?= $master['name'] ?></option>
+					<? } ?>					
+				</select>
+			</div>
+			
+			<div class="field">
+				<label class="required">Телефон для связи с Вами</label>
+				<input type="text" name="phone" value="<?= Phone::format($this->identity()->phone) ?>" class="text-input" style="font-family: Consolas,Monaco,Lucida Console,monospace"/>
+			</div>
+			<div class="field">
+				<label>Ваше имя</label>
+				<input type="text" name="name"  value="<?= $this->identity()->displayname ?>"/>
+			</div>
+			<div class="field">
+				<label>Skype</label>
+				<input type="text" name="skype" value="<?= $this->identity()->skype ?>"/>
+			</div>
+			
+			<div class="field">
+				<label>Тема консультации</label>
+				<textarea name="message" ></textarea>
+			</div>
+			<div class="buttons">
+				<button type="submit" class="button purple"  name="method" value="popup">Отправить</button>	
+			</div>
+	</form>
+	<div class="done">
+		<h3>Заявка отправлена</h3>
+		<p>Вскоре наши операторы свяжутся с Вами для уточнения времени консультации</p>
+		<div class="buttons">
+			<a href="javascript:;" class="button purple twm-close" >OK</a>
+		</div>
+	</div>
+</div>

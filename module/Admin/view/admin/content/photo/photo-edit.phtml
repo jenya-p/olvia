@@ -1,0 +1,48 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+$this->assets(['image-upload']);
+$this->sidebar()->left('admin/content/photo/photo-edit.left.phtml', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("Новое фото");
+} else {
+	$this->headTitle($item['title'] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/photo-index') ?>">Все фотографии</a></li>
+	<? if(!empty($this->photoalbum)) {?>
+	<li><a href="<?= $this->url('private/photoalbum-edit', ['id' => $this->photoalbum['id']]) ?>"><?= $this->photoalbum['title']?></a></li> 
+	<? } ?>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новой фото";
+} else {
+	echo !empty($this->item['title']) ? $this->item['title'] : "Фото №".$this->item['id'] ;
+}?>
+</h1>
+
+<?= $form->start() ?>
+
+<div class="common-group">
+	<h2 id="common">Общая информация</h2>
+		
+	<?= $form('title') ?>
+
+	<?= $form('status') ?>
+	
+	<?= $form('priority') ?>
+	
+	<?= $form('photoalbum_id') ?>
+
+	<?= $form('image') ?>
+
+</div>
+
+<?= $form('*') ?>
+<?= $form->end();?>

@@ -1,0 +1,30 @@
+<?
+/* @var $this Common\View */
+/* @var $shedule array */
+$eventShedule = $this->eventShedule;
+if($this->form){
+	$dates = $this->form->field('dates')->value();
+} else {
+	$dates = $this->dates;
+}
+$dates = array_column($dates, 'id');
+
+if(empty($eventShedule)){ ?>
+	<tr class="item">
+		<td colspan="3" class="tc">Для мероприятия даты не указаны</td>
+	</tr>
+<? } else { ?>
+	<? foreach ($eventShedule as $date){ ?>
+	<tr class="item">
+		<td>
+			<?= $this->html()->checkbox(
+					$this->html()->date($date['date'], 'd M, l'), 'dates[]', $date['id'], $dates) ?>					
+		</td>
+		<td>
+			<?= $this->html()->date($date['date'], 'H:i') ?>
+		</td>
+		<td class="tr">		
+			<?= $date['order_count'] ?: '' ?></td>
+	</tr>
+	<? } ?>
+<? } ?>

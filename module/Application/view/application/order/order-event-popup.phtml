@@ -1,0 +1,87 @@
+<?
+/* @var $this Common\View */
+$date = $this->date;
+$event = $date['event'];
+$course = $date['course'];
+$tarifs = $date['tarifs'];
+$masters = $date['masters'];
+
+?>
+<div class="twm-popup course-order-popup" style="background-image: url(<?= $this->image($course['image'], 456, 150) ?>);">
+
+	<h3>Запись на &laquo;<?= $event['title'] ?>&raquo;</h3>
+		
+	<form action="<?= $this->url('order-event') ?>" class="form form-course-order" id="courseOrderForm" method="POST">
+		<input type="hidden" name="date" value="<?= $date['id'] ?>" />
+		<div class="field field-tarif"> 
+			<label class="label">Дата и время</label>
+			<p class="clr-after date">
+				<span class="to-left"><i class="icon-calendar"></i> <?= $this->html()->date($date['date'], 'd M, l') ?></span>
+				<? if(! empty($event['time_text'])) { ?>
+				<span class="to-right"><i class="icon-clock"></i> 
+					<? if(!empty($event['time_text_from'])){ ?>
+					c <?= $event['time_text_from'] ?>
+					<? if(!empty($event['time_text_till'])){ ?>
+					до <?= $event['time_text_till'] ?>
+					<? } ?>
+					<? } else { ?> 
+					<?= $event['time_text_duration'] ?>
+					<? } ?>
+				</span>
+				<? } ?>
+			</p>
+		</div>		
+		<? if(!empty($tarifs)){ ?>	
+		<div class="field field-tarif">
+			<label class="label">Тариф</label>
+			<? 
+			foreach ($tarifs as $tarif){  
+			?>
+			
+			<label class="radio">
+				<input type="radio" name="tarif" value="<?= $tarif['id'] ?>" <?= $tarif['id'] == $this->tarif_id ? 'checked="checked"':'';?>/>
+				<span class="to-left"><?= $tarif['title'] ?></span>
+				<? if($tarif['price'] == 0 ) {?> 				
+				<span class="to-right free">бесплатно</span>				
+				<? } else if($tarif['price'] != $tarif['actual_price']){ ?>
+				<span class="price"><?= number_format($tarif['actual_price'], 0, '.', ' ')?> р.</span>
+				<span class="price-old"><?= number_format($tarif['price'], 0, '.', ' ') ?></span>
+				<? } else { ?>
+				<span class="price"><?= number_format($tarif['actual_price'], 0, '.', ' ')?> р.</span>
+				<? } ?>
+			</label>			
+			<? } ?>										
+		</div>
+		<? } ?>
+		
+		<div class="field field-message">
+			<label class="label">Дополнительная информация</label>
+			<textarea name="message"></textarea>
+		</div>
+		
+		<? foreach ($tarifs as $tarif){  
+			$firstPrimary = ' primary';
+			?>
+		<div class="tarif-details tarif-details-<?= $tarif['id']?>" <?= $tarif['id'] != $this->tarif_id ? 'style="display: none;"':'';?>>		
+			<? foreach (array_reverse($tarif['actual_discounts']) as $discountRec){ ?>
+				<p class="info<?= $firstPrimary?>"><?= number_format($discountRec['price'], 0, '.', ' ')?>р. при 
+						оплате online до <?= $this->html()->date($discountRec['till_date'], 'd M') ?></p>
+			<? 
+			$firstPrimary = ''; 
+			} ?>
+			<? if($tarif['price'] != 0){ ?>
+			<p class="info<?= $firstPrimary?>"><?= number_format($tarif['price'], 0, '.', ' ') ?>р. в день мероприятия</p>
+			<? 
+			$firstPrimary = '';
+			} ?>					
+			<?/* <p class="info">Количество мест ограничено, осталось 4 из 7</p> */?>
+		</div>
+		<? } ?>
+				
+		<div class="button-group">
+			<a href="<?= $this->url('course-view', ['alias' => $course['alias']]) ?>" class="button light">Подробнее о курсе...</a>
+			<button type="submit" class="button purple">Записаться</button>			
+		</div>	
+			
+	</form>
+</div>	

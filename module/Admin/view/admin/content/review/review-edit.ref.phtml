@@ -1,0 +1,19 @@
+<?
+use Admin\Model\Content\ReviewRefsDb;
+$ref = $this->ref;
+/* @var $this Common\View */
+?>
+<tr>					
+	<? if($ref['entity'] == ReviewRefsDb::ENTITY_MASTER){ ?>
+		<td>Специалист</td>
+		<td><?= $ref['item_id'] ?></td>
+		<td><a href="<?= $this->url('private/master-edit', ['id' => $ref['item_id']]) ?>"><?= $ref['item_displayname'] ?></a></td>
+	<? } else if($ref['entity'] == ReviewRefsDb::ENTITY_COURSE){ ?>
+		<td>Курс</td>
+		<td><?= $ref['item_id'] ?></td>
+		<td><a href="<?= $this->url('private/course-edit', ['id' => $ref['item_id']]) ?>"><?= $ref['item_title'] ?></a></td>
+	<? } ?>										
+	<td class="options">
+		<a href="<?= $this->url('private/review-ref-delete', $ref) ?>" class="fa fa-trash delete"></a>
+	</td>
+</tr>

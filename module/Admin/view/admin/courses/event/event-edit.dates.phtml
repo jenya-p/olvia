@@ -1,0 +1,94 @@
+<?use Admin\Model\Courses\EventDb;
+/* @var $this Common\View */
+?>
+
+<h2>Даты проведения</h2>
+<table class="item-list shedule-item-list">
+	<thead>
+		<tr>
+			<th>Дата</th>
+			<th>Время</th>
+			<th class="tc">Заказы</th>
+			<th></th>				
+		</tr>
+	</thead>	
+	<tbody>					
+		<? foreach ($this->event_shedule as $shedule){ ?>
+		<tr>
+			<td>
+				<?= $this->html()->date($shedule['date'], 'j M Y, l')?>			
+			</td>
+			<td><?= $this->html()->date($shedule['date'], ' H:i')?></td>
+			<td class="tc"><?
+			if(!empty($shedule['order_count'])){
+				echo $shedule['order_count'];
+			}
+			?></td>
+			<td class="options">
+				<? if(empty($shedule['order_count'])){ ?>
+				<a href="<?= $this->url('private/event-delete-shedule', ['id' => $shedule['id']]) ?>" title="Удалить дату"
+					class="fa fa-trash item-delete">
+				</a>
+				<? } ?>				
+			</td>
+		</tr>					
+		<? } ?>
+	</tbody>
+</table>
+<? /* ?>
+<div class="field">
+	<label>Добавить: </label>
+	<div class="field-inner">
+		<a href="javascript:;" >дни недели</a>
+		<a href="javascript:;" >одну дату</a>
+		<a href="javascript:;" >произвольный список дат</a>
+	</div>
+</div>
+<div class="add-dates add-dates-weekdays">
+	<div class="field">
+		<label>Диапазон дат: </label>
+		<div class="field-inner">
+			<input type="text" name="add_date[week_range]" id="add_date__week_range"/>
+		</div>		
+	</div>
+	<div class="field field-type-checkbox">
+		<label>&nbsp;</label>
+		<div class="field-inner">
+			<table>
+				<tr>
+					<th></th>
+					<th>Пн</th>
+					<th>Вт</th>
+					<th>Ср</th>
+					<th>Чт</th>
+					<th>Пт</th>
+					<th class="holiday">Сб</th>
+					<th class="holiday">Вс</th>
+				</tr>
+				<tr>
+					<td title="Текущая неделя">Чет.</td>
+					<? ${'today'.date('N')} = ' class="today"'; ?>  
+					<td<?= $today1 ?>><?= $this->html()->checkbox(null, 'add_date[week_1]', 1, false) ?></td>
+					<td<?= $today2 ?>><?= $this->html()->checkbox(null, 'add_date[week_2]', 1, false) ?></td>
+					<td<?= $today3 ?>><?= $this->html()->checkbox(null, 'add_date[week_3]', 1, false) ?></td>
+					<td<?= $today4 ?>><?= $this->html()->checkbox(null, 'add_date[week_4]', 1, false) ?></td>
+					<td<?= $today5 ?>><?= $this->html()->checkbox(null, 'add_date[week_5]', 1, false) ?></td>
+					<td<?= $today6 ?>><?= $this->html()->checkbox(null, 'add_date[week_6]', 1, false) ?></td>
+					<td<?= $today7 ?>><?= $this->html()->checkbox(null, 'add_date[week_7]', 1, false) ?></td>
+				</tr>
+				<tr>
+					<td>Нечет.</td>
+					<td><?= $this->html()->checkbox(null, 'add_date[week_8]', 1, false) ?></td>
+					<td><?= $this->html()->checkbox(null, 'add_date[week_9]', 1, false) ?></td>
+					<td><?= $this->html()->checkbox(null, 'add_date[week_10]', 1, false) ?></td>
+					<td><?= $this->html()->checkbox(null, 'add_date[week_11]', 1, false) ?></td>
+					<td><?= $this->html()->checkbox(null, 'add_date[week_12]', 1, false) ?></td>
+					<td><?= $this->html()->checkbox(null, 'add_date[week_13]', 1, false) ?></td>
+					<td><?= $this->html()->checkbox(null, 'add_date[week_14]', 1, false) ?></td>
+				</tr>
+			</table>
+		</div>		
+	</div>		
+</div>
+<? */ ?>
+<?= $form('add_dates'); ?>

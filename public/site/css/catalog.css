@@ -1,0 +1,74 @@
+
+
+/* Catalog page */
+.page-catalog-index aside.left{padding: 4px 10px 20px 10px;margin-top: 8px;}
+.page-catalog-index aside.left h2 {margin-top: 10px;margin-bottom: 0;}
+
+.page-catalog-index aside.left [name=query]{height: 36px;font-size: 1em;padding-right: 33px;}
+
+.page-catalog-index aside.left .field.field-query{position: relative;}
+.page-catalog-index aside.left .field.field-query:AFTER{    content: '\e808';    font-family: 'fontello';    color: #c9c9c9;    position: absolute;
+    right: 10px;    top: 0;    font-size: 0.9em;    line-height: 37px;    }  
+
+
+.page-catalog-index aside.left label:not(.checkbox) {font-size: 1.2em;font-family: Helvetica Neue;margin-bottom: 13px;line-height: 1.3em;margin-left: 4px;font-weight: bold;}
+.page-catalog-index aside.left label.checkbox{margin-bottom: 16px;padding-right: 23px;position: relative;display: block;}
+.page-catalog-index aside.left label.checkbox .count{position: absolute;right: 0;top:50%;margin-top: -0.5em;color: #a0a0a0;font-size: 0.9em;}
+.page-catalog-index aside.left .range{margin: 0px 8px 30px 6px;}
+.page-catalog-index aside.left .range .min{font-size: 8px;}
+.page-catalog-index aside.left .range .max{font-size: 8px; float: right;}
+.page-catalog-index aside.left .range:AFTER{display: block;content: ''; clear: both;}
+
+.page-catalog-index aside.left .range .range-left{font-size: 17px;float: left;margin: 0 0 15px 0px;line-height: 22px;font-weight: normal;}
+.page-catalog-index aside.left .range .range-right{font-size: 16px;float: right;margin: 0 0 11px 0px;line-height: 20px;font-family: Helvetica Neue;vertical-align: bottom;}
+.page-catalog-index aside.left .range .range-right .value{font-size: 18px;}
+
+.page-catalog-index aside.left .buttons{text-align: center;margin: 33px -14px 10px -14px;}
+.page-catalog-index aside.left .buttons:AFTER{clear: both; display: block;content: '';text-align: center;}
+.page-catalog-index aside.left .buttons .button{width: 115px;}
+.page-catalog-index aside.left .buttons .button[type=reset]{font-size: 0.9em;padding: 0;margin-right: 10px;}
+	
+.page-catalog-index aside.left .preview{
+	margin-top: 4.8em;
+	background: #d25fa4;
+	color: white;
+	position: absolute;
+	left: 285px;
+	height: 1.4em;
+	line-height: 1.4em;
+	text-align: center;
+	z-index: 490;
+	box-shadow: 5px 5px 13px -6px black;
+	padding: 0.6em 1.2em;
+	font-size: 1em;
+	border-radius: 5px;
+	display: none;
+	transition: top 500ms cubic-bezier(0.66, 1.63, 0.74, 1.01);
+	}
+.page-catalog-index aside.left .preview:BEFORE{	content: '\e80A';	font-family: 'fontello';	display: inline-block;	position: absolute;
+	top: 50%;	margin-top: -0.99em;	left: -10px;	color: #d25fa4;	font-size: 2em;	line-height: 2em;}
+.page-catalog-index aside.left .preview>*{display: none;}
+.page-catalog-index aside.left .preview.loading .loading{display: block;font-size: 1em;line-height: 24px;padding-right: 0;width: 74px;margin: 0 auto;}
+.page-catalog-index aside.left .preview.normal .normal{display: block;}
+.page-catalog-index aside.left .preview a {color: #ffffff;/* font-weight: lighter; */}
+.page-catalog-index aside.left .preview a:HOVER {color: white;}
+.page-catalog-index aside.left .preview.zero .zero{display: block;}
+
+.page-catalog-index aside.left .period-menu{margin-top: 3.6em}
+.page-catalog-index aside.left .period-menu li{    margin: 0.7em 0 0.7em 0.8em;}
+
+.page-catalog-index .list{   margin-left: -20px;}
+.page-catalog-index .list .block{display: inline-block;width: 440px;padding-left: 20px;box-sizing: border-box;vertical-align: top;font-size: 0.9em;margin-bottom: 38px;cursor: pointer;}
+.page-catalog-index .list .block img {margin: 0;	height: 195px;	width: 420px;	max-width: none;	border-radius: 11px;}
+.page-catalog-index .list .block h2 {margin-top: 17px;margin-bottom: 15px;text-align: left;font-family: Helvetica Neue;font-weight: bold;}
+.page-catalog-index .list .block p,
+.page-catalog-index .list .block div.summary{margin-bottom: 11px;}
+.page-catalog-index .list .block p.info a,
+.page-catalog-index .list .block .view-more{white-space: nowrap;}
+.page-catalog-index .list .block p.info a.with-icon {border: none;text-decoration: underline;}
+.page-catalog-index .list .block p.info a.with-icon>span{border-bottom: 1px dotted rgba(255, 255, 255, 0);transition: border-color 200ms ease;}
+.page-catalog-index .list .block p.info a.with-icon:HOVER>span{border-bottom: 1px dotted black;}
+.page-catalog-index .list .block p.info i{color: #222;font-size: 0.9em;}
+.page-catalog-index .list .block p.info a.like{float: right;}
+.page-catalog-index .list .block p.info a.like i{color: #f08d9e;}
+

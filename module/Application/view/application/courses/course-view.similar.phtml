@@ -1,0 +1,44 @@
+<?
+/* @var $this Common\View */
+/* @var $similar array */
+$similar = $this->similar;
+?>
+
+
+<aside class="right white similar">				
+	<p class="primary">В данный момент мероприятия не проводятся, но у нас есть <i>похожий курс:</i></p>
+	
+	<div class="block course-block" data-href="<?= $this->url('course-view', ['alias' => $similar['alias']]) ?>">
+		<h2 class="like-h3"><?= $similar['title'] ?></h2>
+		<img src="<?= $this->image($similar['image'], 460, 213) ?>" alt="<?= htmlentities($similar['title']) ?>" />
+		<? if(!empty($similar['tags'])) {?>
+			<p class="info">
+				<? foreach ($similar['tags'] as $tag) {?>
+				<a href="<?= $this->url('catalog-index', ['tag' => $tag['alias']]) ?>"><i class="icon-tag"></i><?= $tag['name'] ?></a>	
+				<? } ?>
+			</p>
+		<? }?>					
+
+		<? if(!empty($similar['masters'])) {?>
+			<p class="info">
+			<label>Тренер: </label>			
+				<?= implode(', ', array_map(function($master){
+						return '<a href="'. $this->url('master-view', ['alias' => $master['alias']]) .'">'. $master['name'] .'</a>';
+					}, $similar['masters'])); ?>			 
+			</p>
+		<? } ?>	
+		<? if(!empty($similar['summary'])){ ?>
+		<div class="summary">		
+			<?= $this->html()->plain2html( $similar['summary']) ?>
+		</div>					
+		<? } ?>	
+	</div>	
+	
+	<div class="like-wrp">
+		<p>Хотите пройти именно этот курс? Мы сообщим Вам, если расписание изменится:</p>
+		<p><a href="#" class="like">Следить за расписанием <i class="icon-heart"></i></a></p>
+	</div>
+			
+	</div>	
+	
+</aside>

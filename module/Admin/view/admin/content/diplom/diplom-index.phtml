@@ -1,0 +1,52 @@
+<?
+/* @var $this Common\View */
+$this->headTitle("Дипломы");
+
+$this->sidebar()->left('admin/content/diplom/diplom-index.filter.phtml', $this->vars());
+$this->assets(['fancybox', 'user-select']);
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+</ul>
+<h1 class="page-header">Дипломы <small><?= $this->counts['count'] ?></small></h1>
+
+<table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
+	<thead>
+		<tr>					
+			<th style="width: 60px" class="tc"><?= $this->sorter('№', 'id', $this->filter['sort']) ?></th>
+			<th style="width: 80px;"></th>
+			<th><?= $this->sorter('Название', 'title_ru', $this->filter['sort']) ?></th>			
+			<th><?= $this->sorter('Преподаватель', 'master_name', $this->filter['sort']) ?></th>
+			<th class="tc"><?= $this->sorter('Приоритет', 'priority', $this->filter['sort']) ?></th>
+			<th></th>
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<tr data-href="<?=$this->url('private/diplomas-edit', ['id' => $item['id']])?>">
+		<td class="tc"><?= $item['id']?></td>
+		<td class="image">
+			<a href="<?= $this->image( $item['image']) ?>" data-fancybox="gallery" title="<?= htmlspecialchars($item['title']) ?>">
+				<img src="<?= $this->image( $item['image'], 75, 25 ) ?>" />
+			</a>
+		</td>
+		<td><?= $item['title'] ?></td>
+		<td>
+			<? if(!empty($item['master_id'])){ ?>
+			<a href="<?= $this->url('private/master-edit', ['id' => $item['master_id']])?>">
+			<?= $item['master_name'] ?>
+			</a>
+			<? } ?>
+		</td>	
+		<td class="tc"><?= $item['priority'] ?></td>
+		<td class="options">			 
+			<a href="<?= $this->url('private/diplomas-status', ['id' => $item['id']]) ?>" class="item-status">
+				<i class="fa fa-check <?= $item['status'] ? 'active': '' ?>"></i></a>
+			<a href="<?= $this->url('private/diplomas-status', ['id' => $item['id'], 'field' => 'home']) ?>" class="item-home">
+				<i class="fa fa-home <?= $item['home'] ? 'active': '' ?>"></i></a>
+			<a href="<?= $this->url('private/diplomas-delete', ['id' => $item['id']]) ?>" class="fa fa-trash item-delete"></a>			
+		</td>
+	</tr>
+	<?}?>
+</table>	
+
+<?= $this->html()->pages($this->page, $this->pageCount) ?>

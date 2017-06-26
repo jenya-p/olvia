@@ -1,0 +1,29 @@
+<?
+/* @var $this Common\View */
+?>
+<form class="form v-form">
+	
+	<div class="field">
+		<input type="text" name="f[query]" value="<?= $this->filter['query'] ?>" placeholder="Поиск..." />
+	</div>
+	
+	<div class="field">
+		<label>Раздел</label>
+		<select name="f[division]">
+			<?= $this->html()->option('Все разделы', null, $this->filter['division']) ?>
+			<? foreach ($this->divisionOptions  as $divisionKey => $divisionTitle){ ?>
+			<?= $this->html()->option($divisionTitle, $divisionKey, $this->filter['division']) ?>
+			<? } ?>			
+		</select>
+	</div>
+	
+	<div class="button-group">
+		<a href="<?= $this->url(null, ['p' => 1, 'f' => null]) ?>" type="submit" class="button reset">Сбросить</a>
+		<button type="submit" class="button">Искать</button>
+	</div>
+
+</form>
+
+<div>
+	<a href="<?= $this->url('private/content-edit', ['id' => 'new']) ?>" class="button create-item-link"><i class="fa fa-plus-circle"></i>Новая статья</a>
+</div>

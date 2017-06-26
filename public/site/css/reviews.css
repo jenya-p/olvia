@@ -1,0 +1,14 @@
+
+
+/* Reviews page */
+.review-list .review-block h4 {position: absolute;top: -7px;left: 100px;right: 0px;font-size: 1.2em;text-decoration: none;text-align: left;}
+.review-list .review-block .form textarea{height: 90px;}
+.review-list .review-block .body{text-align: left;}
+.review-list .review-block .form .error-msg{text-align: center;color: #c64242;margin: 18px 0 0 0;}
+#reviewFormDone {display: none;padding: 3em 0;}
+#reviewFormDone p{text-align: center;margin: 1.2em 0 1.2em 0;}
+
+
+.column-view  {text-align: center;}
+.column-view  .column{width: 510px;display: inline-block;vertical-align: top;}
+.column-view >.column-view-item {display: none;}

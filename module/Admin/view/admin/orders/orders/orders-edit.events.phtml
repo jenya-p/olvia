@@ -1,0 +1,41 @@
+<?
+use Common\Utils;
+
+/* @var $this Common\View */
+/* @var $events array */
+$events = $this->events;
+if($this->form){
+	$value = $this->form->field('event_id')->value();
+} else {
+	$value = $this->value;
+}
+if(empty($value) && !empty($events)){
+	$value = $events[0]['id'];
+}
+?>
+<? foreach ($events as $event){ ?>
+<tr class="item" title="<?= $event['id'] ?>">
+	<td>
+		<?= $this->html()->radio(
+				Utils::substrByWord($event['title'], 80) 
+				, 'event_id', $event['id'], $value) ?>					
+	</td>
+	<td><?= $event['type_name'] ?></td>
+	<td>
+		<? if($event['shedule_count'] == 0) {
+			echo 'нет';
+		} else {
+			echo $this->html()->date($event['shedule_date_min']);
+			if($event['shedule_count'] > 1){
+				echo ' - '.$this->html()->date($event['shedule_date_max']).' ('.$event['shedule_count'].')';
+			}
+		} ?>
+	</td>
+	<td class="options">
+		<a href="<?= $this->url('private/event-edit', ['id' => $event['id']]) ?>"><i class="fa fa-pencil"></i></a>		
+		<? if( $event['status'] ){ ?>
+		<i class="fa fa-check"></i>
+		<? } ?>
+	</td>
+</tr>
+<? } ?>

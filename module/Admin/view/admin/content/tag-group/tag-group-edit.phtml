@@ -1,0 +1,37 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+
+$this->sidebar()->left('admin/content/tag-group/tag-group-edit.left.phtml', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("Новая группа");
+} else {
+	$this->headTitle($item['name'] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/tag-groups-index') ?>">Группы тегов</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новая группа";
+} else {
+	echo $this->item['name'];
+}?>
+</h1>
+
+<?= $form->start() ?>
+
+<div class="common-group">
+	<h2 id="common">Общая информация</h2>
+		
+	<?= $form('name') ?>
+
+</div>
+
+<?= $form('*') ?>
+<?= $form->end();?>

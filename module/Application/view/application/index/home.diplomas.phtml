@@ -1,0 +1,18 @@
+<?
+/* @var $this Common\View */
+$diplomas = $this->diplomas;
+if (empty($diplomas)){return ;}
+?>
+
+<section class="diplomas purple">
+	<div class="lay-wrapper-inner">
+		<h2 class="like-h1">Наши сертификаты и дипломы</h2>
+		<ul class="diplomas">
+		<? foreach ($diplomas as $diplom){ ?>
+			<li><a href="<?= $diplom['image'] ?>" title="<?= $diplom['title'] ?>" data-fancybox="diplomas">
+				<img src="<?= $this->image($diplom['image'], null, 266) ?>" /></a>
+			</li>
+		<? } ?>
+		</ul>
+	</div>
+</section>

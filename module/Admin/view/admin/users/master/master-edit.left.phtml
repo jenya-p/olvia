@@ -1,0 +1,14 @@
+<?
+/* @var $this Common\View */
+?>
+<h2>Профиль специалиста</h2>
+<div class="scrollspy" style="min-height: 80px;"></div>
+
+<?= $this->partial('admin/users/users-edit.profiles-menu.phtml', $this->vars()) ?> 
+
+<? if(!$this->isNew) { ?>
+<h2>Статистика</h2>
+<div class="statistics">
+	<?= $this->partial('admin/parts/stat.phtml', ['stat' => $this->stat]); ?>
+</div>
+<? }

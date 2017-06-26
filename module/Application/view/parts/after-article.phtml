@@ -1,0 +1,26 @@
+<?
+/* @var $this Common\View */
+$item = $this->item;
+?>
+<div class="after-article">
+	<script type="text/javascript">(function() {
+					  if (window.pluso)if (typeof window.pluso.start == "function") return;
+					  if (window.ifpluso==undefined) { window.ifpluso = 1;
+					    var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+					    s.type = 'text/javascript'; s.charset='UTF-8'; s.async = true;
+					    s.src = ('https:' == window.location.protocol ? 'https' : 'http')  + '://share.pluso.ru/pluso-like.js';
+					    var h=d[g]('body')[0];
+					    h.appendChild(s);
+					  }})();</script>
+	<div class="pluso" data-background="#ebebeb" data-options="small,square,line,horizontal,counter,theme=01" data-services="vkontakte,odnoklassniki,facebook,twitter,google,moimir,email,print"></div>
+
+	
+	<span class="article-author">
+	<? if(!empty($item['author_alias']) && !empty($item['author_name'])){ ?>
+		<label>Автор: </label><a href="<?= $this->url('master', ['alias' => $item['author_alias']]) ?>"><?= $item['author_name'] ?></a>
+	<? } ?>
+	</span>
+	<? if(!empty($item['created'])){ ?>
+	<span class="article-date"><i class="icon-calendar"></i><?= $this->html()->date($item['created'], 'd M Y') ?></span>
+	<? } ?>
+</div>

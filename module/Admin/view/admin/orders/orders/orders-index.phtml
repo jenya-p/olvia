@@ -1,0 +1,82 @@
+<?
+use Common\ViewHelper\Phone;
+use Common\Utils;
+
+/* @var $this Common\View */
+$this->headTitle("Заявка на мероприятие");
+
+$this->sidebar()->left('admin/orders/orders/orders-index.filter.phtml', $this->vars());
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+</ul>
+<h1 class="page-header">Заявки на мероприятия <small><?= $this->counts['count'] ?></small></h1>
+
+<table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
+	<thead>
+		<tr>
+			<th style="width: 40px" class="tc"><?= $this->sorter('№', 'oc.id', $this->filter['sort']) ?></th>
+			<th><?= $this->sorter('Дата', 'oc.date', $this->filter['sort']) ?></th>
+			<th style="width: 60px" ><?= $this->sorter('Статус', 'oc.status', $this->filter['sort']) ?></th>
+			<th>Клиент</th>
+			<th>
+				<?= $this->sorter('Курс', 'c.title_ru', $this->filter['sort']) ?>
+			</th>
+			<th>
+				<?= $this->sorter('На дату', 'shed.date', $this->filter['sort']) ?>
+			</th>
+			
+			<th class="tr">Цена</th>
+			<th></th>
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<tr data-href="<?=$this->url('private/order-edit', ['id' => $item['id']])?>">
+	
+	
+		<td class="tc"><?= $item['id']?></td>
+		<td class="nobr"><?= $this->html()->date($item['date'])?></td>
+		<td class="status-<?= $item['status'] ?>"><?= $item['status_name']?></td>
+		
+		<td class="nobr">
+			<? if( $item['customer_id'] !== null) { ?>
+				<a href="<?= $this->url('private/customer-edit', ['id' => $item['customer_id']])?>" title="Зарегестрированный клиент">
+					<i class="fa fa-user"></i> <?= $item['customer_name'] ?></a>
+			<? } else if ($item['user_id'] !== null) { ?>
+				<a href="<?= $this->url('private/user-edit', ['id' => $item['user_id']])?>" title="Пользователь">
+					<i class="fa fa-user" style="color: #aeaeae"></i> <?= $item['displayname'] ?></a>
+			<? } else {
+				echo $item['name'];
+			 } ?>			
+		</td>
+		
+		<td>
+			<a href="<?= $this->url('private/course-edit', ['id' => $item['course_id']]) ?>" title="Курс: <?= htmlentities($item['course_title'])?>">
+				<?= Utils::substrByWord($item['course_title'], 100)  ?>
+			</a></td>
+		<td class="nobr">
+			<? if(!empty($item['event_id'])) { ?>
+			<a href="<?= $this->url('private/event-edit', ['id' => $item['event_id']]) ?>" title="Событие: <?= htmlentities($item['event_title'])?>">
+				<? if(!empty($item['shedule_date'])){
+					echo  $this->html()->date($item['shedule_date']);
+				} else {
+					echo  'без даты';
+				} ?>
+			</a>
+			<? } ?>	
+		</td>
+		
+		
+		<td class="tr nobr"><?
+		if(!empty($item['price'])){
+			echo number_format($item['price'], 0, '.', ' ');
+		} ?>
+		</td>	
+		<td class="options">			 
+			<a href="<?= $this->url('private/order-delete', ['id' => $item['id']]) ?>" class="fa fa-trash item-delete"></a>			
+		</td>
+	</tr>
+	<?}?>
+</table>	
+
+<?= $this->html()->pages($this->page, $this->pageCount) ?>

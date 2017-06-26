@@ -1,0 +1,18 @@
+<?
+/* @var $this Common\View */
+?>
+<h2>Редактирование видео</h2>
+<div class="scrollspy" style="min-height: 150px;"></div>
+
+<? if(!$this->isNew) {?>
+<h2>Статистика</h2>
+<div class="statistics">
+	<?= $this->partial('admin/parts/stat.phtml', ['stat' => $this->stat]); ?>
+	<div>
+		<label>Просмотров на сайте:</label><span><?= number_format($this->stat['views'], 0, '.', ' ')?></span>
+	</div>	
+</div>
+<? } else { ?>
+<h2>Совет</h2>
+<p>Вставьте ссылку на Youtube-ролик в поле "Ссылка на ролик" и нажмите "Применить". Все остальные поля будут заполнены автоматом</p>
+<? } ?> 

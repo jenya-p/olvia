@@ -1,0 +1,145 @@
+<?
+use Common\ViewHelper\Phone;
+
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+
+$this->sidebar()->left('admin/orders/orders/orders-edit.left.phtml', $this->vars());
+$this->assets(['course-select','user-select']);
+
+if ($this->isNew) {
+	$this->headTitle("Новая заявка");
+} else {
+	$this->headTitle($item[''] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/order-index') ?>">Заявки на мероприятия</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новая";
+	$this->headTitle("Новая заявка");
+} else {
+	$title = "№".$this->item['id']. " от ".$this->html()->date($this->item['date']).", ".$this->item['name'];
+	echo $title;
+	$this->headTitle("Консультация ".$title);
+}?>
+</h1>
+
+<?= $form->start() ?>
+<table class="form-wrapper-table" >
+	<tr>
+		<td class="left-cell common-group">
+			<h2 id="common">Заявка</h2>
+			<?= $form('user_id')  ?>
+			
+			
+			<? /* if(!$this->isNew) { ?>
+			<div class="field field-message">
+				<label>Контакты в заявке</label>
+				<div class="field-inner" style="padding-top: 6px;">
+					<? if (!empty($item['name'])) { ?>
+					Имя: <b><?= $item['name'] ?></b>
+					<? } ?>
+					<? if (!empty($item['phone'])) { ?>
+					&nbsp;&nbsp;&nbsp;<a href="tel:<?= $item['phone'] ?>" class="call-link" title="Телефон"><i class="fa fa-phone"></i> <?= Phone::format($item['phone']) ?></a>
+					<? } ?>			
+					<? if (!empty($item['skype'])) { ?>
+					&nbsp;&nbsp;&nbsp;<a href="skype:<?= $item['skype'] ?>?chat" title="Написать сообщение в скайп" class="call-link"><i class="fa fa-skype"></i> <?= $item['skype'] ?></a>
+					<? } ?>			 
+						
+				</div>
+			</div>			
+			<? } else { ?>
+			<? } */ ?>
+			
+			<?= $form('name')   ?>
+			<?= $form('phone')  ?>		
+			<?= $form('skype')  ?>
+						
+			<?= $form('message') 	?>
+		</td>
+		<td class="right-cell payment-group">
+		
+			<h2>Оплата</h2>
+			<?= $form('price') ?>
+			<?
+			if(!empty($this->item['discounts'])){ 
+				echo $form('use_discounts'); 
+				?><p class="discount"><?
+				foreach ($this->item['discounts'] as $discountRow){ ?>
+					<nobr><?= number_format($discountRow['price'], 0, '.', ' ') ?>р. до <?= $this->html()->date($discountRow['till_date']) ?></nobr>;  
+				<? } ?></p>
+			<? } ?>			
+			<?= $form('payed') ?>
+		</td>
+	</tr>
+	<tr>
+		<td class="left-cell event-group" rowspan="2">		
+		
+			<h2>Мероприятие</h2>
+			
+			<?= $form('course_id')  ?>
+			
+			<table class="item-list event-item-list" data-url="<?= $this->url('private/order-edit-events', ['id' => $this->id]) ?>">
+				<thead>
+					<tr>
+						<th>Мероприятие:</th>						
+						<th>Периодичность</th>
+						<th>Даты проведения</th>						
+						<th></th>				
+					</tr>
+				</thead>	
+				<tbody>
+					<?= $this->partial('admin/orders/orders/orders-edit.events.phtml', $this->vars())?>
+				</tbody>
+			</table>
+			<?= $form('event_id') ?>
+			
+			<table class="item-list tarifs-item-list" data-url="<?= $this->url('private/order-edit-tarifs', ['id' => $this->id]) ?>">
+				<thead>
+					<tr>
+						<th>Тариф:</th>
+						<th class="tr">Цена</th>
+						<th>Расшифровка</th>
+						<th></th>				
+					</tr>
+				</thead>	
+				<tbody>
+					<?= $this->partial('admin/orders/orders/orders-edit.tarifs.phtml', $this->vars())?>
+				</tbody>
+			</table>
+			<?= $form('tarif_id') ?>
+			
+			<table class="item-list shedule-item-list">
+				<thead>
+					<tr>
+						<th>Дата:</th>
+						<th>время</th>
+						<th class="tr">Кол-во заявок</th>
+					</tr>
+				</thead>	
+				<tbody>
+					<?= $this->partial('admin/orders/orders/orders-edit.shedule.phtml', $this->vars())?>
+				</tbody>
+			</table>
+			<?= $form('dates') ?>
+						
+		</td>
+		<td class="right-cell event-group">
+	
+			<h2>Комментарий менеджера</h2>
+			<?= $form('status') ?>
+			<?= $this->adminComments('order_orders') ?>	
+			
+			
+		</td>
+	</tr>	
+</table>
+
+<?= $form('submit') ?>
+<?= $form->end();?>

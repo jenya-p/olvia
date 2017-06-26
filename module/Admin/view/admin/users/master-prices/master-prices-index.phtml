@@ -1,0 +1,36 @@
+<?
+/* @var $this Common\View */
+/* @var $this Zend\View\Renderer\PhpRenderer */
+$this->headTitle("Специалисты");
+$this->sidebar()->left('admin/users/master-prices/master-prices-index.filter.phtml', $this->vars());
+
+?><h1 class="page-header">Тарифы на персональные консультации <small><?= $this->counts['count'] ?></small></h1>
+
+<table class="item-list">
+	<thead>
+		<tr>
+			<th style="width: 60px" class="tc"><?= $this->sorter('№', 'id', $this->filter['sort']) ?></th>
+			<th><?= $this->sorter('Специалист', 'master_name', $this->filter['sort']) ?></th>
+			<th><?= $this->sorter('Тариф', 'name', $this->filter['sort']) ?></th>
+			<th class="tr"><?= $this->sorter('Цена', 'price', $this->filter['sort']) ?></th>			
+			<th><?= $this->sorter('Расшифровка', 'price_desc', $this->filter['sort']) ?></th>
+			<th class="rc"><?= $this->sorter('Приоритет', 'priority', $this->filter['sort']) ?></th>
+			<th></th>				
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<tr data-href="<?=$this->url('private/master-prices-edit', ['id' => $item['id']])?>">
+		<td class="tc"><?= $item['id']?></td>
+		<td><a href="<?= $this->url('private/master-edit', ['id' => $item['master_id']]) ?>"><?= $item['master_name']?></a></td>
+		<td><?= $item['name']?></td>
+		<td class="tr nobr"><?= number_format($item['price'], 0, '.', ' ')?></td>
+		<td><?= $item['price_desc']?></td>
+		<td class="tc"><?= $item['priority']?></td>
+		<td class="options">
+			<a href="<?= $this->url('private/master-prices-status', ['id' => $item['id']]) ?>" class="item-status">
+				<i class="fa fa-check <?= $item['status'] ? 'active': '' ?>"></i></a>				
+		</td>
+	</tr>
+	<?}?>
+</table>
+<?= $this->html()->pages($this->page, $this->pageCount)?>

@@ -1,0 +1,10 @@
+.form.g-form .item-list tr{cursor: default;}
+.form.g-form .item-list label.radio {margin: 0px}
+.form.g-form .item-list label.checkbox {margin: 0px}
+.form.g-form .item-list input[type=radio]:CHECKED+span{font-weight: bold;}
+.form.g-form .item-list th:FIRST-CHILD {	font-size: 1em;	color: inherit;	padding-left: 0;}
+.form.g-form .item-list .options{width: 30px;}
+.form.g-form .item-list .options a {margin-left: 8px;}                                                                                                                                                      
+ 
+ 
+.form.g-form .field-course_id .field-inner{width: 100%}

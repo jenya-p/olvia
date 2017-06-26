@@ -1,0 +1,45 @@
+<?
+/* @var $this Common\View */
+
+if(isset($this->stat['updated'])){
+	$user = $this->stat['updated_by'];	
+?>
+<div>
+	<label>Редактирование:</label>
+	<div class="clr"></div>
+	<span><?= $this->html()->hdate($this->stat['updated'])?></span>
+	<? if(!empty($user)){ ?>
+	<a href="<?= $this->url('private/user-edit', ['id' => $user['id']])?>"><?= $user['displayname']?></a>
+	<? } ?>
+</div>
+<? } 
+if(isset($this->stat['created'])){
+	$user = $this->stat['created_by'];	
+?>
+<div>
+	<label>Создано:</label>
+	<div class="clr"></div>
+	<span><?= $this->html()->hdate($this->stat['created'])?></span>
+	<? if(!empty($user)){ ?>
+	<a href="<?= $this->url('private/user-edit', ['id' => $user['id']])?>"><?= $user['displayname']?></a>
+	<? } ?>
+</div>
+<? }
+if(isset($this->stat['deleted'])){
+	$user = $this->stat['deleted_by'];	
+?>
+<div>
+	<label>Удалено:</label>
+	<div class="clr"></div>
+	<span><?= $this->html()->hdate($this->stat['deleted'])?></span>
+	<? if(!empty($user)){ ?>
+	<a href="<?= $this->url('private/user-edit', ['id' => $user['id']])?>"><?= $user['displayname']?></a>
+	<? } ?>
+</div>
+<? } 
+
+if(!empty($this->stat['has_history'])){ ?>
+<div>
+	<a href="<?= $this->url('private/history', ['entity' => $this->stat['entity'], 'id' => $this->stat['item_id']])?>">вся история...</a>
+</div>
+<? } ?>

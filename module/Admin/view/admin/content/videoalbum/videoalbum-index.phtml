@@ -1,0 +1,47 @@
+<?
+/* @var $this Common\View */
+$this->headTitle("Разделы видео");
+
+$this->sidebar()->left('admin/content/videoalbum/videoalbum-index.filter.phtml', $this->vars());
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+</ul>
+<h1 class="page-header">Разделы видео <small><?= $this->counts['count'] ?></small></h1>
+
+<table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
+	<thead>
+		<tr>
+			<th style="width: 60px" class="tc">№</th>
+			<th>Название</th>
+			<th>УРЛ</th>
+			<th class="tc">Кол-во видео</th>
+			<th class="tc">Приоритет</th>
+			<th class="tc">Просмотров</th>
+			<th></th>
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<tr data-href="<?=$this->url('private/videoalbum-edit', ['id' => $item['id']])?>">
+		<td class="tc"><?= $item['id']?></td>
+		<td><?= $item['title'] ?></td>
+		<td><?= $item['alias'] ?></td>
+		<td class="tc">
+			<? if(!empty($item['video_count'])){ ?>
+			<a href="<?= $this->url('private/video-index', [], ['query' => ['f[album]' => $item['id']]])?>"><?= $item['video_count'] ?></a>
+			<? } ?>
+		</td>
+		<td class="tc"><?= $item['views'] ?></td>
+		<td class="tc"><?= $item['priority'] ?></td>
+		<td class="options">
+			
+			<a href="<?= $this->url('private/videoalbum-status', ['id' => $item['id']]) ?>" class="item-status">
+				<i class="fa fa-check <?= $item['status'] ? 'active': '' ?>"></i></a>
+			
+			<a href="<?= $this->url('private/videoalbum-delete', ['id' => $item['id']]) ?>" class="fa fa-trash item-delete"></a>			
+		</td>
+	</tr>
+	<?}?>
+</table>	
+
+<?= $this->html()->pages($this->page, $this->pageCount)?>

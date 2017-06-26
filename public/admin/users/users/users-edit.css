@@ -1,0 +1,4 @@
+.lay-left-sidebar ul.user-profiles-menu {margin: 0 15px 25px 15px;}
+.lay-left-sidebar ul.user-profiles-menu li a,
+.lay-left-sidebar ul.user-profiles-menu li span{line-height:24px;height:24px;display: inline-block;}
+.lay-left-sidebar ul.user-profiles-menu li span.disabled{color: gray}

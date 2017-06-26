@@ -1,0 +1,112 @@
+<?
+
+use Common\ViewHelper\Assets;
+use Common\CRUDController;
+/* @var $this Common\View */
+/* @var $form Admin\Forms\UserForm */
+$item = $this->item;
+$this->assets(['image-upload', Assets::CKEDITOR]);
+$this->sidebar()->left('admin/users/master/master-edit.left.phtml', $this->vars());
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>
+	<li><a href="<?= $this->url('private/master-index') ?>">Специалисты</a></li>
+</ul>
+<h1 class="page-header"><?php
+if ($this->isNew) {
+	$this->headTitle("Новый специалист");
+	echo "Новый специалист";
+} else {
+	$this->headTitle($item['name'] . " - " . $this->id);
+	echo $item['name'] . '';
+}?>
+</h1>
+
+<?= $form->start('');?>
+
+<div class="minimizable">
+<table class="form-wrapper-table">
+	<tr>
+		<td class="left-cell common-group">
+			<h2>Общая информация о специалисте <a href="javascript:;" class="minimize-link"></a></h2>	
+			<?= $form('name') ?>
+			<?= $form('alias') ?>
+			<?= $form('status') ?>
+			<?= $form('priority') ?>
+			<?= $form('personal') ?>
+			<?= $form('group') ?>			
+		</td>
+		<td class="right-cell seo-group">
+			<h2>SEO <a href="javascript:;" class="minimize-link"></a></h2>
+			<?= $form('seo_title')->to('seo_keywords', true) ?>	
+		</td>
+	</tr>
+</table>
+</div>
+
+<div class="minimizable">
+<table class="form-wrapper-table">
+	<tr>
+		<td class="left-cell body-group">
+			<h2>Краткое описание<a href="javascript:;" class="minimize-link"></a></h2>
+			<?= $form('summary') ?>
+		</td>		
+		<td class="right-cell image-group" rowspan="2">
+			<h2>Фотография <a href="javascript:;" class="minimize-link"></a></h2>	
+			<?= $form('image') ?>	
+		</td>
+	</tr>
+	<tr>
+		<td class="left-cell body-group">
+			<h2>Полное описание </h2>
+			<?= $form('body') ?>
+		</td>
+	</tr>			
+</table>
+</div>
+
+<div class="minimizable">
+<table class="form-wrapper-table">
+	<tr>		
+		<td class="left-cell consultation-group">
+			<h2>Персональные консультации <a href="javascript:;" class="minimize-link"></a></h2>
+			<?= $form('consultation') ?>
+		</td>
+		<td class="right-cell tarifs-group">
+			<h2>Тарифы <a href="javascript:;" class="minimize-link"></a></h2>
+			<?= $this->partial('master-edit.prices.phtml', $this->vars()) ?>
+			<a href="<?= $this->url('private/master-prices-edit', ['id' => $item['id']]) ?>" class="button add-diplom-button">Редактировать</a>
+		</td>
+	</tr>			
+</table>
+</div>
+
+<div class="minimizable">	
+<table class="form-wrapper-table">
+	<tr>		
+		<td class="left-cell education-group">
+			<h2>Образование <a href="javascript:;" class="minimize-link"></a></h2>
+			<?= $form('education') ?>
+		</td>
+		<td class="right-cell diplomas-group">
+			<h2>Дипломы <a href="javascript:;" class="minimize-link"></a></h2>
+			<div class="diplomas-wrp" data-deletion-confirm="Вы уверены, что хотите удалить этот диплом?">
+			<? foreach ($this->diplomas as $diplom){ ?>
+			<?= $this->partial('master-edit.diplom.phtml', ['diplom' => $diplom]) ?>
+			<? } ?>
+			</div>
+			<div class="buttons">			
+				<a href="<?= $this->url('private/diplomas-edit', ['id' => CRUDController::NEWID], ['query' => ['master_id' => $this->item['id']]]) ?>" class="button add-diplom-button">Добавить диплом</a>
+				<? if(count($this->diplomas) < $this->diplomasTotals['count']){ ?>
+				<a href="<?= $this->url('private/diplomas-index', [], ['query' => ['f[master]' => $this->item['id']]]) ?>" class="more-diplom-link"">Все дипломы (<?= $this->diplomasTotals['count'] ?>)</a>
+				<? } ?>
+			</div>
+		</td>
+	</tr>			
+</table>
+</div>
+
+<?= $form('submit') ?>
+
+<?= $form->end();?>

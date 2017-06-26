@@ -1,0 +1,52 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+$this->assets(['image-upload']);
+$this->sidebar()->left('admin/content/banner/banner-edit.left.phtml', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("Новый баннер");
+} else {
+	$this->headTitle($item['alias'] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/banner-index') ?>">Баннеры на главной</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новый баннер";
+} else {
+	echo $this->item['alias'];
+}?>
+</h1>
+
+<?= $form->start() ?>
+
+<table class="form-wrapper-table">
+	<tr>
+		<td class="left-cell common-group">
+			<h2>Общая информация </h2>
+			<?= $form('alias') ?>
+			<?= $form('link') ?>
+			<?= $form('status') ?>			
+			<?= $form('priority') ?>
+			
+			<?= $form('date_from') ?>
+			<?= $form('date_to') ?>			
+			<?= $form('countdown') ?>
+			<?= $form('body') ?>		
+		</td>
+		<td class="right-cell image-group">
+			<h2>Изображение</h2>
+			<?= $form('image')?> 
+			<?= $form('bg_color')?>
+		</td>
+	</tr>
+</table>
+
+<?= $form('*') ?>
+<?= $form->end();?>

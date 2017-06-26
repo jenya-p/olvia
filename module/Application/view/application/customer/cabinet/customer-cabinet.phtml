@@ -1,0 +1,166 @@
+<?
+use Common\ViewHelper\Phone;
+use Common\ImageService;
+
+/** @var $this Common\View */
+$this->headTitle("Личный кабинет");
+$this->inlineScript()->appendFile("/admin/js/image-upload.js");
+$this->inlineScript()->appendFile("/site/js/customer-cabinet.js");
+$this->headLink()->appendStylesheet("/site/css/user.css");
+
+?>
+
+<ul class="breadcrumb">
+	<li><a href="/">Главная</a></li>
+	<li>Кабинет пользователя</li>
+</ul>
+
+<?= $this->partial('/application/customer/tabs.phtml', $this->vars()); ?>
+
+<div class="white-bg to-left panel-w50" style="min-height: 1040px;">
+	<h2 class="like-h1">Общая информация</h2>
+	<form action="" class="form gray form-user-commons" method="post">
+
+		<div class="field<?= $this->errors->ifHasErrorClass('email') ?>">
+			<label class="label required">Email</label>
+			<input type="text" name="item[email]" value="<?= $this->item['email'] ?>" />
+			<?= $this->errors->render('email') ?>
+		</div>
+
+		<div class="field<?= $this->errors->ifHasErrorClass('displayname') ?>">
+			<label class="label required">Имя для отображения</label>
+			<input type="text" name="item[displayname]" value="<?= $this->item['displayname'] ?>" />
+			<p class="description">Это имя отображается другим пользователям</p>
+			<?= $this->errors->render('displayname') ?>
+		</div>
+
+		<div class="field<?= $this->errors->ifHasErrorClass('name') ?>">
+			<label class="label required">ФИО</label>
+			<input type="text" name="item[name]" value="<?= $this->item['name'] ?>" />
+			<p class="description">Это имя невидно другим пользователям сайта и использвуется для оформления документов</p>
+			<?= $this->errors->render('name') ?>
+		</div>
+
+		<div class="field<?= $this->errors->ifHasErrorClass('city') ?>">
+			<label class="label">Город</label>
+			<input type="text" name="item[city]" value="<?= $this->item['city'] ?>" />
+			<?= $this->errors->render('city') ?>
+		</div>
+
+		<div class="field<?= $this->errors->ifHasErrorClass('phone') ?>">
+			<label class="label">Телефон</label>
+			<input type="text" name="item[phone]" id="phone" value="<?= Phone::format($this->item['phone']) ?>" class="monospaced"/>
+			<?= $this->errors->render('phone') ?>
+		</div>
+
+		<div class="field<?= $this->errors->ifHasErrorClass('skype') ?>">
+			<label class="label">Скайп</label>
+			<input type="text" name="item[skype]" value="<?= $this->item['skype'] ?>" />
+			<?= $this->errors->render('skype') ?>
+		</div>
+
+		<div class="field<?= $this->errors->ifHasErrorClass('birthday') ?>">
+			<label class="label">Дата рождения</label>
+			<? 
+			if(!empty($this->item['birthday'])){
+				$birthday = date('d.m.Y',$this->item['birthday']);
+			} else {
+				$birthday = '';
+			} ?>
+			<input type="text" name="item[birthday]" id="birthday" value="<?= $birthday ?>"  class="monospaced"/>
+			<?= $this->errors->render('birthday') ?>
+		</div>
+
+		<div class="field field-sex<?= $this->errors->ifHasErrorClass('sex') ?>">
+			<label class="label">Пол: </label> 
+			<?= $this->html()->radio('Женский', 'item[sex]', 'f', $this->item['sex']) ?>
+			<?= $this->html()->radio('Мужской', 'item[sex]', 'm', $this->item['sex']) ?>
+			<?= $this->errors->render('sex') ?>
+		</div>
+
+		<div class="field<?= $this->errors->ifHasErrorClass('description') ?>">
+			<label class="label">Немного о себе в свободной форме</label>
+			<textarea name="item[description]" rows="50"><?= $this->item['description'] ?></textarea>
+			<?= $this->errors->render('description') ?>
+		</div>
+
+		<div class="button-group clr-after">
+			<input type="submit" class="button pink submit to-right" value="Сохранить" />
+		</div>
+	</form>
+</div>
+
+<div class="white-bg to-right panel-w50 image-panel">
+	<h1>Фотография</h1>
+	<input type="file" data-url="<?= $this->url('customer-image-upload') ?>" accept="image/jpeg,image/png,image/bmp" />
+	<p class="error">Сюда можно загружать только картинки (jpeg, png, bmp)</p>
+	<div class="image-wrp">		
+		<img src="<?= $this->image($this->item['image'], ImageService::SIZE_USERPICK_LARGE)?>" />
+	</div>
+</div>
+
+
+<div class="white-bg to-right panel-w50">
+	<h1>Социальные сети</h1>
+	<form action="" class="form gray form-user-social">
+	
+		<div class="field">
+			<?
+			if(empty($item['vk_id'])){
+			$params = [
+				'client_id' => 		$this->config('vk_client_id'),
+				'redirect_uri'  => 	$this->config('base_url').$this->url('vkauth')
+			];
+			$vkUrl = 'http://oauth.vk.com/authorize?' . urldecode(http_build_query($params));
+ 			?> 		
+			<a href="<?= $vkUrl ?>" class="button" ><i class="icon-vkontakte"></i> Войти через Вконтакте</a>
+			<? } else { 
+				$vkUrl = 'vk.com/'.$item['vk_id']
+			?>
+			<a href="https://<?= $vkUrl ?>"><i class="icon-vkontakte"></i><?= $vkUrl ?></a>
+			<? } ?>			
+		</div>
+ 		
+ 		<div class="field">
+ 		<?	if(empty($item['fb_id'])){
+ 			$params = [
+					'client_id' => $this->config('fb_client_id'),
+					'redirect_uri'  => $this->config('base_url').$this->url('fbauth'),
+					'response_type' => 'code'
+			];
+			$fbUrl = 'https://www.facebook.com/dialog/oauth?' . urldecode(http_build_query($params));
+		?>	
+			<a href="<?= $fbUrl ?>" class="button" ><i class="icon-facebook"></i> Войти через Фэйсбук</a>
+		<? } else { 
+			$fbUrl = 'www.facebook.com/'.$item['fb_id'];
+			?>	            
+			<a href="https://<?= $fbUrl ?>"><i class="icon-facebook"></i><?= $fbUrl ?></a>
+		<? } ?>
+		</div>
+		
+	</form>
+</div>
+
+
+<div class="white-bg to-right panel-w50">
+	<h1>Смена пароля</h1>
+	<form action="<?= $this->url('customer-change-password')?>" class="form gray form-password">
+		<p class="success">Пароль изменен</p>
+		<div class="field field-password1">
+			<label class="label required">Пароль</label> 
+			<input type="password" name="password1" />
+			<?= $this->errors->render('password1') ?>
+		</div>
+
+		<div class="field field-password2">
+			<label class="label required">Повторите ввод пароля</label>
+			<input type="password" name="password2" />
+			<?= $this->errors->render('password2'); ?>
+		</div>
+
+		<div class="button-group">
+			<button type="submit" class="button pink submit" >Поменять пароль</button>
+		</div>
+
+	</form>
+</div>

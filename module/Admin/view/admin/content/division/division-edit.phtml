@@ -1,0 +1,42 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+$this->assets(['image-upload']);
+
+$this->sidebar()->left('admin/content/division/division-edit.left.phtml', $this->vars());
+$this->sidebar()->right('admin/content/division/division-edit.right.phtml', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("Новая статья");
+} else {
+	$this->headTitle($item ['name_ru'] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>
+	<li><a href="<?= $this->url('private/division-index') ?>">Разделы</a></li>
+</ul>
+<h1 class="page-header"><?php
+if ($this->isNew) {
+	echo "Новая статья";
+} else {
+	echo $this->item['title_ru'];
+}?>
+
+</h1>
+
+<?= $form->start()?>
+
+<div class="common-group">
+	<h2 id="common">Общая информация</h2>
+	<?= $form()->to('seo_title')?>
+</div>
+<div class="seo-group">
+	<h2 id="seo-group">SEO</h2>
+	<?= $form()->to('*')->except('submit') ?>	
+</div>
+<?= $form('*') ?>
+<?= $form->end();?>

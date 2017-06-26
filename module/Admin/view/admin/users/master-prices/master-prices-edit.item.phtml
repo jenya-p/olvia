@@ -1,0 +1,39 @@
+<? 
+/* @var $this Common\View */
+$price = $this->price;
+?>
+<h2 id="price_<?= $price['id'] ?>"><?= $price['name'] ?> <a href="javascript:;" class="minimize-link"></a></h2>
+<div class="field field-type-text field-name">
+	<label>Название тарифа</label>
+	<div class="field-inner">
+		<input type="text" name="name_<?= $price['id'] ?>" value="<?= $price['name'] ?>" id="name_<?= $price['id'] ?>">
+	</div>
+</div>
+<div class="field field-type-checkbox field-status">
+	<label>&nbsp;</label>
+	<div class="field-inner">
+		<label for="status" class="checkbox">
+			<input type="checkbox" name="status_<?= $price['id'] ?>" value="1" <?= $price['status']==1 ? 'checked="checked"':'' ?> id="status_<?= $price['id'] ?>"><span>Активный</span>
+		</label>
+		<p class="error" style="display: none;"></p>
+	</div>
+</div>
+<div class="field field-type-number field-priority">
+	<label>Приоритет</label>
+	<div class="field-inner">
+		<input type="text" name="priority_<?= $price['id'] ?>" value="<?= $price['priority'] ?>" id="priority_<?= $price['id'] ?>">
+		<p class="description">Число. Чем больше, тем раньше показывается статья</p>
+	</div>
+</div>
+<div class="field field-type-text field-price_desc">
+	<label>Цена</label>
+	<div class="field-inner">
+		<input type="text" name="price_<?= $price['id'] ?>" value="<?= $price['price'] ?>" id="price_<?= $price['id'] ?>">
+	</div>
+</div>	
+<div class="field field-type-text field-price_desc">
+	<label>Цена текстом</label>
+	<div class="field-inner">
+		<input type="text" name="price_desc_<?= $price['id'] ?>" value="<?= $price['price_desc'] ?>" id="price_desc_<?= $price['id'] ?>">
+	</div>
+</div>

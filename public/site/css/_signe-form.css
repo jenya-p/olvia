@@ -1,0 +1,4 @@
+
+/* Запись на консультацию */
+#signPopup p{margin-top: -5px;margin-bottom: 20px;}
+#signPopup label.radio {display: inline-block;width: 44%;text-align: center;}

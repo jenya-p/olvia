@@ -1,0 +1,43 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+
+$this->sidebar()->left('admin/content/tag/tag-edit.left.phtml', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("Новый тег");
+} else {
+	$this->headTitle($item['name'] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/tag-index') ?>">Теги</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новый тег";
+} else {
+	echo $this->item['name'];
+}?>
+</h1>
+
+<?= $form->start() ?>
+
+<table class="form-wrapper-table">
+	<tr>
+		<td class="left-cell common-group">	
+			<h2 id="commonHdr">Общая информация</h2>
+			<?= $form()->to('seo_title', false) ?>
+		</td>
+		<td class="right-cell seo-group">
+			<h2 id="seoHdr">SEO</h2>			
+			<?= $form()->to('seo_keywords', true)?>
+		</td>
+	</tr>
+</table>
+
+<?= $form('*') ?>
+<?= $form->end();?>

@@ -1,0 +1,62 @@
+<?
+
+use Common\ViewHelper\Assets;
+
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+$this->assets(['upload', 'fancybox', Assets::CKEDITOR]);
+$this->sidebar()->left('admin/content/photoalbum/photoalbum-edit.left.phtml', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("Новый фотоальбом");
+} else {
+	$this->headTitle($item['title'] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/photoalbum-index') ?>">Все фотоальбомы</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новый фотоальбом";
+} else {
+	echo $this->item['title'];
+}?>
+</h1>
+
+<?= $form->start() ?>
+
+<div class="minimizable">
+	<table class="form-wrapper-table">
+		<tr>
+			<td class="left-cell common-group">	
+				<h2>Общая информация <a href="javascript:;" class="minimize-link"></a></h2>
+				<?= $form()->to('seo_title', false) ?>
+			</td>
+			<td class="right-cell seo-group">
+				<h2>SEO <a href="javascript:;" class="minimize-link"></a></h2>			
+				<?= $form()->to('seo_keywords', true)?>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="photo-group minimizable">
+	<h2>Текст <a href="javascript:;" class="minimize-link"></a></h2>
+	<?= $form('body') ?>
+</div>
+
+<div class="photo-group minimizable">
+	<h2>Фотографии <a href="javascript:;" class="minimize-link"></a></h2>
+	<div class="photo-wrp" data-deletion-confirm="Вы уверены, что хотите удалить это фото?">
+	<? foreach ($this->photos as $photo){ ?>
+	<?= $this->partial('photoalbum-edit.photo.phtml', ['photo' => $photo]) ?>
+	<? } ?>
+	</div>
+</div>
+
+<?= $form('*') ?>
+<?= $form->end();?>

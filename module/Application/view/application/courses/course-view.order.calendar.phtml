@@ -1,0 +1,70 @@
+<?
+use Application\Controller\CoursesController;
+
+/* @var $this Common\View */
+/* @var $item array */
+?>
+<div class="date-field-toggle-wrapper">
+	<div class="field field-date-list" id="panelToggleList">							
+		<label class="label to-left">Дата</label>
+		<label class="label to-right">Специалист</label>
+		<div class="clr"></div>
+		
+		<? 
+		$firstChecked = ' checked="checked"';
+		foreach ($this->shedule as $date){ ?> 
+		<label class="radio">
+			<? if($date['order_status'] == CoursesController::ORDER_STATUS_AVAILABLE){ ?>
+			<input type="radio" name="date"<?= $firstChecked ?> value="<?= $date['id'] ?>"
+				data-tarifs-url="<?= $this->url('course-tarifs-part', ['id' => $date['id']]) ?>" />			 
+			<span class="to-left">
+				<span class="date"><?= $this->html()->hdate($date['date']) ?></span><br />
+				<span class="time"><?= $date['event']['time_text'] ?></span>
+			</span>			
+			<span class="to-right">
+			<?= implode('<br />', array_map(function($master){
+			return '<a class="" href="'. $this->url('master-view', ['alias' => $master['alias']]) .'">'. $master['name'] .'</a>';
+			}, $date['masters'])); ?>
+			</span>
+			<? 
+			$firstChecked = '';
+			} else { ?>
+			<span class="to-left">
+				<span class="date"><?= $this->html()->hdate($date['date']) ?></span><br />
+				<span class="time"><?= $date['event']['time_text'] ?></span>
+			</span>
+			<? if($date['order_status'] == CoursesController::ORDER_STATUS_EXPIRED ){ ?>
+			<span class="to-right">Запись окончена</span>
+			<? } else { ?>
+			<a class="to-right" href="<?= $this->url('customer-calendar') ?>">Вы записаны</a>	
+			<? }?>
+			<? } ?>			
+		</label>
+		<? } ?>
+		
+		<div class="calendar-pager">
+			<? if($this->calendar_date >= $this->shedule_bounds['start']){
+					$dt = strtotime('- 1 month', $this->calendar_date);
+			   	$url = $this->url('course-calendar-part', ['id' => $this->item['id'], 'month' => date('y-m', $dt)]);
+			?>			
+			<a href="<?= $url ?>">< <?= $this->html()->date($dt,'M', '', '') ?></a>
+			<? } ?>			
+			<span><?= $this->html()->date($this->calendar_date,'M Y', '', '') ?></span>
+			<? $dt = strtotime('+ 1 month', $this->calendar_date);
+				if($dt < $this->shedule_bounds['end']){
+			   		$url = $this->url('course-calendar-part', ['id' => $this->item['id'], 'month' => date('y-m', $dt)]);
+				?>
+			<a href="<?= $url ?>"><?= $this->html()->date($dt,'M', '', '') ?> ></a>
+			<? } ?>
+		</div>																			
+	</div>
+	
+	<div class="field field-date-calendar" id="panelToggleCalendar" style="display: none;">
+		<input type="hidden" id="calendarInput" />							
+		<div class="calendar-selector" id="calendarSelector"></div>												
+	</div>
+</div>
+
+<div id="tarif_selector_wrapper">		
+	<?= $this->partial('application/courses/course-view.order.tarifs.phtml', $this->vars()) ?>
+</div>

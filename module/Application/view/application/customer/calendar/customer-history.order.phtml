@@ -1,0 +1,36 @@
+<?
+/* @var $this Common\View */
+
+$type =  $this->type;
+$meetDate = $this->meet_date;
+$tarif = 	$this->tarif;
+$masters = 	$this->masters;
+
+?>
+
+<tr>
+	<td>	
+		<p><?= $this->html()->date($meetDate, 'd M') ?></p>
+		<p><?= $this->html()->date($meetDate, 'l') ?></p>
+	</td>
+	
+	<td>
+		<p><?= $this->event['title'] ?></p>
+		
+		<? if(!empty($this->masters)) {?>
+		<p class="info">Ведущий: 
+			<?= implode(', ', array_map(function($master){
+			return '<a class="" href="'. $this->url('master-view', ['alias' => $master['alias']]) .'">'. $master['name'] .'</a>';
+			}, $this->masters)); ?>
+		</p>
+		<? } ?>
+				
+	</td>
+	<td><?= $tarif['title'] ?></td>
+	
+	<td class="status">	
+		<? if(!empty($this->course['alias'])) { ?>
+		<a href="#reviewPopup" class="button pink twm-popup-link" data-subject="course-<?= $this->course['alias']?>">Оставить отзыв</a>
+		<? } ?>
+	</td>
+</tr>

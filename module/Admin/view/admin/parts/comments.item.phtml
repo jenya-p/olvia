@@ -1,0 +1,16 @@
+<? 
+/* @var $this Common\View */
+$comment = $this->comment;
+?>
+<div class="comment-item" data-id="<?= $comment['id'] ?>">
+	<div class="body"><?= str_replace("\n", '<br />', $comment['body']) ?></div>
+	<div class="comment-item-legend">
+		<? if(!empty($comment['user_displayname'])){ ?>
+		<a href="<?= $this->url('private/user-edit', ['id' => $comment['user_id']])?>" class="name"><?= $comment['user_displayname'] ?></a>,
+		<? } ?>
+		<span class="date"><?= $this->html()->hdate($comment['date']) ?></span>
+		<? if($comment['user_id'] == $this->identity()->id) { ?>
+			<a href="<?= $this->url('private/delete-comment-ajax', ['id' => $comment['id']]) ?>" class="fa fa-trash item-delete" title="Удалить комментарий"></a>
+		<? } ?>
+	</div>
+</div>

@@ -1,0 +1,24 @@
+<?
+/* @var $this Common\View */
+?>
+<form class="form v-form">
+	
+	<div class="field">
+		<input type="text" name="f[query]" value="<?= $this->filter['query'] ?>" placeholder="Поиск..." />
+	</div>
+	
+	<div class="field radio-group">
+		<?= $this->html()->radio('Все заявки', 'f[status]',null, $this->filter['status']) ?>
+		<?= $this->html()->radio('Только новые', 'f[status]', 'new', $this->filter['status']) ?>								
+	</div>
+		
+	<div class="button-group">
+		<a href="<?= $this->url(null, ['p' => 1, 'f' => null]) ?>" type="submit" class="button reset">Сбросить</a>
+		<button type="submit" class="button">Искать</button>
+	</div>
+	
+</form>
+<div>
+	<a href="<?= $this->url('private/order-consult-edit', ['id' => 'new']) ?>" class="button create-item-link">
+		<i class="fa fa-plus-circle"></i>Создать заявку</a>
+</div>

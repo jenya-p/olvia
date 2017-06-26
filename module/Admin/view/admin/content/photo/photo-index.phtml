@@ -1,0 +1,30 @@
+<?
+/* @var $this Common\View */
+$this->headTitle("Фото");
+$this->assets(['fancybox','upload']);
+$this->sidebar()->left('admin/content/photo/photo-index.filter.phtml', $this->vars());
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+</ul>
+<h1 class="page-header">Фото <small><?= $this->counts['count'] ?></small></h1>
+
+<table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
+	<thead>
+		<tr>
+			<th style="width: 60px" class="tc">№</th>
+			<th></th>
+			<th style="width: 35%" >Название</th>
+			<th style="width: 35%" >Фотоальбом</th>
+			<th class="tr" style="width: 150px;">Дата</th>
+			<th class="tc">Просмотров</th>
+			<th class="tc">Приоритет</th>			
+			<th></th>
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<?= $this->partial('photo-index.item.phtml', ['item' => $item]) ?>
+	<?}?>
+</table>	
+
+<?= $this->html()->pages($this->page, $this->pageCount)?>

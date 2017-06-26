@@ -1,0 +1,33 @@
+<?
+use Application\Model\Content\ContentDb;
+
+/* @var $this Common\View */
+$this->headTitle($this->article['seo_title']);
+if(!empty($this->article['seo_keywords'])){
+	$this->headMeta($this->article['seo_keywords'], "keywords");
+}
+if(!empty($this->article['seo_description'])){
+	$this->headMeta($this->article['seo_description'], "description");
+}
+?>
+<ul class="breadcrumb">
+	<li><a href="/">Главная</a></li>
+	<? if($this->article['type'] == 'article'){ ?>
+	<li><a href="<?= $this->url('content-index') ?>">Статьи</a></li>
+	<? } ?>
+	<? if(!empty($this->division)){ ?>
+	<li><a href="<?= $this->url('content-division', ['alias' => $this->division['alias']]) ?>"><?= $this->division['title'] ?></a></li>
+	<? } ?>
+	<li><?= $this->article['title'] ?></li>
+</ul>
+
+<? if(strpos($this->article['body'], '<h1>') === false){ ?> 
+<h1><?= $this->article['title'] ?></h1>
+<?}?>
+
+<div class="content" data-editable="content-<?= $this->article['id'] ?>-body" >
+	<?= $this->article['body'] ?>
+</div>
+
+
+<?= $this->partial('/parts/after-article', ['item' => $this->article]); ?>

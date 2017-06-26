@@ -1,0 +1,12 @@
+<?
+/* @var $this Common\View */
+?>
+<h2>Редактировать курс</h2>
+<div class="scrollspy" style="min-height: 150px;"></div>
+
+<? if(!$this->isNew){ ?>
+<h2>Статистика</h2>
+<div class="statistics">
+	<?= $this->partial('admin/parts/stat.phtml', ['stat' => $this->stat]); ?>
+</div>
+<? } ?>

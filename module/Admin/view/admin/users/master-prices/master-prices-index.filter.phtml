@@ -1,0 +1,31 @@
+<?
+/* @var $this Common\View */
+?>
+<form class="form v-form">
+
+	<div class="field">
+		<input type="text" name="f[query]" value="<?= $this->filter['query'] ?>" placeholder="Поиск..." />
+	</div>
+	
+	<div class="field field-inner">
+		<label>Мастер</label>
+		<input type="hidden" name="f[master]" value="<?= $this->filter['master'] ?>" id="filter_master_select"/>
+		<input type="text" value="<?= $this->masterName ?>" class="user-select"/>
+	</div>
+
+	<div class="button-group">
+		<a href="<?= $this->url(null, ['p' => 1, 'f' => null]) ?>" type="submit" class="button reset">Сбросить</a>
+		<button type="submit" class="button">Искать</button>
+	</div>
+	
+</form>
+<?
+if(!empty($this->filter['master'])){
+	$urlOption = ['query'=> ['master_id' => $this->filter['master']]];
+} else {
+	$urlOption = [];
+}
+?>
+<div>
+	<a href="<?= $this->url('private/master-prices-edit', ['id' => 'new'], $urlOption) ?>" class="button create-item-link"><i class="fa fa-plus-circle"></i>Новый тариф</a>
+</div>

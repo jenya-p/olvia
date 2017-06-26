@@ -1,0 +1,13 @@
+<?
+use Common\Utils;
+
+/* @var $this Common\View */
+
+if(empty($this->info) || $this->info['count'] == 0) return;
+
+?><span class="comments-info" title="<?= $this->html()->date($this->info['date']) ?>, <?= $this->info['user_displayname'] ?>"><?
+echo Utils::substrByWord($this->info['body'], 100);  
+if ($this->info['count'] > 1){ ?> 
+<span class="more">, и еще <?= $this->info['count'] ?> комметария</span>
+<? } ?>
+</span>

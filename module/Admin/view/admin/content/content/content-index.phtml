@@ -1,0 +1,54 @@
+<?
+/* @var $this Common\View */
+/* @var $this Zend\View\Renderer\PhpRenderer */
+$this->headTitle("Статьи");
+
+$this->sidebar()->left('admin/content/content/content-index.filter.phtml', $this->vars());
+
+?>
+
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>
+</ul>
+
+<h1 class="page-header">Статьи <small>(<?= $this->counts['count'] ?> шт.)</small></h1>
+<table class="item-list">
+	<thead>
+		<tr>
+			<th style="width: 60px" class="tc"><?= $this->sorter('№', 'id', $this->filter['sort']) ?></th>
+			<th class="tl"><?= $this->sorter('Название статьи', 'title_ru', $this->filter['sort']) ?></th>
+			<th>Раздел</th>
+			<th class="tr" style="width: 80px" ><?= $this->sorter('Дата публикации', 'created', $this->filter['sort']) ?></th>
+			<th style="width: 150px" >Автор</th>
+			<th class="tc" style="width: 90px" ><?= $this->sorter('Приоритет', 'priority', $this->filter['sort']) ?></th>
+			<th></th>				
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<tr data-href="<?=$this->url('private/content-edit', ['id' => $item['id']])?>">
+		<td class="tc"><?= $item['id']?></td>
+		<td><?= $item['title'] ?></td>
+		
+		<td>
+			<? if(!empty($item['division_id'])){ ?>
+			<a href="<?= $this->url('private/division-edit', ['id' => $item['division_id']]) ?>">
+				<?= $item['division_title']  ?>
+			</a>
+			<? } ?>
+		</td>
+		<td class="tr">
+			<?= $this->html()->date($item['created'],'d.m.Y') ?>
+		</td>
+		
+		<td><?= $item['author_displayname'] ?></td>
+		<td class="tc"><?= $item['priority'] ?></td>
+		<td class="options">
+			<a href="<?= $this->url('private/content-status', ['id' => $item['id']]) ?>" class="item-status">
+				<i class="fa fa-check <?= $item['status'] ? 'active': '' ?>"></i></a>
+			<a href="<?= $this->url('private/content-delete', ['id' => $item['id']]) ?>" class="fa fa-trash item-delete"></a>			
+		</td>
+	</tr>
+	<?}?>
+</table>	
+
+<?= $this->html()->pages($this->page, $this->pageCount)?>

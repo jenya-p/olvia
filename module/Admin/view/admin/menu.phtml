@@ -1,0 +1,41 @@
+<?php
+/* @var $this Zend\View\Renderer\PhpRenderer */
+
+echo '<ul class="nav" id="side-menu">';
+
+/* @var $page Zend\Navigation\Page\AbstractPage */
+/* @var $page2 Zend\Navigation\Page\AbstractPage */
+foreach ( $this->container as $page ) {
+	$children = $page->getPages ();
+	$liClass = $page->isActive () ? ' class="active"' : '';
+	if($page->getHref() == "#"){
+		echo '<li' . $liClass . '><h5>
+			<i class="fa ' . $page->getCustomProperties ()['icon'] . ' fa-fw"></i><span>' .
+					$page->getLabel () . '</span></h5>';
+	} else {
+		echo '<li' . $liClass . '><a href="' . $page->getHref () . '">
+			<i class="fa ' . $page->getCustomProperties ()['icon'] . ' fa-fw"></i><span>' .
+					$page->getLabel () . '</span></a>';
+	}
+	
+	if (! empty ( $children )) {
+		$lis = ''; /*<li class="top-level-item"><a href="' . $page->getHref () . '">
+			<i class="fa ' . $page->getCustomProperties ()['icon'] . ' fa-fw"></i><span>' . 
+			$page->getLabel () . '</span></a></li>';*/
+		$ulClass = $page->get('ulClass');
+		foreach ( $children as $page2 ) {
+			if ($page2->isActive) {
+				$liClass = ' class="active"';
+				$ulClass .= ' in';				
+			} else {
+				$liClass = '';
+			}
+			$lis .= '<li' . $liClass . '>' . '<a href="' . $page2->getHref () . '">
+					<i class="fa ' . $page2->getCustomProperties ()['icon'] . ' fa-fw"></i><span>' . 
+					$page2->getLabel () . '</span></a></li>';
+		}
+		echo '<ul class="nav nav-second-level ' . $ulClass . '">' . $lis . '</ul>';
+	}
+	echo '</li>';
+}
+echo '</ul>';

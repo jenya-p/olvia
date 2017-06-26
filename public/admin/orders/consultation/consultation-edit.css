@@ -1,0 +1,9 @@
+
+.form.g-form .price-item-list label.radio {margin: 0px}
+.form.g-form .price-item-list input[type=radio]:CHECKED+span{font-weight: bold;}
+.form.g-form .price-item-list th:FIRST-CHILD {
+	font-size: 1em;
+	color: inherit;
+	padding-left: 0;
+}
+    

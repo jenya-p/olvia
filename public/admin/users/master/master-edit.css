@@ -1,0 +1,22 @@
+.lay-left-sidebar ul.user-profiles-menu {margin: 0 15px 25px 15px;}
+.lay-left-sidebar ul.user-profiles-menu li a,
+.lay-left-sidebar ul.user-profiles-menu li span{line-height:24px;height:24px;display: inline-block;}
+.lay-left-sidebar ul.user-profiles-menu li span.disabled{color: gray}
+
+.field-type-image-upload .field-inner .image-upload_img{height: 400px;}
+
+.diplomas-wrp {display: flex; width: 100%; flex-wrap: wrap;justify-content:flex-start; margin: 0 -5px}
+.diplomas-wrp .item{text-align: center;flex-grow: 0;margin: 5px;position: relative;}
+.diplomas-wrp .item .fancy {display: block;}
+.diplomas-wrp .item .fancy img {}
+.diplomas-wrp .item .delete {padding: 2px 6px;margin-top: -40px;display: inline-block;color: #ccc;}
+.diplomas-wrp .item .status {padding: 2px 6px;display: inline-block;}
+.diplomas-wrp .item .edit{padding: 2px 6px;display: inline-block;color: #666;}
+.diplomas-wrp .item .status .fa-eye-slash{color: #ccc;}
+.diplomas-wrp .item .status .fa-eye{color: #0bad0b;}
+
+.diplomas-group .buttons{margin-top: 18px;text-align: center;}
+
+.buttons {}
+.diplomas-group .add-diplom-button{}
+.diplomas-group .more-diplom-link{margin-left: 40px;}

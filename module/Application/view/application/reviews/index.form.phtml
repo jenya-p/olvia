@@ -1,0 +1,42 @@
+<?
+use Common\ViewHelper\Phone;
+
+/* @var $this Common\View */
+$this->headTitle('Отзывы');
+?>
+<div class="review-block column-view-item">
+	<img src="/site/img/anonim.png" alt="Место для вашего аватара" />
+	<? if(empty($this->items)){ ?>
+		<h4>Отзывов пока нет, оставить свой</h4>		
+	<? } else { ?>
+		<h4>Оставить свой отзыв</h4>	
+	<? } ?>	
+	<div class="body white-bg">
+		<form action="<?= $this->url('reviews-post') ?>" class="form gray" id="reviewForm">			
+			<input type="hidden" name="subject" value="<?= $this->subject ?>">			
+			<p class="error-msg">Заполните все поля</p>
+			<div class="field">
+				<label class="required">Ваше имя</label> <input type="text" name="name" value="<?= $this->identity()->displayname ?>" />
+			</div>			
+			<div class="field">
+				<label>Телефон для связи с Вами</label> <input type="text" name="phone" style="font-family: Consolas, Monaco, Lucida Console, monospace" 
+					value="<?= Phone::format($this->identity()->phone) ?>" />
+			</div>
+			<div class="field">
+				<label>Ссылка на страницу VK или FB</label><input type="text" name="social" placeholder="http://" value="<?= $this->identity()->social ?>"/>
+			</div>
+			<div class="field">
+				<label class="required">Ваш отзыв<?= $this->reviewSubject ?></label>
+				<textarea name="message"></textarea>
+			</div>
+			<div class="button-group">
+				<button type="submit" class="button purple">Отправить</button>
+			</div>
+			<br />
+		</form>
+		<div id="reviewFormDone">
+			<p>Спасибо за Ваш отзыв</p>
+			<p>Скоро он будет размещен на сайте</p>
+		</div>
+	</div>
+</div>

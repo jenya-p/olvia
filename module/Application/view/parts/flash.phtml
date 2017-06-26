@@ -1,0 +1,13 @@
+<?
+use Common\ViewHelper\Flash;
+
+foreach ($items as $item){
+	if($item['class'] == Flash::ERROR){
+		$ico = 'exclamation-circle';
+	} else if ($item['class'] == Flash::SUCCESS){
+		$ico = 'thumbs-up';
+	} else{
+		$ico = 'info';
+	}
+	echo '<section class="flash-message '.$item['class'].'"><div class="lay-wrapper-inner"><i class="fa fa-'.$ico.'"></i><span>'.$item['message'].'</span></div></section>';
+}

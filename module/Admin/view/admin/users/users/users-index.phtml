@@ -1,0 +1,36 @@
+<?
+/* @var $this Common\View */
+/* @var $this Zend\View\Renderer\PhpRenderer */
+$this->headTitle("Администраторы");
+$this->sidebar()->left('admin/users/users/users-index.filter.phtml', $this->vars());
+// $this->sidebar()->left('admin/index/filter', $this->vars());
+
+
+?><h1 class="page-header">Пользователи <small><?= $this->counts['count'] ?></small></h1><?
+$firstPageUrl = $this->url(null, ['p' => 1]);
+?>
+
+<table class="item-list">
+	<thead>
+		<tr>
+			<th style="width: 60px" class="tc">№</th>
+			<th>Имя</th>
+			<th>Email</th>
+			<th>Роли</th>				
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<tr data-href="<?=$this->url('private/user-edit', ['id' => $item['id']])?>">
+		<td class="tc"><?= $item['id']?></td>
+		<td><?= $item['displayname']?></td>
+		<td><a href="mailto:<?= $item['email']?>"><?= $item['email']?></a></td>
+		<td><?
+			$stub = '<span class="user-role-stub"></span>'; ?>
+			<i class="fa fa-user-secret <?= $item['admin'] == 1 ? 'active' : '' ?>"></i>
+			<i class="fa fa-graduation-cap <?= $item['master'] == 1 ? 'active' : '' ?>"></i>
+			<i class="fa fa-users <?= $item['customer'] == 1 ? 'active' : '' ?>"></i>
+		</td>
+	</tr>
+	<?}?>
+</table>
+<?= $this->html()->pages($this->page, $this->pageCount)?>

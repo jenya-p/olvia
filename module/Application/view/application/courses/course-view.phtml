@@ -1,0 +1,80 @@
+<?
+/* @var $this Common\View */
+/* @var $item array */
+$item = $this->item;
+
+$this->inlineScript()->appendFile('/assets/moment-with-locales.js');
+$this->inlineScript()->appendFile('/assets/date-range-picker/jquery.daterangepicker.min.js');
+$this->headLink()->appendStylesheet('/assets/date-range-picker/daterangepicker.min.css');
+
+$this->inlineScript()->appendFile('/site/js/course.js');
+$this->headLink()->appendStylesheet('/site/css/_course-order.css');
+
+$this->headLink()->appendStylesheet('/site/css/course.css');
+
+$this->headTitle($item['title']);
+$this->seo($item);
+
+?>
+<section class="main">
+	<div class="lay-wrapper-inner">
+		<ul class="breadcrumb">
+			<li><a href="/">Главная</a></li>
+			<li><a href="<?= $this->url('catalog-index')?>">Каталог тренингов</a></li>
+			<li><?= $item['title'] ?></li>	
+		</ul>
+		
+		<div class="with-right-aside">	
+			<h1><?= $item['title'] ?></h1>
+					
+			<img src="<?= $this->image($item['image'], 680,224) ?>" class="course-img"/>
+			
+			<? if(!empty($item['tags'])) {?>
+				<p class="info">
+					<? foreach ($item['tags'] as $tag) {?>
+					<a href="<?= $this->url('catalog-index', ['tag' => $tag['alias']]) ?>"><i class="icon-tag"></i><?= $tag['name'] ?></a>	
+					<? } ?>
+				</p>
+			<? }?>	
+			
+			<div class="content" data-editable="course-<?= $item['id'] ?>-body" >
+				<?= $item['body'] ?>
+			</div> 
+			
+		</div>	
+
+<? if(!empty($this->shedule)) {?>
+	<?= $this->partial('course-view.order.phtml', $this->vars()); ?>
+<? } else if(!empty($this->announce)){ ?>
+	<?= $this->partial('course-view.announce.phtml', $this->vars()); ?>
+<? } else if(!empty($this->similar)){ ?>
+	<?= $this->partial('course-view.similar.phtml', $this->vars()); ?>
+<? } ?>	
+	<div class="clr"></div>	
+	</div>
+</section>
+
+
+<? if(!empty($item['masters'])) {?>
+<section class="masters">
+	<div class="lay-wrapper-inner">
+		<h2>Кто ведет этот тренинг</h2>
+		<div class="master-list">						
+		<? foreach ($item['masters'] as $master){
+				echo $this->partial('course-view.master.phtml', ['master' => $master]);
+		} ?>
+		</div>
+	</div>				
+</section>
+<? }?>		
+
+<?
+if (!empty($this->shedule_bounds)){ ?>
+<section class="shedule">
+	<div class="lay-wrapper-inner" id="shedule_selector_wrapper">
+		<?= $this->partial('course-view.shedule.phtml', $this->vars()); ?>
+	</div>
+</section>
+<? } ?>
+
+<?= $this->partial('course-view.reviews.phtml', $this->vars()); ?>

@@ -1,0 +1,65 @@
+<?
+	/* @var $this Zend\View\Renderer\PhpRenderer */ 
+?>
+	<footer class="purple">
+		<div class="lay-wrapper-inner">
+
+			<div class="link-cloude">
+				<a href="/article/rabota-s-karmoy" >Работа с кармой</a>
+				<a href="/article/uslugi-dlya-zhenschin" >Женские тренинги</a>
+				<a href="/article/travmaterapiya" >Травматерапия</a>
+				<a href="/article/cemeynye-rasstanovki" >Cемейные расстановки</a>
+				<a href="/article/uznat-svoe-prednaznachenie" >Узнать свое предназначение</a>
+				<a href="/article/strukturnye-rasstanovki" >Структурные расстановки</a>
+				<a href="/article/uslugi-psihologa" >Услуги психолога</a>
+				<a href="/article/rasstanovki-po-hellingeru" >Расстановки по Хеллингеру</a>
+				<a href="/article/semeynyy-psiholog" >Семейный психолог</a>
+				<a href="/article/programmy-po-metodu-ally-alicii-hshanovskoy-psihologicheskiy-portret-na-osnove-arhetipov-starshih-arkanov-taro" >Психологический портрет</a>
+				<a href="/article/semeynaya-terapiya" >Семейная терапия</a>
+				<a href="/article/metod-rasstanovok" >Метод расстановок</a>
+			</div>
+		
+		
+			<ul class="footer-menu">
+				<li><a href="caontacts.php">О нас</a></li>
+				<li><a href="<?= $this->url('catalog-index') ?>">Услуги</a></li>
+				<li><a href="<?= $this->url('master-index') ?>">Наши специалисты</a></li>
+				<li><a href="<?= $this->url('review-index') ?>">Отзывы</a></li>
+			</ul>
+	
+			<div class="buttons-1">
+				<a href="<?= $this->url('shedule') ?>" class="button pink">Расписание мероприятий</a>
+				<a href="#signPopup" class="button pink twm-popup-link">Записаться на консультацию</a>					
+			</div>
+						
+			<div class="contacts">
+				<a href="#" class="address"><i class="icon-location"></i><span>м. Чеховская</span></a><br /> 
+				<a href="#" class="address"><i class="icon-location"></i><span>м. Пушкинская, ул. Малая Дмитровка, 18а</span></a><br />
+				<a href="#" class="phone"><i class="icon-phone"></i><span><span class="code">+7 495</span> 22-66-880</span></a><br />
+				<a href="#" class="phone"><i class="icon-phone"></i><span><span class="code">+7 495</span> 22-66-876</span></a><br />
+			</div>
+			
+			<div class="buttons-2">
+				<a href="#callMePopup" class="button pink twm-popup-link">Заказать обратный звонок</a>					
+			</div>
+			
+		</div>
+		
+		
+	</footer>
+	<section class="sub-footer">
+		<div class="lay-wrapper-inner">
+			<p><i class="icon-copyright"></i> При полном или частичном копировании материалов сайта,<br />прямая активная ссылка на сайт <a href="http://www.olvia-center.ru">www.olvia-center.ru</a> обязательна.</p>
+			<img src="/site/img/payments.png" alt="Способы оплаты: Yandex Деньги, VISA, Mastercart, WebMoney, Сбербанк, Банковский перевод" />		
+		</div>
+	</section>
+
+
+<?= $this->inlineScript()
+	->prependFile('/site/js/_call-form.js')
+	->prependFile('/site/js/_signe-form.js')
+	->prependFile('/site/js/common.js')
+	->prependFile('/assets/jquery.maskedinput/jquery.maskedinput.min.js')
+ // ->prependFile('/assets/fancybox/jquery.fancybox.js')
+	->prependFile('/assets/jquery/jquery.min.js');
+?>

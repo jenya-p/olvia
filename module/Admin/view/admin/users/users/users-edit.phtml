@@ -1,0 +1,55 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\UserForm */
+/* @var $item array */
+
+$this->assets('image-upload');
+
+$this->sidebar()->left('admin/users/users/users-edit.left.phtml', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("Новый пользователь");
+} else {
+	$this->headTitle($this->item ['displayname'] . " - " . $this->id);
+}
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>
+	<li><a href="<?= $this->url('private/user-index') ?>">Пользователи</a></li>
+</ul>
+<h1 class="page-header"><?php
+if ($this->isNew) {
+	echo "Новый пользователь";
+} else {
+	echo $this->item['displayname'] . '';
+}?>
+</h1>
+
+<?= $form->start('');?>
+
+<table class="form-wrapper-table">
+	<tr>
+		<td class="left-cell common-group" rowspan="2">
+			<h2 id="common">Общая информация</h2>
+			<?= $form('displayname') ?>
+			<?= $form('email') ?>
+			<?= $form('phone') ?>
+			<?= $form('skype') ?>			
+			<?= $form('roles') ?>
+		</td>
+		<td class="right-cell password-group">
+			<h2 id="master-password-group">Сменить пароль</h2>	
+			<?= $form('password_1') ?>
+			<?= $form('password_2') ?>			
+		</td>		
+	</tr>
+	<tr>		
+		<td class="right-cell social-group">
+			<h2 id="master-password-group">Социальные сети</h2>	
+			<?= $form('vk_id') ?>
+			<?= $form('fb_id') ?>
+		</td>		
+	</tr>		
+</table>
+<?= $form('*') ?>
+<?= $form->end();?>

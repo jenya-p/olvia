@@ -1,0 +1,42 @@
+<?
+use Common\CRUDController;
+
+/* @var $this Common\View */
+$urlQueryForList = [
+	'query' => ['f[course_id]' => $this->item['id']]
+];
+$urlQueryForCreate = [
+	'query' => ['course_id' => $this->item['id']]
+];
+?>
+<h2>Тарифы</h2>
+
+<? foreach ($this->tarif_items as $tarif){ ?>
+<p class="clr-after"><a href="<?= $this->url('private/tarifs-edit', ['id' => $tarif['id']]) ?>"><?= $tarif['title'] ?><span class="to-right"><?= $tarif['price_desc'] ?></span></a></p>
+<? } ?>
+<p class="more"><a href="<?= $this->url('private/tarifs-index', [], $urlQueryForList) ?>">Все тарифы (<?= $this->tarif_totals['count']?> шт)</a></p>
+<p><a href="<?= $this->url('private/tarifs-edit', ['id' => CRUDController::NEWID], $urlQueryForCreate) ?>" class="button">Добавить</a></p>
+
+<h2>Мероприятия</h2>
+
+<? foreach ($this->event_items as $event){ ?>
+<p><a href="<?= $this->url('private/event-edit', ['id' => $event['id']]) ?>"><b>
+	<? if($event['shedule_count'] == 0) {
+		echo 'без дат';
+	} else {
+		echo $this->html()->date($event['shedule_date_min']);
+		if($event['shedule_count'] > 1){
+			echo ' - '.$this->html()->date($event['shedule_date_max']);
+		}
+	} ?>: 
+</b><?= $event['title'] ?><?
+	if($event['shedule_count'] > 1){
+		echo ' ('.$event['shedule_count'].' шт)';
+	}
+?></a>
+
+	
+</p>
+<? } ?>
+<p class="more"><a href="<?= $this->url('private/event-index', [], $urlQueryForList) ?>">Все расписание (<?= $this->event_totals['count']?> шт)</a></p>
+<p><a href="<?= $this->url('private/event-edit', ['id' => CRUDController::NEWID], $urlQueryForCreate) ?>" class="button">Добавить мероприятие</a></p>

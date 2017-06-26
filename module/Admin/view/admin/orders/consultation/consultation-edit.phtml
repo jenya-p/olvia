@@ -1,0 +1,62 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+
+$this->sidebar()->left('admin/orders/consultation/consultation-edit.left.phtml', $this->vars());
+$this->assets(['user-select']);
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/order-consult-index') ?>">Заявки на персональную консультацию</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новая";
+	$this->headTitle("Новая заявка");
+} else {
+	$title = "№".$this->item['id']. " от ".$this->html()->date($this->item['date']).", ".$this->item['name'];
+	echo $title;
+	$this->headTitle("Консультация ".$title);
+}?>
+</h1>
+<form action="" method="get"></form>
+<?= $form->start() ?>
+
+<table class="form-wrapper-table" >
+	<tr>
+		<td class="left-cell common-group" rowspan="2">
+			<h2 id="common">Заявка</h2>
+			<?= $form('name')   ?>
+			<?= $form('phone')  ?>		
+			<?= $form('skype')  ?>
+			<?= $form('user_id')  ?>
+			<?= $form('message') 	?>
+			<h2>Встреча</h2>
+			<?= $form('meet_date') 	?>
+			<?= $form('master_id') 	?>
+			<table class="item-list price-item-list" data-url="<?= $this->url('private/order-consult-edit-tarifs', ['id' => $this->id]) ?>">
+				<thead>
+					<tr>
+						<th>Тариф:</th>
+						<th>Цена</th>
+						<th>Расшифровка</th>
+						<th></th>				
+					</tr>
+				</thead>	
+				<tbody>
+					<?= $this->partial('admin/orders/consultation/consultation-edit.tarifs.phtml', $this->vars())?>
+				</tbody>
+			</table>			
+		</td>
+		<td class="right-cell comments-group">
+			<h2>Комментарий менеджера</h2>
+			<?= $form('status') ?>
+			<?= $this->adminComments('order_consultation') ?>
+		</td>
+	</tr>	
+</table>
+
+
+<?= $form('submit') ?>
+<?= $form->end();?>

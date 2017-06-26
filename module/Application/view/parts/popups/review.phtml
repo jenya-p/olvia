@@ -1,0 +1,53 @@
+<?
+use Common\ViewHelper\Phone;
+
+/* @var $this Common\View */
+$this->headLink()->appendStylesheet("/site/css/_review-form.css");
+$this->inlineScript()->appendFile("/site/js/_review-form.js");
+
+?>
+
+<div class="twm-popup" id="reviewPopup" >
+   	<form action="<?= $this->url('reviews-post') ?>" method="post" class="form">
+   		<input type="hidden" name="subject" value="<?= $this->subject ?>">
+   		<? if (!isset($this->header)){ ?>
+   		<h3>Оставить отзыв</h3> 
+   		<? } else if (!empty($this->header)) { ?>
+   		<h3><?= $this->header ?></h3> 
+   		<? } ?>
+   		 
+		<p class="error-msg">Заполните все поля</p>
+		
+		<div class="field">
+			<label class="required">Ваше имя</label>
+			<input type="text" name="name" value="<?= $this->identity()->displayname ?>"/>
+		</div>
+		
+		<div class="field">
+			<label>Телефон для связи с Вами</label>
+			<input type="text" name="phone" style="font-family: Consolas,Monaco,Lucida Console,monospace"
+				value ="<?= Phone::format( $this->identity()->phone) ?>" />
+		</div>
+				
+		<div class="field">
+			<label>Ссылка на страницу VK или FB</label>
+			<input type="text" name="social" placeholder="http://" value="<?= $this->identity()->social ?>"/>
+		</div>
+		
+		<div class="field">
+			<label class="required">Ваш отзыв <?= $reviewSubject ?></label>
+			<textarea name="message" ></textarea>
+		</div>
+		<div class="buttons">
+			<a href="javascript:;" class="button light twm-close" >Отмена</a>
+			<button type="submit" class="button purple" >Отправить</button>	
+		</div>
+	</form>
+	<div class="done">
+		<h3>Оставить отзыв</h3>
+		<p>Спасибо за Ваш отзыв.<br/>Скоро он будет размещен на сайте</p>
+		<div class="buttons">			
+			<a href="javascript:;" class="button purple twm-close" >OK</a>
+		</div>
+	</div>
+</div>

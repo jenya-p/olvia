@@ -1,0 +1,48 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+$this->assets(['image-upload', 'user-select']);
+$this->sidebar()->left('admin/content/diplom/diplom-edit.left.phtml', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("Новый диплом");
+} else {
+	$this->headTitle($item['title'] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/diplomas-index') ?>">Дипломы</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новый диплом";
+} else {
+	echo $this->item['title'];
+}?>
+</h1>
+
+<?= $form->start() ?>
+
+
+<table class="form-wrapper-table">
+	<tr>
+		<td class="left-cell common-group">
+		<h2 id="common">Общая информация</h2>
+			<?= $form('title') ?>
+			<?= $form('status') ?>
+			<?= $form('home') ?>
+			<?= $form('priority') ?>
+			<?= $form('master_id') ?>
+		</td>
+		<td class="right-cell image-group">
+		<h2 id="common">Изображение</h2>
+			<?= $form('image') ?>
+		</td>
+	</tr>
+</table>
+
+<?= $form('*') ?>
+<?= $form->end();?>

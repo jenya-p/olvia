@@ -1,0 +1,22 @@
+<?
+/* @var $this Common\View */
+$item=$this->item;
+$this->seo($item);
+$this->inlineScript()->appendFile("/site/js/master.js");
+$this->headLink()->appendStylesheet('/site/css/master.css');
+$this->layout("layout/home");
+?>
+
+
+<?= $this->partial('application/master/view.main.phtml', $this->vars()) ?>
+<div class="clr"></div>
+<?= $this->partial('application/master/view.consultation.phtml', $this->vars()) ?>
+<div class="clr"></div>
+<?= $this->partial('application/master/view.courses.phtml', $this->vars()) ?>
+<div class="clr"></div>
+<?= $this->partial('application/master/view.education.phtml', $this->vars()) ?>
+<div class="clr"></div>
+<?= $this->partial('application/master/view.reviews.phtml', $this->vars()) ?>
+
+
+

@@ -1,0 +1,38 @@
+.page-contacts .main{}
+.page-contacts .main .white-bg{padding-bottom: 3.7em;}
+.page-contacts .main .info{margin: 3em 60px 4em 60px;}
+
+.page-contacts .main h4{margin-top: 0}
+.page-contacts .main .phones{width: 34%;float: left;text-align: center;}
+.page-contacts .main .work-time{width: 31%;float: left;text-align: center;}
+.page-contacts .main .to-right{width: 30%;float: right;text-indent: 2em;font-size: 0.9em;}
+
+.page-contacts .main .phone {font-size: 1.2em;display: block;margin: 10px 0}
+.page-contacts .main .phones .call-time{font-size: 0.9em;margin-top: 0.4em;/* margin-left: 1.5em; */}
+.page-contacts .main .email{margin-top: 1.2em} 
+
+.page-contacts .main table{
+    width: 100%;
+    margin-top: 40px;
+}
+.page-contacts .main table td{width: 50%;
+    padding: 0 60px;
+}
+.page-contacts .main table td:FIRST-CHILD{border-right: 1px dashed gray}
+.page-contacts .main h2 {
+    font-size: 1.4em;
+    margin-top: 0;
+}
+.page-contacts .main h2 span {
+    display: block;
+    font-size: 0.7em;
+}
+.page-contacts section.map{padding: 0; height: 300px; background: transparent url(/site/img/map-1.jpeg) center center;}
+
+.page-contacts section.requizites{margin-top: 2em;text-align: center;}
+.page-contacts section.requizites label{   font-weight: lighter;	}
+.page-contacts section.requizites .columns{-webkit-column-count: 2;column-count: 2;-moz-column-count: 2;margin: 30px 170px;text-align: left;-webkit-column-gap: 100px;-moz-column-gap: 100px;column-gap: 100px;}
+.page-contacts section.requizites .columns p{    white-space: nowrap;}
+.page-contacts section.requizites .columns label{   width: 50%;    display: inline-block;    text-align: right;
+    padding-right: 40px; }
+.page-contacts section.requizites .columns span{}

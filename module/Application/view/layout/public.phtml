@@ -1,0 +1,37 @@
+<?
+use Common\View;
+use Zend\View\Renderer\PhpRenderer;
+use Common\ViewHelper\Assets;
+
+/* @var $this View */
+$route = $this->routeName();
+if($route == 'login'){
+	$route = 'register';
+}
+
+?><?= $this->doctype(); ?>
+<html lang="RU-ru">
+<?= $this->partial('head.phtml'); ?>
+<body class="page-<?= $route ?>">
+	<?php
+		echo $this->flash('/parts/flash.phtml');
+	?>
+	<div class="lay-wrapper">
+		<? echo $this->partial('header.phtml', ['route' => $route]);?>
+		
+		<section class="main">
+			<div class="lay-wrapper-inner">
+			<? echo $this->content; ?>			
+			<div class="clear"></div>
+			</div>
+		</section>
+		
+		<div class="lay-footer-placeholder"></div>
+	</div>		
+	
+<?= $this->partial('footer.phtml');?>	
+
+<?= $this->popup() ?>
+
+</body>
+</html>

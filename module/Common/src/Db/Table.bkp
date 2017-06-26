@@ -1,0 +1,104 @@
+<?
+namespace Common\Db;
+
+use Common\Db\Adapter;
+use Zend\Db\Sql\Select as SqlSelect;
+use Zend\Db\Sql\Sql;
+use Zend\Db\TableGateway\AbstractTableGateway;
+use Zend\ServiceManager\ServiceLocatorInterface;
+
+
+class Table extends AbstractTableGateway {
+	
+	/**
+	 * @return \Common\Db\Adapter	*/
+	public function getAdapter(){
+		return parent::getAdapter();	
+	}
+	
+	/**
+	 * @return array 
+	 * */
+	public function fetchRow($select){		
+		return $this->getAdapter()->fetchRow($select);
+	}
+	
+	/**
+	 * @return array
+	 * */
+	public function fetchAll($select){
+		return $this->getAdapter()->fetchAll($select);
+	}
+	
+	var $cache = [];
+	
+	public function get($id){
+		$id = $this->id($id);
+		if(!isset($this->cache[$id])){
+			$select = new SqlSelect($this->table);
+			$select->where->equalTo('id', $id);			
+			$this->cache[$id] = $this->getAdapter()->fetchRow($select);
+		}	
+		return $this->cache[$id];
+	}
+	
+	public function getNextId(){
+		return $this->getAdapter()->fetchOne('select max(id) from '.$this->info('name')) + 1;
+	}
+	
+	public function clearCache($id = null){
+		if($id === null){
+			$this->cache = [];
+		} else {
+			unset($this->cache[$id]);
+		}
+		return $this;
+	}
+	
+	public function insert($insert){
+		$res = parent::insert($insert);
+		if($res!=0){
+			return $this->lastInsertValue;
+		} else {
+			return null;
+		}
+	}
+	
+	public function updateOne($update, $id){
+		unset($this->cache[$id]);
+		return parent::update($update, "id=$id"); 
+	}
+	
+	/**
+	 * @return string
+	 * */
+	public function sql2Str(SqlSelect $select){
+		$sql = new Sql($this);
+		echo $sql->buildSqlString($select);		
+	}
+	 	
+	private $serviceLocator;
+	/**
+	 * Сурвис локатор
+	 * @param String $serviceName
+	 */
+	public function serv($serviceName) {
+		return $this->serviceLocator->get($serviceName);
+	}
+	
+	public function setServiceLocator(ServiceLocatorInterface $sl){
+		$this->serviceLocator = $sl;
+	}
+
+	
+	public function id($item){
+		if(is_numeric($item)) {
+			return $item;
+		} else if(is_array($item) && is_numeric($item['id'])){
+			return $item['id'];
+		}
+		return null;
+		// throw new \Exception('ID is not valid');
+	}
+
+}

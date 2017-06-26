@@ -1,0 +1,64 @@
+<?
+/* @var $this Common\View */
+$this->headTitle("Видео");
+
+$this->sidebar()->left('admin/content/video/video-index.filter.phtml', $this->vars());
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+</ul>
+<h1 class="page-header">Видео <small><?= $this->counts['count'] ?></small></h1>
+
+<table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
+	<thead>
+		<tr>
+			<th style="width: 60px" class="tc">№</th>
+			<th></th>
+			<th>Название</th>
+			<th>УРЛ</th>
+			<th>Альбом</th>
+			<th class="tr">Дата публикации</th>
+			<th>Автор</th>
+			<th class="tc">Приоритет</th>
+			<th class="tc">Просмотров</th>
+			<th></th>
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {
+	
+		?>
+	<tr data-href="<?=$this->url('private/video-edit', ['id' => $item['id']])?>">
+		<td class="tc"><?= $item['id']?></td>
+		<td class="image">
+			<img src="<?= $this->image( $item['thumb'], 75, 25 ) ?>" />
+		</td>
+		<td><?= $item['title'] ?></td>
+		<td><?= $item['alias'] ?></td>
+		<td>
+			<? if (!empty($item['videoalbum_id'])) { ?>
+			<a href="<?= $this->url('private/videoalbum-edit', ['id' => $item['videoalbum_id']]) ?>">
+			<?= $item['videoalbum_title'] ?>
+			</a>
+			<? } ?>
+		</td>
+		<td>
+			<?= $this->html()->date($item['created'],'d M Y') ?>
+		</td>
+		
+		<td><?= $item['author_displayname'] ?></td>
+		<td class="tc"><?= $item['priority'] ?></td>
+		<td class="tc"><?= $item['views'] ?></td>
+		<td class="options">
+			<a href="<?= $this->url('private/video-status', ['id' => $item['id']]) ?>" class="item-status">
+				<i class="fa fa-check <?= $item['status'] ? 'active': '' ?>"></i></a>
+				
+			<a href="<?= $this->url('private/video-status', ['id' => $item['id'], 'field' => 'top']) ?>" class="item-top" title="Показывать в блоке Самое интересное">
+				<i class="fa fa-thumbs-up <?= $item['top'] ? 'active': '' ?>"></i></a>
+				
+			<a href="<?= $this->url('private/video-delete', ['id' => $item['id']]) ?>" class="fa fa-trash item-delete"></a>			
+		</td>
+	</tr>
+	<?}?>
+</table>	
+
+<?= $this->html()->pages($this->page, $this->pageCount)?>

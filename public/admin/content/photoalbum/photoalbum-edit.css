@@ -1,0 +1,12 @@
+.lay-left-sidebar .upload-link{  width: 100%; box-sizing: border-box; text-align: center;}
+.lay-left-sidebar #fileUploadInput{width: 0; height: 0; position: absolute; top: -5000px;}
+
+.photo-wrp {display: flex; width: 100%; flex-wrap: wrap;justify-content:flex-start; margin: 0 -5px}
+.photo-wrp .photo-block{text-align: center;flex-grow: 0;margin: 5px;position: relative;}
+.photo-wrp .photo-block .fancy {display: block;}
+.photo-wrp .photo-block .fancy img {}
+.photo-wrp .photo-block .photo-delete {padding: 2px 6px;margin-top: -40px;display: inline-block;color: #ccc;}
+.photo-wrp .photo-block .photo-status {padding: 2px 6px;display: inline-block;}
+.photo-wrp .photo-block .photo-edit{padding: 2px 6px;display: inline-block;color: #666;}
+.photo-wrp .photo-block .photo-status .fa-eye-slash{color: #ccc;}
+.photo-wrp .photo-block .photo-status .fa-eye{color: #0bad0b;}

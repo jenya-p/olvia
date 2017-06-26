@@ -1,0 +1,25 @@
+<?
+/* @var $this Common\View */
+/* @var $master_prices array */
+$master_prices = $this->master_prices;
+if($this->form){
+	$value = $this->form->field('tarif_id')->value();
+} else {
+	$value = $this->value;
+}
+
+?>
+<? foreach ($master_prices as $price){ ?>
+<tr class="item">
+	<td>
+		<?= $this->html()->radio($price['name'], 'tarif_id', $price['id'], $value) ?>					
+	</td>
+	<td><?= $price['price'] ?></td>
+	<td><?= $price['price_desc'] ?></td>
+	<td>
+		<? if( $price['status'] ){ ?>
+		<i class="fa fa-check"></i>
+		<? } ?>
+	</td>
+</tr>
+<? } ?>

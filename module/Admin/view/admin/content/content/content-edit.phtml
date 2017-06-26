@@ -1,0 +1,60 @@
+<?
+use Common\ViewHelper\Assets;
+
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\ContentForm */
+/* @var $item array */
+$item = $this->item;
+$this->assets([Assets::CKEDITOR, 'user-select', 'image-upload', 'tag-select']);
+
+$this->sidebar()->left('admin/content/content/content-edit.left.phtml', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("Новый раздел");
+} else {
+	$this->headTitle($item ['title_ru'] . " №" . $this->id);	
+}
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>
+	<li><a href="<?= $this->url('private/content-index') ?>">Статьи</a></li>
+</ul>
+<h1 class="page-header">
+<?php 
+if ($this->isNew) {
+	echo "Новая статья";
+} else {
+	echo $item['title'];
+}?>
+</h1>
+
+<?= $form->start('');?>
+
+<div class="minimizable">
+	<table class="form-wrapper-table">
+		<tr>
+			<td class="left-cell common-group" rowspan="2">
+				<h2>Общая информация <a href="javascript:;" class="minimize-link"></a></h2>
+				<?= $form()->to('tags', false) ?>
+			</td>
+			<td class="right-cell seo-group">
+				<h2>SEO<a href="javascript:;" class="minimize-link"></a></h2>
+				<?= $form('seo_title')->to('seo_keywords', true) ?>	
+			</td>
+		</tr>
+		<tr>
+			<td class="right-cell tags-group">
+				<h2>Теги</h2>			
+				<?= $form('tags')?>
+			</td>
+		</tr>
+	</table>
+</div>
+<div class="body-group minimizable">	
+	<h2>Текст статьи<a href="javascript:;" class="minimize-link"></a></h2>
+	<?= $form('body') ?>
+</div>
+
+<?= $form('submit') ?>
+
+<?= $form->end(); ?>

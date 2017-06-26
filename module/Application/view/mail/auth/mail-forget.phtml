@@ -1,0 +1,11 @@
+<?
+/* @var $this Common\View; */
+$baseUrl = $this->config('base_url');
+?>
+<h3>
+	Восстановление достпа на сайте <a href="<?= $baseUrl ?>">olvia center</a>
+</h3>
+<p>Здравствуйте, <?= $user['displayname'] ?></p>
+<p>Для восстановления доступа перейдите по <a href="<?= $baseUrl ?>/forget/code?code=<?= $this->code ?>">ссылке</a></p>
+<p>Или введите код  <strong><?=$this->code ?></strong> на <a href="<?= $baseUrl ?>/forget/code">этой странице</a></p>
+<p>Если вы не теряли пароль от нашего сайта и не пытались его восстановить, просто проигнорируйте это письмо.</p>

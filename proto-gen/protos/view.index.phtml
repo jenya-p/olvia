@@ -1,0 +1,44 @@
+<?= '<?' ?>
+
+/* @var $this Common\View */
+$this->headTitle("<?= $entity->title ?>");
+
+$this->sidebar()->left('<?
+
+echo 'admin/'.$entity->getViewPathAndName().'-index.filter.phtml';
+?>', $this->vars());
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= '<?' ?>= $this->url('private') ?>">Главная</a></li>	
+</ul>
+<h1 class="page-header"><?= $entity->title ?> <small><?= '<?' ?>= $this->counts['count'] ?></small></h1>
+
+<table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
+	<thead>
+		<tr>
+			<th style="width: 60px" class="tc">№</th>
+<? if(!empty($entity->fields)) foreach ($entity->fields as $field){ ?>
+			<th><?= $field['title'] ?></th>
+<? } ?>
+			<th></th>
+		</tr>
+	</thead>
+	<?= '<?' ?>foreach ($this->items as $item) {?>
+	<tr data-href="<?= '<?' ?>=$this->url('private/<?= $entity->route ?>-edit', ['id' => $item['id']])?>">
+		<td class="tc"><?= '<?' ?>= $item['id']?></td>
+<? if(!empty($entity->fields)) foreach ($entity->fields as $field){ ?>
+		<td><?= '<?' ?>= $item['<?= $field['name'] ?>'] ?></td>
+<? } ?>
+		<td class="options">
+			<? if(isset($entity->fields['status'])){
+			?> <a href="<?= '<?' ?>= $this->url('private/<?= $entity->route ?>-status', ['id' => $item['id']]) ?>" class="item-status">
+				<i class="fa fa-check <?= '<?' ?>= $item['status'] ? 'active': '' ?>"></i></a>
+			<? }
+			?>
+	<a href="<?= '<?' ?>= $this->url('private/<?= $entity->route ?>-delete', ['id' => $item['id']]) ?>" class="fa fa-trash item-delete"></a>			
+		</td>
+	</tr>
+	<?= '<?' ?>}?>
+</table>	
+
+<?= '<?=' ?> $this->html()->pages($this->page, $this->pageCount) ?>

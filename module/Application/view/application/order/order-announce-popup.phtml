@@ -1,0 +1,42 @@
+<?
+/* @var $this Common\View */
+$event = $this->event;
+$course = $this->course;
+?>
+<div class="twm-popup course-order-popup" style="background-image: url(<?= $this->image($course['image'], 456, 150) ?>);">
+
+	<h3>Предварительная запись на &laquo;<?= $event['title'] ?>&raquo;</h3>
+		
+	<form action="<?= $this->url('order-event') ?>" class="form form-course-order" id="courseOrderForm" method="POST">
+	
+		<input type="hidden" name="event" value="<?= $event['id'] ?>" />
+		<div class="field field-tarif"> 
+			<p class="clr-after date">
+				<span class="to-left"><i class="icon-calendar"></i> <?= $event['date_text'] ?></span>
+				<? if(! empty($event['time_text'])) { ?>
+				<span class="to-right"><i class="icon-clock"></i> 
+					<? if(!empty($event['time_text_from'])){ ?>
+						c <?= $event['time_text_from'] ?>
+					<? if(!empty($event['time_text_till'])){ ?>
+						до <?= $event['time_text_till'] ?>
+					<? } ?>
+					<? } else { ?> 
+					<?= $event['time_text_duration'] ?>
+					<? } ?>
+				</span>
+				<? } ?>
+			</p>
+		</div>		
+				
+		<div class="field field-message">
+			<label class="label">Дополнительная информация о Вас</label>
+			<textarea name="message"></textarea>
+		</div>
+				
+		<div class="button-group">
+			<a href="<?= $this->url('course-view', ['alias' => $course['alias']]) ?>" class="button light">Подробнее...</a>
+			<button type="submit" class="button purple">Записаться</button>			
+		</div>	
+			
+	</form>
+</div>	

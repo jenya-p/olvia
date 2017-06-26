@@ -1,0 +1,75 @@
+<?
+use Common\ViewHelper\Assets;
+
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+
+$this->sidebar()->left('admin/content/video/video-edit.left.phtml', $this->vars());
+
+$this->assets([Assets::CKEDITOR, 'user-select', 'image-upload']);
+
+if ($this->isNew) {
+	$this->headTitle("Новой видео");
+} else {
+	$this->headTitle($item['title'] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/video-index') ?>">Видео</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новой видео";
+} else {
+	echo $this->item['title'];
+}?>
+</h1>
+
+<?= $form->start() ?>
+
+<div class="minimizable">
+<table class="form-wrapper-table">
+	<tr>
+		<td class="left-cell common-group" rowspan="2">	
+			<h2>Общая информация <a href="javascript:;" class="minimize-link"></a></h2>
+			<?= $form('title') 	?>
+			<?= $form('alias') 	?>
+			<?= $form('status') ?>
+			<?= $form('top') ?>
+			<?= $form('priority') ?>				
+			
+			
+			<?= $form('videoalbum_id') 	?>
+			<?= $form('author') ?>
+			<?= $form('created') ?>			
+		</td>
+		<td class="right-cell seo-group">
+			<h2>Видео <a href="javascript:;" class="minimize-link"></a></h2>
+			<?= $form('thumb') ?>
+			<? if($this->isNew) {
+				$form->field('link')->label(['text' => "Ссылка на ролик", 'extra' => ' style="font-weight: bold;"']);
+			} ?> 
+			<?= $form('link') ?>
+			<?= $form('html') 	?>			
+		</td>
+	</tr>
+</table>
+</div>
+
+
+<div class="priview-group minimizable">
+	<h2>Содержание ролика <a href="javascript:;" class="minimize-link"></a></h2>
+	<?= $form('body') 	?>		
+</div>
+<div class="priview-group minimizable">
+	<h2>SEO <a href="javascript:;" class="minimize-link"></a></h2>			
+	<?= $form('seo_title') ?>
+	<?= $form('seo_description') ?>
+	<?= $form('seo_keywords') ?>	
+</div>
+<?= $form('*') ?>
+<?= $form->end();?>
+

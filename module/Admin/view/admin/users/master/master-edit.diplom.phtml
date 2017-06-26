@@ -1,0 +1,11 @@
+<?
+/* @var $this Common\View */
+?>
+<div class="item">
+	<a href="<?= $this->image()->normalizeUrl($this->diplom['image']) ?>" class="fancy" title="<?= $this->diplom['title'] ?>" data-fancybox="gallery">
+		<img src="<?= $this->image($this->diplom['image'], null, 100) ?>" />
+	</a>			
+	<a href="<?= $this->url('private/diplomas-status', ['id' => 	$this->diplom['id']])?>" 	class="status" 	title="Скруть / показать на сайте"><i class="fa<?= $this->diplom['status'] == 1 ? ' fa-eye':' fa-eye-slash' ?>"></i></a>
+	<a href="<?= $this->url('private/diplomas-edit', ['id' => 	$this->diplom['id']])?>" 		class="edit" 	title="Редактировать"><i class="fa fa-edit"></i></a>
+	<a href="<?= $this->url('private/diplomas-delete', ['id' => 	$this->diplom['id']])?>" 	class="delete" 	title="Удалить изображение"><i class="fa fa-trash"></i></a>						
+</div>

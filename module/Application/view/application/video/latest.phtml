@@ -1,0 +1,26 @@
+<?
+/* @var $this Common\View */
+$album = $this->album;
+
+$this->assets(['fancybox']);
+
+$this->headLink()->appendStylesheet("/site/css/photo-album.css");
+$this->inlineScript()->appendFile("/site/js/photo-album.js");
+
+?>
+
+<ul class="breadcrumb">
+	<li><a href="/home.php">Главная</a></li>
+	<li><a href="<?= $this->url('photo-index') ?>">Фотоальбомы</a></li>
+	<li>Последние добавленные фото</li>
+</ul>
+
+<h1>Последние добавленные фото</h1>
+
+<div class="photoalbum-wrp">
+	<? foreach ($this->photos as $photo){ ?>
+	<? echo $this->partial('application/photo/album.item.phtml', ['photo'=>$photo]); ?>		
+	<? } ?>
+</div>
+
+<?= $this->content('photo-latest', true); ?>

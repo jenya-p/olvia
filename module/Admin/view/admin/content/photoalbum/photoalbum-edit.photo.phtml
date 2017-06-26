@@ -1,0 +1,11 @@
+<?
+/* @var $this Common\View */
+?>
+<div class="photo-block">
+	<a href="<?= $this->image()->normalizeUrl($this->photo['image']) ?>" class="fancy" title="<?= $photo['title'] ?>" data-fancybox="gallery">
+		<img src="<?= $this->image($this->photo['image'], null, 100) ?>" />
+	</a>			
+	<a href="<?= $this->url('private/photo-status', ['id' => $this->photo['id']])?>" class="photo-status" title="Скруть / показать на сайте"><i class="fa<?= $photo['status'] == 1 ? ' fa-eye':' fa-eye-slash' ?>"></i></a>
+	<a href="<?= $this->url('private/photo-edit', ['id' => $this->photo['id']])?>" class="photo-edit" title="Редактировать"><i class="fa fa-edit"></i></a>
+	<a href="<?= $this->url('private/photo-delete', ['id' => $this->photo['id']])?>" class="photo-delete" title="Удалить изображение"><i class="fa fa-trash"></i></a>						
+</div>
