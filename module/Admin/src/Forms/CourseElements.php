@@ -65,4 +65,50 @@ trait CourseElements {
 	}
 	
 	
+	
+	protected function htmlCourses(Element $element){
+		
+		$element->addClass('courses-add');
+		$extras = $element->extraString();
+		
+		$ret = '';
+		$ids = [];
+
+		foreach ($element->value() as $courseId){
+			$course = $element->option($courseId);
+			
+			$courseData = $course->label();
+			
+			$ret .= '<tr data-id="'.$course->value().'">
+						<td>'.$course->label().'</td>	
+						<td class="options">
+							<a href="javascript:;" class="fa fa-remove course-remove"></a>
+						</td>
+					</tr>';
+			$ids[] = $course->value();
+		}
+		
+		$ret = '<table class="item-list">
+					<tr>
+						<th>Курс</th>
+						<th></th>
+					</tr>
+					'.$ret.'</table>';
+		
+		$ret .= '<input type="hidden" name="'.$element->name().'" value="'.implode(',', $ids).'" id="'.$element->id().'_hidden" class="courses-hidden"/>'."\n".
+				'<input type="text" value="" '.$extras.' placeholder="Добавить курс"/>';
+		
+		return '<div class="courses-field-wrapper">'.$ret.'</div>';
+	}
+	
+	protected function parseCourses(Element $element, $data){
+		if(!isset($data[$element->name()]) || empty($data[$element->name()])){
+			$element->value([]);
+			return ;
+		}
+		$val = explode(',', $data[$element->name()]);
+		$element->value($val);
+	}
+	
+	
 }

@@ -53,8 +53,8 @@ class InitialImportController extends AbstractConsoleController
 // 		$this->importEvents();
 // 		$this->processTags();
 		
-		$this->createArticles();
-		
+//		$this->createArticles();
+
 		echo 'done';
 	}
 	
@@ -813,5 +813,9 @@ create table olvia.temp_content
 			echo $srch."\t".$alias;
 		}
 	}	
+	
+	
+	
+	
 	
 }

@@ -97,18 +97,18 @@ class HistoryWriter {
     	}    	
     }
 
-    public function writeArrayDiff($attr, $newVal = [], $oldVal, $extra=null, $extra2=null){
+    public function writeArrayDiff($attr, $newVal = [], $oldVal = [], $extra=null, $extra2=null){
     	if(in_array('add_'.$attr, $this->attrs)){    		
     		foreach ($newVal as $nId){
     			if(!in_array($nId, $oldVal)){
-    				$this->write('add_'.$attr, $nId);
+    				$this->write('add_'.$attr, $nId, null, $extra, $extra2);
     			}
     		}
     	}
     	if(in_array('remove_'.$attr, $this->attrs)){
     		foreach ($oldVal as $oId){
     			if(!in_array($oId, $newVal)){
-    				$this->write('remove_'.$attr, null, $oId);
+    				$this->write('remove_'.$attr, null, $oId, $extra, $extra2);
     			}
     		}
     	}

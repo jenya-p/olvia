@@ -27,4 +27,6 @@ jQuery(function(){
 		
 	$('[name=tags]', form).tagSelect();
 	
+	$('[name=courses]', form).courseMultiSelect();
+	
 })

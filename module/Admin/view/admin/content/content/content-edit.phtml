@@ -5,7 +5,7 @@ use Common\ViewHelper\Assets;
 /* @var $form Admin\Forms\Content\ContentForm */
 /* @var $item array */
 $item = $this->item;
-$this->assets([Assets::CKEDITOR, 'user-select', 'image-upload', 'tag-select']);
+$this->assets([Assets::CKEDITOR, 'user-select', 'image-upload', 'tag-select','course-select']);
 
 $this->sidebar()->left('admin/content/content/content-edit.left.phtml', $this->vars());
 
@@ -33,7 +33,7 @@ if ($this->isNew) {
 <div class="minimizable">
 	<table class="form-wrapper-table">
 		<tr>
-			<td class="left-cell common-group" rowspan="2">
+			<td class="left-cell common-group">
 				<h2>Общая информация <a href="javascript:;" class="minimize-link"></a></h2>
 				<?= $form()->to('tags', false) ?>
 			</td>
@@ -42,10 +42,18 @@ if ($this->isNew) {
 				<?= $form('seo_title')->to('seo_keywords', true) ?>	
 			</td>
 		</tr>
+	</table>
+</div>
+<div class="minimizable">
+	<table class="form-wrapper-table">
 		<tr>
-			<td class="right-cell tags-group">
-				<h2>Теги</h2>			
+			<td class="left-cell tags-group">
+				<h2>Теги <a href="javascript:;" class="minimize-link"></a></h2>
 				<?= $form('tags')?>
+			</td>		
+			<td class="right-cell courses-group">
+				<h2>Связанные курсы <a href="javascript:;" class="minimize-link"></a></h2>
+				<?= $form('courses')?>
 			</td>
 		</tr>
 	</table>

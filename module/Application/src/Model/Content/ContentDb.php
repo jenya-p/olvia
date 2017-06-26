@@ -10,10 +10,13 @@ use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Update;
 use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Join;
+use Common\Traits\ServiceManagerTrait;
+use Common\Traits\ServiceManagerAware;
+use Application\Model\Courses\CourseDb;
 
-class ContentDb extends Table implements Multilingual {
+class ContentDb extends Table implements Multilingual, ServiceManagerAware {
 
-	use MultilingualTrait;
+	use MultilingualTrait, ServiceManagerTrait;
 	
 	protected $table = 'content';		
 
@@ -55,6 +58,25 @@ class ContentDb extends Table implements Multilingual {
 	
 		return $this->fetchAll($select);
 	
+	}
+	
+	
+	public function getCourses($id){
+		/* @var $courseDb CourseDb */
+		$courseDb = $this->serv(CourseDb::class);
+			
+		$select = new Select(['c' => 'courses']);
+		$select->join(['c2c' => 'content_content2course'], 'c2c.course_id = c.id', [], Join::JOIN_INNER);
+		$select->where
+			->equalTo('c2c.content_id', $id)
+			->and->equalTo('c.status', 1);
+		
+		$select
+			->order('c.status desc')
+			->order('c.priority desc')
+			->order('c.id asc');
+		
+		return $courseDb->fetchAll($select);		
 	}
 	
 }

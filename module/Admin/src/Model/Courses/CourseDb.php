@@ -135,7 +135,8 @@ class CourseDb extends Table implements CRUDListModel, Multilingual, Historical,
 		if(!empty($course)){
 			return [
 				'label' => $course['title'],
-				'alias' => $course['alias']
+				'alias' => $course['alias'],
+				'status' => $course['status']
 			];			
 		} else {
 			null;
@@ -143,9 +144,9 @@ class CourseDb extends Table implements CRUDListModel, Multilingual, Historical,
 	}
 	
 	public function optionName($key){
-		$tag = $this->option($key);
-		if(!empty($tag)){
-			return $tag['name'];
+		$course = $this->option($key);
+		if(!empty($course)){
+			return $course['label'];
 		} else {
 			return null;
 		}

@@ -146,7 +146,7 @@ trait BaseElements{
 		if(empty($val)){
 			$element->value(null);
 		} else {
-			$format = $element->extraParam('format', 'd.m.Y');
+			$format = $element->extraParam('format', '!d.m.Y');
 			/* @var $dt \DateTime */			
 			$dt = \DateTime::createFromFormat($format, $val);
 			$element->value($dt->getTimestamp());

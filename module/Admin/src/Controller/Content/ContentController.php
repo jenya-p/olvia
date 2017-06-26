@@ -65,6 +65,7 @@ class ContentController extends CRUDController implements CRUDEditModel{
 	public function load($id) {
 		$item = $this->db->get($id);
 		$item['tags'] = $this->tagDb->getItemTags('content', $id);
+		$item['courses'] = $this->db->getArticleCourseIds($id);
 		return $item;
 	}
 
@@ -90,7 +91,11 @@ class ContentController extends CRUDController implements CRUDEditModel{
 
     	$tags = $data['tags'];
     	unset($data['tags']);
-    	 
+
+    	$courses = $data['courses'];
+    	unset($data['courses']);
+    	
+    	
     	if($this->isNew){    		
     		$this->id = $this->db->insert($data);    		
     		if($this->id == null) throw new \Exception("Не удалось создать аккаунт");
@@ -99,8 +104,10 @@ class ContentController extends CRUDController implements CRUDEditModel{
     	}    
     	
     	$this->db->saveTagHistory($tags, $this->item['tags'], $this->id);
-
     	$this->tagDb->saveItemTags('content', $this->id, $tags);
+    	
+    	$this->db->saveArticleCourseIds($this->id, $courses);
+    	
     	
     	return $this->id;
     }
@@ -121,9 +128,9 @@ class ContentController extends CRUDController implements CRUDEditModel{
     	if(!$this->isNew){
     		$this->layout()->site_url = $this->url()->fromRoute('content-article', ['alias' => $this->item['alias']]);
     	}
-    	return [
-    		'stat' => $this->db->getStat($this->item['id'])
-    	];
+    	$ret = [];
+    	$ret['stat'] = $this->db->getStat($this->item['id']);    	
+    	return $ret;
     }    
     
     

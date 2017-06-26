@@ -307,7 +307,7 @@ button:ACTIVE, submit:ACTIVE, input[type=submit]:ACTIVE, input[type=reset]:ACTIV
 .form .group-buttons .cancel-button{width: 45px; padding: 0; text-align: center;}
 .form .group-buttons .cancel-button i{margin: 0}
 
-.form .form-wrapper-table{/* width: 100% */}
+.form .form-wrapper-table{ width: 100% }
 .form .form-wrapper-table .left-cell{padding-right: 25px;}
 .form .form-wrapper-table .right-cell{padding: 0 0 0 2vw;width: 50%;}
 

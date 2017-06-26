@@ -14,6 +14,8 @@ use Common\Db\HistoricalTrait;
 use Zend\Db\Sql\Join;
 use Common\Traits\ServiceManagerAware;
 use Common\Traits\ServiceManagerTrait;
+use Admin\Model\Courses\CourseDb;
+use Zend\Db\Sql\Sql;
 
 class ContentDb extends Table implements CRUDListModel, Multilingual, Historical, ServiceManagerAware {
 
@@ -110,24 +112,22 @@ class ContentDb extends Table implements CRUDListModel, Multilingual, Historical
 	
 	public function saveTagHistory($newTagIds, $oldTagsIds, $id){
 		$historyWriter = $this->getHistoryWriter(null, null, $id);
-		foreach ($newTagIds as $nId){
-			if(!in_array($nId, $oldTagsIds)){
-				$historyWriter->write('add_tag', $nId);
-			}
-		}
-		foreach ($oldTagsIds as $oId){
-			if(!in_array($oId, $newTagIds)){
-				$historyWriter->write('remove_tag', null, $oId);
-			}
-		}
+		$historyWriter->writeArrayDiff($attr,$newTagIds,$oldTagsIds);		
 	}
 
 	public function readHistory($id) {
 		$historyReader = $this->getHistoryReader($id);
+		
 		$tagDb = $this->serv(TagDb::class);
-		$tagDict = [$tagDb, 'optionName'];
+		$tagDict = [$tagDb, 'optionName'];		
 		$historyReader->addDictionary('add_tag', $tagDict);
 		$historyReader->addDictionary('remove_tag', $tagDict);
+		
+		$courseDb = $this->serv(CourseDb::class);
+		$dict = [$courseDb, 'optionName'];
+		$historyReader->addDictionary('add_course', $dict);
+		$historyReader->addDictionary('remove_course', $dict);
+		
 		return $historyReader->getRecordsByDate();
 	}
 
@@ -139,6 +139,50 @@ class ContentDb extends Table implements CRUDListModel, Multilingual, Historical
 		return $stat;
 	}
 	
+	
+	var $courseIdsCache = [];
+	
+	public function getArticleCourseIds($id){
+		if(!array_key_exists($id, $this->courseIdsCache)){
+			
+			$select = new Select(['c' => 'courses']);
+			$select->reset(Select::COLUMNS)
+				->columns(['id']);
+			$select->join(['c2c' => 'content_content2course'], 'c2c.course_id = c.id', [], Join::JOIN_INNER);
+			$select->where->equalTo('c2c.content_id', $id);
+			$select
+				->order('c.status desc')
+				->order('c.priority desc')
+				->order('c.id asc');
+			
+			$result = $select->fetchColumn();
+			$this->courseIdsCache[$id] = $result;
+			
+		}
+		return  $this->courseIdsCache[$id];
+	}
+	
+	public function saveArticleCourseIds($articleId, $courseIds){
+		$oldValues = $this->getArticleCourseIds($articleId);
+
+		$historyWriter = $this->getHistoryWriter(null, null, $articleId);
+		$historyWriter->writeArrayDiff('course', $courseIds, $oldValues);
+				
+		$sql = new Sql( $this->getAdapter() );
+		$delete = $sql->delete('content_content2course');
+		$delete->where->equalTo('content_id', $articleId);		
+		$sql->prepareStatementForSqlObject($delete)->execute();
+		
+		$courseIds = array_unique($courseIds);
+		$priority = 0;
+		foreach ($courseIds as $courseId){
+			$insert = [
+					'content_id' => $articleId,
+					'course_id' => $courseId,
+			];
+			$this->getAdapter()->insert('content_content2course', $insert);
+		}
+	}
 	
 	
 }

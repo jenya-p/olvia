@@ -13,13 +13,15 @@ use Admin\Forms\ImageElements;
 use Admin\Model\Content\TagDb;
 use Admin\Forms\TagElements;
 use Admin\Model\Content\DivisionDb;
+use Admin\Forms\CourseElements;
+use Admin\Model\Courses\CourseDb;
 
 /**
  * @Service(name="Admin\Forms\Content\ContentForm")
  */
 class ContentForm extends Form implements ServiceManagerAware, Initializable{
 	
-	use ServiceManagerTrait, UsersElements, ImageElements, TagElements;
+	use ServiceManagerTrait, UsersElements, ImageElements, TagElements, CourseElements;
 	
 	var $defaultElementDecorator = 'default';
 		
@@ -27,6 +29,7 @@ class ContentForm extends Form implements ServiceManagerAware, Initializable{
 		
 		$userDb = $this->serv(UserDb::class);
 		$tagDb = $this->serv(TagDb::class);
+		$courseDb = $this->serv(CourseDb::class);
 		
  		$this->field('title', 'text', 'Название')
  			->validator('required', 'Заполните это поле');
@@ -54,6 +57,9 @@ class ContentForm extends Form implements ServiceManagerAware, Initializable{
 	 		->options($tagDb);
 	 		
  		$this->field('body', 'ckeditor', null, ['decorator' => 'simple']);
+ 		
+ 		$this->field('courses', 'courses', null, ['decorator' => 'simple'])
+ 			->options($courseDb); 		
  		
  		$this->field('seo_title', 'text', 'SEO Title');
  		

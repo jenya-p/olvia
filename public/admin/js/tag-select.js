@@ -22,7 +22,7 @@ $.fn.tagSelect = function() {
 	
 	$(this).each(function() {
 
-		var wrapper = $(this).parents();
+		var wrapper = $(this).parents('.tag-field-wrapper');
 		var inpId = $('.tag-refs-hidden', wrapper);
 		var inpName = $('.tag-refs-add', wrapper);
 		var table = $('table.item-list', wrapper);

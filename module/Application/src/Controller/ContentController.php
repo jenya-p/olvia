@@ -87,12 +87,13 @@ class ContentController extends SiteController implements LoggerAware{
 		$division = $this->divisionDb->get($article['division_id']);
 
 		$this->contentDb->incViews($article['id']);
-	
+		$courses = $this->contentDb->getCourses($article['id']);
 		$this->layout()->admin_url = $this->url()->fromRoute('private/content-edit', ['id' => $article['id']]);
 		
 		return new ViewModel([
 			'article' => $article,
-			'division' => $division,			
+			'division' => $division,
+			'courses' => $courses
 		]);
 	}
 	

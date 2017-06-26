@@ -22,6 +22,8 @@ return [
 						'seo_keywords_en'	 => 'SEO keywords (En): %2$s → %1$s',
 						'add_tag' => 'Добавлен тег %1$s',
 						'remove_tag' => 'Удален тег %2$s',
+						'add_course' => 'Добавлен курс %1$s',
+						'remove_course' => 'Удален курс %2$s',
 						'_create' => 'Статья создана',
 						'_delete' => 'Статья удалена',
 				],
