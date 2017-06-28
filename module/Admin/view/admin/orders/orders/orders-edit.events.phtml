@@ -18,7 +18,8 @@ if(empty($value) && !empty($events)){
 	<td>
 		<?= $this->html()->radio(
 				Utils::substrByWord($event['title'], 80) 
-				, 'event_id', $event['id'], $value) ?>					
+				, 'event_id', $event['id'], $value,
+				'data-type="'.$event['type'].'"') ?>					
 	</td>
 	<td><?= $event['type_name'] ?></td>
 	<td>

@@ -16,15 +16,13 @@ $this->sidebar()->left('admin/orders/orders/orders-index.filter.phtml', $this->v
 	<thead>
 		<tr>
 			<th style="width: 40px" class="tc"><?= $this->sorter('№', 'oc.id', $this->filter['sort']) ?></th>
-			<th><?= $this->sorter('Дата', 'oc.date', $this->filter['sort']) ?></th>
+			<th><?= $this->sorter('Дата заявки', 'oc.date', $this->filter['sort']) ?></th>
 			<th style="width: 60px" ><?= $this->sorter('Статус', 'oc.status', $this->filter['sort']) ?></th>
 			<th>Клиент</th>
 			<th>
 				<?= $this->sorter('Курс', 'c.title_ru', $this->filter['sort']) ?>
 			</th>
-			<th>
-				<?= $this->sorter('На дату', 'shed.date', $this->filter['sort']) ?>
-			</th>
+			<th>Дата проведения</th>
 			
 			<th class="tr">Цена</th>
 			<th></th>
@@ -56,13 +54,18 @@ $this->sidebar()->left('admin/orders/orders/orders-index.filter.phtml', $this->v
 			</a></td>
 		<td class="nobr">
 			<? if(!empty($item['event_id'])) { ?>
-			<a href="<?= $this->url('private/event-edit', ['id' => $item['event_id']]) ?>" title="Событие: <?= htmlentities($item['event_title'])?>">
-				<? if(!empty($item['shedule_date'])){
-					echo  $this->html()->date($item['shedule_date']);
+			
+				<? if(!empty($item['dates'])){ ?>
+					<a href="<?= $this->url('private/event-edit', ['id' => $item['event_id']]) ?>" title="Событие: <?= htmlentities($item['event_title'])?>"><?
+					echo  $this->html()->hdate($item['dates'][0]['date']);
+					?></a><?
+					if(count($item['dates']) > 1){
+						echo ', '.$this->html()->grammar('', count($item['dates']), 'встреча', 'встречи', 'встреч', true);	
+					}
 				} else {
-					echo  'без даты';
+					echo  'на назначено';
 				} ?>
-			</a>
+			
 			<? } ?>	
 		</td>
 		

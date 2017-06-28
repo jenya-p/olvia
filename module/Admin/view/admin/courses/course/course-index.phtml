@@ -17,7 +17,9 @@ $this->sidebar()->left('admin/courses/course/course-index.filter.phtml', $this->
 			<th style="width: 60px" class="tc">№</th>
 			<th></th>
 			<th>Название</th>			
-			<th class="tc">Приоритет</th>
+			<th class="tc">Тарифы</th>
+			<th class="tc">Мероприятия</th>
+			<th class="tc">Приоритет</th>			
 			<th></th>
 		</tr>
 	</thead>
@@ -30,6 +32,8 @@ $this->sidebar()->left('admin/courses/course/course-index.filter.phtml', $this->
 			</a>
 		</td>
 		<td><?= $item['title'] ?></td>
+		<td class="tc"><?= $item['tarif_count'] ?: '' ?></td>
+		<td class="tc"><?= $item['event_count'] ?: '' ?></td>		
 		<td class="tc"><?= $item['priority'] ?></td>
 		<td class="options">
 			 <a href="<?= $this->url('private/course-status', ['id' => $item['id']]) ?>" class="item-status">

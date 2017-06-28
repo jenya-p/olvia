@@ -15,7 +15,7 @@
 		<? if($course) { 		
 			$urlOptions = ['query' => ['course_id' => $course['id']]];			
 		?>
-		<label>Тарифы для курса</label>
+		<label>Мероприятия по курсу</label>
 		<div class="course-description">			
 			<?if (!empty($course['image'])){?>
 			<img src="<?= $this->image($course['image'], 230)?>" />
@@ -38,5 +38,5 @@
 </form>
 <div>
 	<a href="<?= $this->url('private/event-edit', ['id' => 'new'], $urlOptions) ?>" class="button create-item-link">
-		<i class="fa fa-plus-circle"></i>Новjt мероприятие</a>
+		<i class="fa fa-plus-circle"></i>Новое мероприятие</a>
 </div>

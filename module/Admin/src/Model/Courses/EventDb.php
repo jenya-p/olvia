@@ -17,6 +17,7 @@ use Admin\Model\Users\MasterDb;
 use Zend\Db\Sql\Join;
 use Zend\Db\Sql\Sql;
 use Admin\Model\Orders\OrdersDb;
+use Zend\Db\Adapter\Exception\InvalidQueryException;
 
 class EventDb extends Table implements CRUDListModel, Multilingual, Historical, OptionsModel, ServiceManagerAware {
 						   
@@ -90,6 +91,7 @@ class EventDb extends Table implements CRUDListModel, Multilingual, Historical, 
 	public function getItems($filter, $p = 1, $ipp = 100){
 		$select = $this->getSelect($filter);
 		$select->limit($ipp)->offset(($p-1)*$ipp);
+		$select->order(new Expression('IFNULL(sh.date, ev.expiration_date) ASC'));
 		$select->order('ev.id asc');
 		$items = $select->fetchAll();
 		foreach ($items as &$item){
@@ -102,6 +104,11 @@ class EventDb extends Table implements CRUDListModel, Multilingual, Historical, 
 		$item['type_name'] = $this->typeNames[$item['type']];
 		/* @var $orderDb OrdersDb */
 		$orderDb = $this->serv(OrdersDb::class);
+		if($item['type'] == self::TYPE_ANNOUNCE || empty($item['shedule_id'])){
+			$item['order_count'] = $orderDb->getEventOrderCount($item['id']);
+		} else {
+			$item['order_count'] = $orderDb->getSheduledOrderCount($item['shedule_id']);
+		}
 		return parent::buildItem($item);
 	}
 
@@ -242,7 +249,6 @@ class EventDb extends Table implements CRUDListModel, Multilingual, Historical, 
 		}
 	}
 	
-	
 	public function getTarifs($eventId){
 		$eventId = $this->id($eventId);
 		/* @var $tarifDb TarifsDb */
@@ -255,8 +261,67 @@ class EventDb extends Table implements CRUDListModel, Multilingual, Historical, 
 	}
 	
 	
-	public function saveShedule($data){
+	public function addShedule($eventId,$dates){		
+		if(empty($dates)) return;
+		sort($dates, SORT_ASC & SORT_NUMERIC);
 		
+		$event = $this->get($eventId);
+		foreach ($dates as $date){
+			try{
+				$newSheduleId = $this->getAdapter()->insert('course_event_shedule', ['event_id' => $eventId, 'date' => $date]);
+				
+				if($date > time()){
+					
+					$sqlParams = ['eventId' => $eventId, 'date' => $date];
+					$sql = null;
+					
+					if($event['type'] == self::TYPE_SINGLE){
+						// Добавляем дату в заказы без даты;						
+						$sql = 'select o.id as order_id
+							from order_orders o
+							left join order_order2shedule os on os.order_id = o.id
+							where o.event_id = :eventId and o.status in ("preorder", "new", "done") and o.date < :date os.shedule_id is null';
+						
+
+					} else if($event['type'] == self::TYPE_COURSE){
+						// Добавляем дату во все заказы;						
+						$sql = 'select o.id as order_id
+							from order_orders o
+							left join order_order2shedule os on os.order_id = o.id
+							where o.event_id = :eventId and o.status in ("preorder", "new", "done") and o.date < :date';
+						
+						
+					} else if($event['type'] == self::TYPE_PERM){
+						// Добавляем в заказы, для которых кол-во дат меньше указанных в тарифе (поле tarifs.subscripton)
+						$sql = 'select o.id as order_id, t.subscription
+							from order_orders o
+							left join order_order2shedule os on os.order_id = o.id
+							left join course_tarifs t on t.id = o.tarif_id
+							where o.event_id = :eventId and o.status in ("preorder", "new", "done") and o.date < :date
+							group by o.id
+							having count(os.shedule_id) < t.subscription';
+						
+					}
+					
+					if($sql !== null){
+						$orderIds = $this->getAdapter()->fetchColumn($sql, $sqlParams);
+						
+						if(!empty($orderIds)){
+							$orderDb = $this->serv(OrdersDb::class);
+							foreach ($orderIds as $orderId){
+								
+								$insertRes = $orderDb->addOrderShedule($orderId, $newSheduleId);
+								if($insertRes){
+									$orderDb->addComment($orderId, 'Даты проставлены автоматически, при редактировании мероприятия');
+								}
+							}
+						}
+						
+					}
+					
+				}
+			} catch(InvalidQueryException $e){}			
+		}
 	}
 	
 	
@@ -318,46 +383,84 @@ class EventDb extends Table implements CRUDListModel, Multilingual, Historical, 
 		 
 	}
 	
-
-	public function getDefaultOrderDates($eventId, $tarifId = null, $startDate = null, $count = null){
+	
+	/**
+	 * Дефолтное назначение дат для заказа в зависимости от настроек события и тарифа
+	 * 
+	 * @param unknown $orderId
+	 * @param unknown $startDate
+	 * @return array|array
+	 */
+	public function getDefaultOrderShedule($order, $startDate = null){
+		if(is_numeric($order)){
+			$orderId = $order;
+			/* @var $orderDb TarifsDb */
+			$orderDb = $this->serv(OrdersDb::class);
+			$order = $orderDb->get($orderId);
+			if(empty($order)){ return []; }
+		} else {
+			$orderId = $order['id'];
+		}
 		
-		$event = $this->get($eventId);
+		$event = $this->get($order['event_id']);
+		if(empty($event)){ return []; }
 		
-		if(empty($event)){
+		if($event['type'] == EventDb::TYPE_ANNOUNCE){
 			return [];
 		}
 		
 		$select = new Select (['sh' => 'course_event_shedule']);
-		$select->reset(Select::COLUMNS);
-		$select->join(['e' => 'course_events'], 'e.id = ');
+		$select->join(['e' => 'course_events'], 'e.id = sh.event_id', [], Join::JOIN_INNER);
 		$select->where->equalTo('sh.event_id', $event['id']);
+		$select->order('sh.date asc');
 		
 		if($startDate == null){
 			$startDate = time();
 		}
 		$startDate = strtotime('midnight', $startDate);
+		$select->where->greaterThanOrEqualTo('date', $startDate);
 		
-		if($event['type'] == EventDb::TYPE_ANNOUNCE){
-			return [];
-			
-		} else if($event['type'] == EventDb::TYPE_COURSE){
-			$select->where->greaterThan('date', $startDate);
-			
+		if($event['type'] == EventDb::TYPE_COURSE){
+			// все даты больше текущей
 		} else if($event['type'] == EventDb::TYPE_PERM){
+			// даты больше текущей, но ровно столько, сколько указано в тарифе, минус текущая подписка
 			
-			/* @var $tarifsDb TarifsDb */
-			$tarifsDb = $this->serv(TarifsDb::class);
-			$tarif = $tarifsDb->get($tarifId);
-			$select->where->greaterThan('date', $startDate);
-			$select->limit($tarif['subscription']);
+			$subscriptionLeft = $this->getOrderSubscriptionLeft($orderId, $order['tarif_id']);
+			
+			if($subscriptionLeft <= 0){
+				return [];
+			} else {
+				$select->limit($subscriptionLeft);
+			}
 			
 		} else if($event['type'] == EventDb::TYPE_SINGLE){
-			$select->where->greaterThan('date', $startDate);
-			$select->limit(1);
-			
+			// Выбирем одну, ближайшую дату			
+			$select->limit(1);			
 		}		
+		
+		return $this->fetchAll($select);
 	}
 	
+	
+	public function getOrderSubscriptionLeft($orderId, $tarifId){
+		$db = $this->getAdapter();
+		if(empty($orderId)){
+			$currentSubscription = 0;
+		} else {
+			$currentSubscription =
+			$db->fetchOne('select count(*) from order_order2shedule where order_id = :orderId', ['orderId' => $orderId]);
+		}
+		
+		if(!empty($order['tarif_id'])){
+			$tarifSubscription =
+			$db->fetchOne('select subscription from course_tarifs where id = :tarifId', ['tarifId' => $tarifId]);
+		}
+		
+		if(empty($tarifSubscription)){
+			$tarifSubscription = 1;
+		}
+		return $tarifSubscription - $currentSubscription;
+	}
 	
 	/*
  

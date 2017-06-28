@@ -77,6 +77,7 @@ class EventController extends CRUDController implements CRUDEditModel{
 			$course = $this->courseDb->get($course_id);
 			if(!empty($course)){
 				$ret['course_id'] = $course['id'];
+				$ret['title'] = $course['title'];
 			}
 		}
 		return $ret;
@@ -124,29 +125,31 @@ class EventController extends CRUDController implements CRUDEditModel{
 		$tarifs = $this->params()->fromPost('tarifs');
 		$this->db->saveTarifs($this->id, $tarifs);
 		
-		if(!empty($addDates)){
-			$dateFrom = time() - 365*24*60*60;
-			$dateTo = time() + 365*24*60*60;
-			$dates = explode("\n", $addDates);
-			foreach ($dates as $date){
-				$date = trim($date);
-				if(empty($date)) continue;
-				$date = strtotime($date);
+		
+		$addDates = $this->filterAddDates($addDates);
+		
+		$this->db->addShedule($this->id, $addDates);
 				
-				if(!is_numeric($date) || $date < $dateFrom || $date > $dateTo){
-					continue;
-				}
-				try{
-					$this->db->getAdapter()->insert('course_event_shedule', ['event_id' => $this->id, 'date' => $date]);
-				} catch(InvalidQueryException $e){}
-								
-			}
-		}
-		
-		
-		
 		return $this->id;
 	}
+	
+	private function filterAddDates($dates){
+		if(empty($dates)){ return; }
+		$dates = explode("\n", $dates);		
+		
+		$dateFrom = time() 	- 365*24*60*60;
+		$dateTo = 	time() 	+ 365*24*60*60;
+		$datesToAdd = [];
+		foreach ($dates as $date){
+			$date = strtotime(trim($date));
+			if(empty($date) || !is_numeric($date) || $date < $dateFrom || $date > $dateTo){
+				continue;
+			}
+			$datesToAdd[] = $date;
+		}
+		return $datesToAdd;
+	}
+	
 	
 	public function afterSave(){
 		if($this->isNew){
@@ -161,7 +164,8 @@ class EventController extends CRUDController implements CRUDEditModel{
 	public function edit(){
 		
 		if(!$this->isNew){
-			// $this->layout()->site_url = $this->url()->fromRoute('event', ['id' => $this->id]);
+			
+			
 		}
 		$ret = [];
 		
@@ -176,6 +180,11 @@ class EventController extends CRUDController implements CRUDEditModel{
 		
 		$courseId = $this->form->field('course_id')->value();
 		if(!empty($courseId)){
+			$course = $this->courseDb->get($courseId);
+			if(!empty($course)){
+				$this->layout()->site_url = $this->url()->fromRoute('course-view', ['alias' => $course['alias']]);
+			}
+			
 			/* @var $tarifDb TarifsDb */
 			$tarifDb = $this->serv(TarifsDb::class);
 			$ret['course_tarifs'] = $tarifDb->getItems(['course_id' => $courseId], null);

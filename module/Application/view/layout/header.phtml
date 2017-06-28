@@ -85,8 +85,8 @@ $this->popupSigne();
 					</div>
 								
 				</div>
-				<form class="right-bottom search-form" action="" method="get">
-					<input type="text" placeholder="Поиск по сайту..." />
+				<form class="right-bottom search-form" action="<?= $this->url('search-index')?>" method="get" autocomplete="off">
+					<input type="text" placeholder="Поиск по сайту..." name="query" />
 				</form>
 			</div>
 		</header>

@@ -86,13 +86,18 @@ class CoursesController extends SiteController implements LoggerAware{
 		$filter = ['course_id' => $item['id']];		
 		
 		// Serch for normal events and shedule
-		$sheduleBounds = $this->eventDb->getSheduleBounds($filter, false);				
+		$sheduleBounds = $this->eventDb->getSheduleBounds($filter, false);
+
 		if(!empty($sheduleBounds)){
 			$bounds = $this->getBoundsFromQuery($sheduleBounds);
 			$shedule = $this->eventDb->getShedule($filter, $bounds, $this->identity()->id);			
 		}
-		if(!empty($shedule) && isset($shedule[0]['tarifs'])){			
-			$tarifs = $shedule[0]['tarifs'];
+		
+		if(!empty($shedule)){
+			if(isset($shedule[0]['tarifs'])){
+				$tarifs = $shedule[0]['tarifs'];
+			}
+			$bounds['from'] = max($bounds['from'], $shedule[0]['date']);
 		}
 		
 		if(!empty($shedule)){
@@ -146,7 +151,7 @@ class CoursesController extends SiteController implements LoggerAware{
 		$filter = ['course_id' => $item['id']];		
 		$sheduleBounds = $this->eventDb->getSheduleBounds($filter, false);
 		if(!empty($sheduleBounds)){
-			$bounds = $this->getBoundsFromQuery();
+			$bounds = $this->getBoundsFromQuery($sheduleBounds);
 			$shedule = $this->eventDb->getShedule($filter, $bounds, $this->identity()->id);
 		}
 		if(!empty($shedule) && isset($shedule[0]['tarifs'])){
@@ -184,7 +189,7 @@ class CoursesController extends SiteController implements LoggerAware{
 		$filter = ['course_id' => $item['id']];
 		$sheduleBounds = $this->eventDb->getSheduleBounds($filter, false);
 		if(!empty($sheduleBounds)){
-			$bounds = $this->getBoundsFromQuery();
+			$bounds = $this->getBoundsFromQuery($sheduleBounds);
 			$shedule = $this->eventDb->getShedule($filter, $bounds, $this->identity()->id);
 		}
 	
@@ -231,19 +236,25 @@ class CoursesController extends SiteController implements LoggerAware{
 	
 		
 	public function getBoundsFromQuery($sheduleBounds = null){
-		$month = $this->params('month', date('y-m'));
-		$calendarDate = strtotime($month.'-01');
-		if(!empty($sheduleBounds['start'])){
-			$from = strtotime(date('d.m', $sheduleBounds['start']).'-01');
-			$calendarDate = max($calendarDate, $from);			
+		$month = $this->params('month', null);
+		
+		if(empty($month)){
+			$calendarDate = strtotime(date('y-m').'-1');
+			if(!empty($sheduleBounds['start'])){
+				$from = strtotime(date('d.m', $sheduleBounds['start']).'-01');
+				$calendarDate = max($calendarDate, $from);
+			}
+		} else {
+			$calendarDate = strtotime($month.'-01');
 		}
+		
 		$bounds = [
 			'from' => $calendarDate,
 			'to' => strtotime('+ 1 month', $calendarDate),
 			'month' => $month
 		];
-		if(!empty($sheduleBounds['to'])){
-			$bounds['to'] = min($bounds['to'], $sheduleBounds['to']);
+		if(!empty($sheduleBounds['end'])){
+			$bounds['to'] = min($bounds['to'], $sheduleBounds['end']);
 		}
 		
 		return $bounds;

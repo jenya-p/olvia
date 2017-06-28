@@ -55,7 +55,7 @@ class ContentForm extends Form implements ServiceManagerAware, Initializable{
 	 	
 	 	$field = $this->field('tags', 'tags', null, ['decorator' => 'simple'])
 	 		->options($tagDb);
-	 		
+	 			 		
  		$this->field('body', 'ckeditor', null, ['decorator' => 'simple']);
  		
  		$this->field('courses', 'courses', null, ['decorator' => 'simple'])

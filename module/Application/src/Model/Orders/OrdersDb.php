@@ -10,6 +10,7 @@ use Zend\Db\Sql\Join;
 use Common\Traits\ServiceManagerAware;
 use Common\Traits\ServiceManagerTrait;
 use Application\Model\Courses\TarifsDb;
+use Admin\Model\Orders\OrdersDb as AdminOrderDb;
 
 class OrdersDb extends Table implements  Historical, ServiceManagerAware {
 	
@@ -26,7 +27,9 @@ class OrdersDb extends Table implements  Historical, ServiceManagerAware {
 	
 	public function getOrders($userId, $eventId = null, $tarifId = null, $sheduleId = null){
 		$select = new Select(['o' => $this->table]);
-		$select->where->equalTo('user_id', $userId);
+		$select->where->equalTo('user_id', $userId)
+			->and->in('status', [AdminOrderDb::STATUS_PREORDER, AdminOrderDb::STATUS_NEW, AdminOrderDb::STATUS_DONE]);
+		
 		if(!empty($eventId)){
 			$select->where->equalTo('event_id', $eventId);
 		}

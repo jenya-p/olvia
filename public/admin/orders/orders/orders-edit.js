@@ -6,23 +6,55 @@ jQuery(function(){
 
 	var inpUser = $('[name=user_id]', form);
 	inpUser.userSelect();
-	
-	inpUser.change(updateUserInfo);
 		
-	var updateUserInfo = function(){
-		var id = inpUser.val();
-		if(id == '') return;
-		$.get('/private/get-user-info', {'id': id}, function(res){
+	var updateUserInfo = function(queryData){
+		console.log(queryData);
+		$.get('/private/customer-details-ajax', queryData, function(res){
 			if(res.result == 'ok'){
+				console.log(res.customer);
+				var name = $('[name=name]', form);
+				if(name.val().trim() == ''){
+					name.val(res.customer.name);
+				}
 				
-				$('[name=name]', form).val(res.item.name);
-				$('[name=skype]', form).val(res.item.skype);
-				$('[name=phone]', form).val(res.item.phone_formated);
-			} else {
-				Alerts.error(res.message);			 
+				var skype = $('[name=skype]', form).val(res.customer.skype);				
+				if(skype.val().trim() == ''){
+					skype.val(res.customer.skype);
+				}	
+				
+				var phone = $('[name=phone]', form).val(res.customer.phone_formated);
+				if(phone.val().trim() == ''){
+					phone.val(res.customer.phone_formated);
+				}
+				
+				if(queryData.id == undefined && inpUser.val() == ''){
+					inpUser.val(res.customer.id);
+					inpUser.siblings('.user-select').val(res.customer.displayname);
+				}
+						 
 			}			
 		});
 	}
+	
+	inpUser.change(function(){
+		var id = inpUser.val();
+		if(id == '') return;
+		updateUserInfo({'id': id});
+	});
+	
+	$('[name=phone]', form).change(function(){
+		var val = $(this).val().trim();
+		if(val != ''){
+			updateUserInfo({'phone': val});	
+		}		
+	});
+	
+	$('[name=skype]', form).change(function(){
+		var val = $(this).val().trim();
+		if(val != ''){
+			updateUserInfo({'skype': val});	
+		}		
+	});
 	
 	// $('.update_user_info_link').click(updateUserInfo);
 	
@@ -77,6 +109,31 @@ jQuery(function(){
 		});		
 	})
 	
-	
+	tarifsList.on('change', '[name=tarif_id]', function(){
+		var t = $('[name=tarif_id]:checked', tarifsList);
+		var e = $('[name=event_id]:checked', eventList);
+		if(e.data('type') == 'perm'){
+	 		var subs = t.data('subscription');
+			var state = 0;
+			$('[type=checkbox]', sheduleList).each(function(){
+				var chkDate = $(this);
+				if(chkDate.prop('checked')){
+					if(state > subs - 1 && state > 0){
+						chkDate.prop('checked', false);
+					} else {
+						state++;	
+					}					
+				} else if(state < subs && state > 0){
+					chkDate.prop('checked', true);
+					state++;
+				} 
+			});
+		}
+
+		var payed = $('[name=payed]', form).val().trim();
+		if( payed == "" || payed == 0){
+			$('[name=price]', form).val(t.data('price'));	
+		}		
+	})
 	
 })

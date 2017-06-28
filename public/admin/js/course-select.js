@@ -1,4 +1,4 @@
-'use strict';
+	'use strict';
 
 $.fn.courseSelect = function(options) {
 	$(this).each(function() {
@@ -19,7 +19,10 @@ $.fn.courseSelect = function(options) {
 			},
 			onInvalidateSelection : function() {
 				inpId.val("");
-			}
+			},
+			minChars: 3,
+			deferRequestBy: 250
+			
 		});
 	});
 }
@@ -59,7 +62,9 @@ $.fn.courseMultiSelect = function(options) {
 				table.append($(createRow(suggestion)));
 				inpId.val(recalcIds(table));
 				inpName.val("");				
-			}			
+			},
+			minChars: 3,
+			deferRequestBy: 250			
 		});
 		
 		table.on('click', '.course-remove', function(){

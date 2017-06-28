@@ -156,27 +156,7 @@ class EventDb extends Table implements Multilingual, ServiceManagerAware, Initia
 	}
 	
 	
-	/*
-	 * from, to - date range timstamp's
-	 * tag_ids - course refferenced tag ids, array
-	 * master - event refferenced master id, numeric
-	 * userId - current user id? to calculate order statuses
-	 */
-	public function getShedule($filter, $bounds, $userId = null){		
-		$select = $this->getSheduleSelect($filter);
-
-		if(!empty($bounds['from']) && !empty($bounds['to'])){
-			$select->where->between('shed.date', $bounds['from'], $bounds['to']);
-		}
-		
-		$dates = $select->fetchAll();
-		
-		foreach ($dates as &$date){
-			$this->buildSheduleRecord($date, $userId);
-		}
-		
-		return $dates;		
-	}
+	
 	
 	public function getSheduleBounds($filter, $strict = true){
 		$select = $this->getSheduleSelect($filter);
@@ -194,7 +174,27 @@ class EventDb extends Table implements Multilingual, ServiceManagerAware, Initia
 		return $select->fetchRow();
 	}
 	
-	
+	/*
+	 * from, to - date range timstamp's
+	 * tag_ids - course refferenced tag ids, array
+	 * master - event refferenced master id, numeric
+	 * userId - current user id? to calculate order statuses
+	 */
+	public function getShedule($filter, $bounds, $userId = null){
+		$select = $this->getSheduleSelect($filter);
+		
+		if(!empty($bounds['from']) && !empty($bounds['to'])){
+			$select->where->between('shed.date', $bounds['from'], $bounds['to']);
+		}
+		
+		$dates = $select->fetchAll();
+		
+		foreach ($dates as &$date){
+			$this->buildSheduleRecord($date, $userId);
+		}
+		
+		return $dates;
+	}
 	
 	public function buildSheduleRecord(&$date, $userId = null){
 		$eventId = $date['event_id'];
@@ -207,7 +207,7 @@ class EventDb extends Table implements Multilingual, ServiceManagerAware, Initia
 			
 		$date['tarifs']  =  $this->tarifsDb->getEventTarifs($eventId, $date['date']);
 		
-		if($date['event']['expiration_date'] < time() || $date['date'] < time()){
+		if($date['date'] < time() || (!empty($date['event']['expiration_date']) && $date['event']['expiration_date'] < time())){
 			$date ['order_status'] = CoursesController::ORDER_STATUS_EXPIRED;
 		} else {
 			$date ['order_status'] = CoursesController::ORDER_STATUS_AVAILABLE;			
@@ -215,11 +215,7 @@ class EventDb extends Table implements Multilingual, ServiceManagerAware, Initia
 		
 		foreach ($date['tarifs'] as &$tarif){
 			
-			if($date['event']['expiration_date'] < time() || $date['date'] < time()){
-				$tarif ['order_status'] = CoursesController::ORDER_STATUS_EXPIRED;
-			} else {
-				$tarif ['order_status'] = CoursesController::ORDER_STATUS_AVAILABLE;
-			}
+			$tarif ['order_status'] = $date ['order_status'];
 			
 			if(!empty($userId)){
 				$orders = $this->ordersDb->getOrders($userId, $eventId, $tarif['id'], $date['id']);

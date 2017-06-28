@@ -57,4 +57,16 @@ class TagDb extends Table implements Multilingual {
 			->order('t.id asc');
 		return $this->fetchAll($select);
 	}
+	
+	public function getContentTags($articleId){
+		$select = new Select(['t' => $this->table]);
+		$select->join(['tr' => 'content_tag_refs'], 'tr.tag_id = t.id', [], Join::JOIN_INNER);
+		$select->where->equalTo('tr.entity', "content")
+			->and->equalTo('tr.item_id', $courseId);
+		$select
+			->order('tr.priority desc')
+			->order('t.priority desc')
+			->order('t.id asc');
+		return $this->fetchAll($select);
+	}
 }

@@ -17,6 +17,7 @@ use Admin\Model\Courses\EventDb;
 use Zend\Db\Sql\Expression;
 use Common\Utils;
 use Zend\Db\Sql\Join;
+use Common\ViewHelper\Phone;
 
 /**
  * @Controller
@@ -72,8 +73,6 @@ class OrdersController extends CRUDController implements CRUDEditModel{
 			$item['course_id'] = $event['course_id'];
 		}		
 		
-		$item['dates'] = $this->db->getOrderShedule($id);
-
 		$item['use_discounts'] = !empty($item['discounts']);
 		
 		return $item;
@@ -146,31 +145,33 @@ class OrdersController extends CRUDController implements CRUDEditModel{
 		return [
 			'stat' => 	$this->db->getStat($this->item['id']),
 			'events' => $this->eventDb->getCourseEvents($courseId),
-			'shedule' => $this->getEventShedule($eventId, $this->id),
+			'eventShedule' => $this->getEventShedule($eventId),
 			'tarifs' => $this->tarifsDb->getEventTarifs($eventId),
-			'eventShedule' => $this->eventDb->getShedule($eventId)
+			//'eventShedule' => $this->eventDb->getShedule($eventId)
 		];
 	}
 	
 	
-	public function getEventShedule($eventId, $orderId){
+	public function getEventShedule($eventId){
 		$select = new Select(['esh' => 'course_event_shedule']);
 		$select->join(['o2s' => 'order_order2shedule'], 'o2s.shedule_id = esh.id',
 				['order_count' => new Expression('count(o2s.order_id)')], Join::JOIN_LEFT);
+		
 		$nest = $select->where->nest;
-		$nest->between('esh.date', time() - 7*24*60*60, time() + 6*7*24*60*60); // планирование на одну неделю назад и 6 вперед.
+		$nest->between('esh.date', time() - 7*24*60*60, time() + 20*7*24*60*60); // планирование на одну неделю назад и 12 вперед.
 		if(!empty($orderId)){
 			// Кроме дат в диапазоне планирования, нужны так же уже установленные даты
 			$dateIdsSelect = new Select(['o2s' 	=> 'order_order2shedule']);
 			$dateIdsSelect->reset(Select::COLUMNS)->columns(['shedule_id']);
 			$dateIdsSelect->where->equalTo('o2s.order_id', $orderId);
 			
-			$nest->or->in('o2s.order_id', $dateIdsSelect);
+			$nest->or->in('o2s.shedule_id', $dateIdsSelect);
 		}
 			
 		$select->order('esh.date asc');
 		$select->group('esh.id');
-		$select->where->equalTo('esh.event_id', $eventId);		
+		$select->where->equalTo('esh.event_id', $eventId);
+		
 		return $select->fetchAll();
 	}
 	
@@ -217,12 +218,6 @@ class OrdersController extends CRUDController implements CRUDEditModel{
     	$item = $this->db->get($id);
     	$vars = [];
     	
-    	if(!empty($item)){
-    		$vars['item'] = $item;
-    		$vars['dates'] = $this->db->getOrderShedule($item['id']);
-    		$vars['tarif_id'] = $item['tarif_id'];
-    	}
-    	
     	$courseId = $this->params()->fromQuery('course_id', null);
     	if(empty($courseId)){
     		if(empty($item)){
@@ -243,9 +238,27 @@ class OrdersController extends CRUDController implements CRUDEditModel{
 
     			$vars['event_id'] = $eventId = $events[0]['id'];    			
     			$vars['tarifs'] = $this->tarifsDb->getEventTarifs($eventId);
-    			$vars['eventShedule'] = $this->getOrderShedule($eventId, $id);
+    			$vars['eventShedule'] = $this->getEventShedule($eventId);
     			
     		}
+    	}
+    	
+    	$tarifListIds = array_column($vars['tarifs'], 'id');
+    	
+    	if(!empty($item)){
+    		$vars['item'] = $item;
+    		$tarifId = $item['tarif_id'];
+    	}
+    	
+    	if(!empty($item) && in_array($tarifId, $tarifListIds) ) {
+    		$vars['tarif_id'] = $tarifId;
+    		$vars['dates'] = $this->db->getOrderShedule($item['id']);
+    	} else {
+    		$vars['tarif_id'] = $tarifListIds[0];
+    		$vars['dates'] = $this->eventDb->getDefaultOrderShedule([
+    				'tarif_id' => $vars['tarif_id'],
+    				'event_id' => $eventId,
+    		]);
     	}
     	
     	$htmlEvents = $renderer->render('admin/orders/orders/orders-edit.events.phtml',$vars);
@@ -280,7 +293,7 @@ class OrdersController extends CRUDController implements CRUDEditModel{
     	
     	if(!empty($eventId)){    		
     		$vars['tarifs'] = $this->tarifsDb->getEventTarifs($eventId);
-    		$vars['eventShedule'] = $this->getEventShedule($eventId, $id);
+    		$vars['eventShedule'] = $this->getEventShedule($eventId);
     	}
 
     	$tarifListIds = array_column($vars['tarifs'], 'id');
@@ -295,7 +308,10 @@ class OrdersController extends CRUDController implements CRUDEditModel{
     		$vars['dates'] = $this->db->getOrderShedule($item['id']);
     	} else {
     		$vars['tarif_id'] = $tarifListIds[0];
-    		$vars['dates'] = $this->eventDb->getDefaultOrderDates($vars['tarif_id']);
+    		$vars['dates'] = $this->eventDb->getDefaultOrderShedule([
+    				'tarif_id' => $vars['tarif_id'],
+    				'event_id' => $eventId,
+    		]);
     	}
     	
     	/* @var RendererInterface $renderer */
@@ -318,7 +334,7 @@ class OrdersController extends CRUDController implements CRUDEditModel{
      */
     public function courseSuggestionAction(){
     	$query = $this->params()->fromQuery('q');
-    	$query = mb_strtolower($query);
+    	
     	if(empty($query)){
     		return new JsonModel([]);
     	}
@@ -327,11 +343,16 @@ class OrdersController extends CRUDController implements CRUDEditModel{
     	
     	$select = new Select(['c' => 'courses']);
     	$select->columns(['id', 'value' => 'title_'.$lang]);
-    	$select->join(['e' => 'course_events'], 'e.course_id = c.id', [], Join::JOIN_INNER);
     	
-    	$nest = $select->where->nest;
-    	$nest -> expression('concat(" ", LOWER(c.title_'.$lang.')) like ?', "% ".$query."%")
-    		->or->expression('c.alias like ?', $query."%");
+    	if(is_numeric($query)){
+    		$select->where->equalTo('c.id', $query);
+    	} else {
+    		$query = mb_strtolower($query);
+    		$nest = $select->where->nest;
+    		$nest -> expression('concat(" ", LOWER(c.title_'.$lang.')) like ?', "% ".$query."%")
+    			->or->expression('c.alias like ?', $query."%");
+    	}
+    	
     
     	$select->limit(20);
     	 
@@ -343,6 +364,6 @@ class OrdersController extends CRUDController implements CRUDEditModel{
     
     }
     
-    
+
 }
 

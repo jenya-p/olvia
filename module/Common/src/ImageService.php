@@ -8,6 +8,7 @@ class ImageService{
 	const SIZE_BANNER = 'b'; 
 	const SIZE_ADMIN_LIST_THUMB = 'alt';
 	const SIZE_USERPICK_LARGE = 'ul';
+	const SIZE_SEARCHLIST = 'sl';
 	
 	private $overwrite = false;
 	
@@ -17,6 +18,7 @@ class ImageService{
 		self::SIZE_BANNER => [null, 550],
 		self::SIZE_ADMIN_LIST_THUMB => [75, 25],
 		self::SIZE_USERPICK_LARGE => [310,310],
+		self::SIZE_SEARCHLIST => [135,135],
 	);
 	
 	var $sufixes = array(
@@ -24,8 +26,8 @@ class ImageService{
 		self::SIZE_REVIEW_USERPICK => '_rup',
 		self::SIZE_BANNER => '_b',
 		self::SIZE_ADMIN_LIST_THUMB => '_thumb',
-		self::SIZE_USERPICK_LARGE => '_ul'
-		
+		self::SIZE_USERPICK_LARGE => '_ul',
+		self::SIZE_SEARCHLIST => '_sl',
 	);
 	
 	const ORIGIN_SUFIX = '_origin';
@@ -302,7 +304,7 @@ class ImageService{
 
 
 	
-	public function crop(Image &$image, array $crop){
+	public function crop(&$image, array $crop){
 		$original = $image->getOriginal();
 		$srcFileName = $this->urlToPath($original);
 		

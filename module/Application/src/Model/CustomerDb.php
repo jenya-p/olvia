@@ -67,7 +67,7 @@ class CustomerDb extends Table implements Historical{
     			select
     			'order' as type,
     			o.id as id,
-    			max(shed.date) as meet_date
+    			min(shed.date) as meet_date
     			from order_orders o
     			inner join course_events e on e.id = o.event_id
     			inner join order_order2shedule o2s on o2s.order_id = o.id

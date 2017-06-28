@@ -2,7 +2,62 @@
 /* @var $this Common\View */
 $item = $this->item;
 $courses = $this->courses;
+if(empty($courses)) return ;
 ?>
 
 
 
+<section class="courses">
+	<div class="lay-wrapper-inner">
+		<h2>Тренинги с этим специалистом</h2>
+		<div class="course-list white">
+			<? foreach ($courses as $course){ ?>
+			
+			<div class="block">
+				<div class="block-inner" data-href="<?= $this->url('course-view', ['alias' => $course['alias']]) ?>">
+					<img src="<?= $this->image($course['image'], 375, 174)?>" />
+					<h2 class="like-h3"><?= $course['title'] ?></h2>		
+					<? if(!empty($course['tags'])) {?>
+							<p class="info">
+								<? foreach ($course['tags'] as $tag) {?>
+								<a href="<?= $this->url('catalog-index', ['tag' => $tag['alias']]) ?>"><i class="icon-tag"></i><?= $tag['name'] ?></a>	
+								<? } ?>
+							</p>
+					<? }?>
+					<? if(!empty($course['summary'])){ ?>
+					<div class="summary">		
+						<?= $this->html()->plain2html( $course['summary']) ?>
+					</div>					
+					<? } ?>
+					<? if(!empty($course['dates'])) {?>
+					<p class="info">
+					<label>Запись на мероприятие: </label>
+						<?
+						echo implode(', ', array_map(function ($item) {
+							$query = [
+								'date' => $item['id']
+							];
+							return '<a href="'.$this->url('order-event-popup', [], ['query' => $query]).'" class="twm-popup-link">' . $this->html()->hdate($course['date']) . '</a>';
+						}, $course['dates']));
+						?>
+					</p>
+					<? } else if(!empty($course['announcements'])) {
+						$annons = $course['announcements'][0];
+						$query = [
+							'event' => $annons['id']
+						];
+						?>
+					<p class="info">
+						<label>Открыта предварительная запись</label> <a href="<?= $this->url('order-announce-popup', [], ['query' => $query]) ?>" class="twm-popup-link like" ><?= $annons['date_text'] ?></a>
+					</p>
+					<? } else { ?>
+					<p class="info"><label>Запись окончена</label> 
+						<a href="#" class="like">Следить за расписанием <i class="icon-heart"></i></a></p>
+					<? }?>	
+				</div>
+			</div>
+			
+			<? } ?>
+		</div>
+	</div>
+</section>

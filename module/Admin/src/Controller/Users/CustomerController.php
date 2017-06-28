@@ -15,6 +15,8 @@ use Zend\View\Model\JsonModel;
 use ZfAnnotation\Annotation\Controller;
 use ZfAnnotation\Annotation\Route;
 use Common\Utils;
+use Common\ViewHelper\Phone;
+use Common\Db\Select;
 
 /**
  * @Controller
@@ -137,7 +139,63 @@ class CustomerController extends CRUDController implements CRUDEditModel{
     	return new JsonModel(['result' => 'ok', 'active' => $update['active']]);
     	 
     }
+
     
+    /**
+     * @Route(name="customer-details-ajax", route="/customer-details-ajax",extends="private",type="Literal")
+     */
+    public function customerDetailsAction(){
+    	$id = $this->params()->fromQuery('id', null);
+    	$phone = $this->params()->fromQuery('phone', null);
+    	$skype = $this->params()->fromQuery('skype', null);
+    	$email = $this->params()->fromQuery('email', null);
+    	
+    	
+    	$select = new Select(['c' => 'users_customers']);
+    	$select
+	    	->reset(Select::COLUMNS)
+	    	->columns(['id','name']);
+    	$select->join(['a' => 'users_accounts'], 'c.id = a.id',  ['skype', 'phone', 'email'], Select::JOIN_LEFT);
+    	
+    	if(!empty($id)){
+    		$select->where->equalTo('a.id', $id);
+    	} else if(!empty($phone)){
+    		$phone = Phone::normalize($phone);
+    		$select->where->equalTo('a.phone', $phone);
+    	} else if(!empty($email)){
+    		$select->where->expression('LOWER(u.email) = ?', mb_strtolower($email));
+    	} else if(!empty($skype)){
+    		$select->where->expression('LOWER(a.skype) = ?', mb_strtolower($skype));
+    	} else {
+    		return new JsonModel([
+    			'result' => 'not-found'
+    		]);
+    	}
+    	
+    	$select->limit(1);
+    	$customer = $select->fetchRow();
+    	if(!empty($customer)){
+	    	return new JsonModel([
+	    			'result' => 'ok',
+	    			'customer' => [
+	    				'id' => $customer['id'],
+				    	'name' => $customer['name'],
+				    	'displayname' => $customer['displayname'],
+				    	'phone' => $customer['phone'],
+				    	'phone_formated' => Phone::format($customer['phone']),
+				    	'email' => $customer['email'],
+				    	'skype' => $customer['skype'],
+	    				'url' => $this->url()->fromRoute('private/customer-edit', ['id' => $customer['id']])
+	    			]
+	    			
+	    	]);
+    	} else {
+    		return new JsonModel([
+    			'result' => 'not-found'
+    		]);
+    	}
+    	
+    }
     
 }
 

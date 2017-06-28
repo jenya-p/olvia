@@ -1,0 +1,55 @@
+<?
+/* @var $this Common\View */
+?>
+
+<div class="image-wrp">
+	<img src="<?= $this->image($item['image'], 135, 135) ?>" alt="<?= $item['title'] ?>" />
+</div>
+<div class="search-description" data-href="<?= $this->url('course-view', ['alias' => $item['alias']])?>">
+	<h2 class="like-h3">Курс: <?= $item['title'] ?></h2>		
+	<? if(!empty($item['tags'])) {?>
+			<p class="info">
+				<? foreach ($item['tags'] as $tag) {?>
+				<a href="<?= $this->url('catalog-index', ['tag' => $tag['alias']]) ?>"><i class="icon-tag"></i><?= $tag['name'] ?></a>	
+				<? } ?>
+			</p>
+	<? }?>		
+	<? if(!empty($item['masters'])) {?>
+	<p class="info">
+		<label>Тренер: </label>
+		
+			<?= implode(', ', array_map(function($master){
+					return '<a href="'. $this->url('master-view', ['alias' => $master['alias']]) .'">'. $master['name'] .'</a>';
+				}, $item['masters'])); ?>
+		 
+	</p>
+	<? } ?>		
+	<? if(!empty($item['summary'])){ ?>
+	<div class="summary">		
+		<?= $this->html()->plain2html( $item['summary']) ?>
+	</div>					
+	<? } ?>		
+	
+	<? if(!empty($item['dates'])) {?>
+	<p class="info">
+	<label>Запись на мероприятие: </label>
+		<?
+		echo implode(', ', array_map(function ($item) {
+			$query = [
+				'date' => $item['id']
+			];
+			return '<a href="'.$this->url('order-event-popup', [], ['query' => $query]).'" class="twm-popup-link">' . $this->html()->hdate($item['date']) . '</a>';
+		}, $item['dates']));
+		?>
+	</p>
+	<? } else if(!empty($item['announcements'])) {
+		$annons = $item['announcements'][0];
+		$query = [
+			'event' => $annons['id']
+		];
+		?>
+	<p class="info">
+		<label>Открыта предварительная запись</label> <a href="<?= $this->url('order-announce-popup', [], ['query' => $query]) ?>" class="twm-popup-link like" ><?= $annons['date_text'] ?></a>
+	</p>
+	<? } ?>
+</div>

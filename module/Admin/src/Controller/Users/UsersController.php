@@ -174,9 +174,18 @@ class UsersController extends CRUDController implements CRUDEditModel{
     		$where->or->isNotNull('c.id');
     	}
     	
-    	$select->where->nest
-    		->expression('u.displayname like ?', mb_strtolower($query).'%')->or
-    		->expression('u.displayname like ?', '% '.mb_strtolower($query).'%');
+    	if (filter_var($query, FILTER_VALIDATE_EMAIL)) {
+    		$select->where->expression('LOWER(u.email) = ?', mb_strtolower($query));
+    		
+    	} else if (is_numeric($query)) {
+    		$select->where->equalTo('u.id', $query);
+    		
+    	} else {
+    		$select->where->nest
+	    		->expression('u.displayname like ?', mb_strtolower($query).'%')->or
+	    		->expression('u.displayname like ?', '% '.mb_strtolower($query).'%');
+    	}
+    	
     	
     	$select->group('u.id')
 	    	->order('u.displayname asc')
@@ -189,37 +198,7 @@ class UsersController extends CRUDController implements CRUDEditModel{
 	   		"suggestions" => $suggestions]);
     	    	
     }
-    
 
-    /**
-     * @Route(name="get-user-info",route="/get-user-info",extends="private",type="segment")
-     */
-    public function userInfoAction(){
-    	$id = $this->params()->fromQuery('id', null);
-
-    	if($id !== null){
-    		
-    		
-    		$select = new Select(['c' => 'users_customers']);    		
-	    	$select->join(['a' => 'users_accounts'], 'c.id = a.id',  
-	    			['displayname', 'phone', 'email', 'skype', 'vk_id', 'fb_id'], Select::JOIN_INNER);	    	
-	    	$select->where->equalTo('c.id', $id);
-	    	$item = $select->fetchRow($select);
-    		
-	    	$item['phone_formated'] = Phone::format($item['phone']);
-
-    		return new JsonModel([
-    			"result" => 'ok',
-    			"item" => $item    				
-    		]);
-    		
-    	} else {
-    		
-    		return new JsonModel(["result" => 'error']);
-    	}
-    	
-    	
-    }
     
 }
 

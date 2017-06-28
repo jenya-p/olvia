@@ -1,0 +1,51 @@
+
+/* Search page */
+.page-search-index .form{margin: 3em 260px;white-space: nowrap;}
+.page-search-index .form [name=query]{
+    display: inline-block;
+    width: 550px;
+    border-radius: 18px 0 0 18px;
+    height: 36px;
+    font-size: 0.9em;
+    margin: 0;
+    line-height: 36px;
+}
+.page-search-index .form [type=submit]{
+    height: 36px;
+    border-radius: 0 18px 18px 0;
+    margin-left: -5px;
+    line-height: 36px;
+}
+.page-search-index .search-result-item {
+    margin-bottom: 3.5em;
+    padding-bottom: 3em;
+    border-bottom: 1px solid #dab7e5;
+}
+.page-search-index .search-result-item .counter{
+    width: 55px;
+    text-align: center;
+    float: left;
+    font-size: 1.5em;
+    color: gray;
+    margin-right: 26px;
+}
+.page-search-index .search-result-item .image-wrp{
+    float: left;
+    margin-right: 45px;
+    margin-bottom: 15px;
+    width: 135px;
+}
+.page-search-index .search-result-item .search-description{
+	float: left;
+	width: 890px;
+}
+.page-search-index .search-result-item h2{
+    text-align: left;
+    margin: 0 0 0.6em 0;
+    line-height: 1.6em;
+}
+
+.page-search-index .search-result-item p.info i {
+    color: #222;
+    font-size: 0.9em;
+}

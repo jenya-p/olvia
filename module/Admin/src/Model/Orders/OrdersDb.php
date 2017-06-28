@@ -56,18 +56,20 @@ class OrdersDb extends Table implements CRUDListModel, Historical, Discussion, S
 												'course_title' => 'title_ru',
 												'course_id' => 'id'
 										], Join::JOIN_LEFT);
-		$select->join(['o2s' => 'order_order2shedule'], 	'o2s.order_id = o.id', [], Join::JOIN_LEFT);
-		$select->join(['shed' => 'course_event_shedule'], 	'o2s.shedule_id = shed.id', ['shedule_date' => 'date'], Join::JOIN_LEFT);
 		
 		if(!empty($filter['query'])){
 			$nest = $select->where->nest();
-			$nest->expression('concat(" ", LOWER(oc.name)) like ?', "% ".mb_strtolower($filter['query']."%"))
-				->or->expression('LOWER(oc.skype) like ?', mb_strtolower($filter['query']."%"))
-				->or->equalTo('oc.phone', Phone::normalize($filter['query']))
+			$nest->expression('concat(" ", LOWER(uc.name)) like ?', "% ".mb_strtolower($filter['query']."%"))
+				->or->expression('LOWER(ua.skype) like ?', mb_strtolower($filter['query']."%"))
+				->or->equalTo('ua.phone', Phone::normalize($filter['query']))
 				->or->expression('LOWER(ua.email) like ?', mb_strtolower($filter['query']."%"));
+			
+			$nest->or->expression('concat(" ", LOWER(c.title_ru)) like ?', "% ".mb_strtolower($filter['query']."%"))
+				->or->expression('LOWER(e.title_ru) like ?', mb_strtolower($filter['query']."%"));
 				
 		}
-			
+		
+		
 		return $select;
 	}
 	
@@ -110,7 +112,9 @@ class OrdersDb extends Table implements CRUDListModel, Historical, Discussion, S
 				return ($a['days'] < $b['days']) ? -1 : 1;
 			});
 		}
-		
+
+		$item['dates'] = $this->getOrderShedule($item['id']);
+				
 		return parent::buildItem($item);
 	}
 	
@@ -129,6 +133,19 @@ class OrdersDb extends Table implements CRUDListModel, Historical, Discussion, S
 		}
     }	
 	
+    
+    public function deleteOne($id){
+    	
+    	// Удаляем даты...
+    	$sql = new Sql( $this->getAdapter() );
+    	$delete = $sql->delete('order_order2shedule');
+    	$delete->where->expression('order_id = ?', $id);
+    	$sql->prepareStatementForSqlObject($delete)->execute();
+    	
+    	// И сам заказ
+    	return parent::deleteOne($id);
+    }
+    
 		
 	// History Model implementation
 	public function saveHistory(array $newValues = null, array $oldValues = null, $id = null) {
@@ -195,7 +212,7 @@ class OrdersDb extends Table implements CRUDListModel, Historical, Discussion, S
 	
 	
 	public function getEventOrderCount($eventId, $status = null){
-		$select = new Select(['o' => $this->table]);
+		$select = new Select(['o' 	=> 'order_orders']);
 		$select->reset(Select::COLUMNS)
 			->columns([
 					'count' => new Expression('count(o.id)')])
@@ -205,13 +222,13 @@ class OrdersDb extends Table implements CRUDListModel, Historical, Discussion, S
 		} else {
 			$select->where->notIn('o.status', [self::STATUS_ARCHIVE, self::STATUS_DECLINE]);
 		}
-			
+		return $select->fetchOne();
 	}
 	
 	
 	public function getSheduledOrderCount($sheduleId, $status = null){
-		$select = new Select(['o' 	=> $this->table]);
-		$select->join(['o2s' 		=> $this->table2shedule], ['o2s.order_id = o.id'], []);
+		$select = new Select(['o' 	=> 'order_orders']);
+		$select->join(['o2s' 		=> 'order_order2shedule'], 'o2s.order_id = o.id', [], Join::JOIN_INNER);
 		$select->reset(Select::COLUMNS);
 		
 		$select
@@ -223,6 +240,7 @@ class OrdersDb extends Table implements CRUDListModel, Historical, Discussion, S
 		} else {
 			$select->where->notIn('o.status', [self::STATUS_ARCHIVE, self::STATUS_DECLINE]);
 		}	
+		return $select->fetchOne();
 	}
 	
 	
@@ -235,6 +253,23 @@ class OrdersDb extends Table implements CRUDListModel, Historical, Discussion, S
 		return $select->fetchAll();
 	}
 	
+	public function addOrderShedule($orderId, $sheduleId){
+		
+		$sql = 'select count(*) from order_order2shedule where order_id = :orderId and shedule_id = :sheduleId';
+		$count = $this->getAdapter()->fetchOne($sql, ['orderId' => $orderId, 'sheduleId' => $sheduleId]);
+		if($count != 0 ) return null;
+		
+		$historyWriter = $this->getHistoryWriter(null, null, $orderId);
+		$date = $this->getSheduleDate($sheduleId);
+		$historyWriter->write('add_shedule', $date, null, $sheduleId);
+		
+		$insert = [
+				'order_id' => $orderId,
+				'shedule_id' => $sheduleId
+		];
+		return $this->getAdapter()->insert('order_order2shedule', $insert);
+		
+	}
 	
 	public function saveOrderShedule($orderId, $sheduleIds){
 		
@@ -288,6 +323,9 @@ class OrdersDb extends Table implements CRUDListModel, Historical, Discussion, S
 	public function getSheduleDate($sheduleId){
 		return $this->getAdapter()->fetchOne('select date from course_event_shedule where id = :id', ['id' => $sheduleId]);
 	}
+	
+	
+	
 	
 	
 }

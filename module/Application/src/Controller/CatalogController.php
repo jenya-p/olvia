@@ -101,8 +101,7 @@ class CatalogController extends SiteController implements LoggerAware{
 				$item['announcements'] = $this->eventDb->getCourseAnnouncements($item['id'], $filter);
 			} else if($filter['type'] == self::TYPE_COURSES){
 				$item['dates'] = $this->eventDb->getCourseDates($item['id'], $filter);
-			}
-			
+			}			
 		}
 		
 		return new ViewModel([			

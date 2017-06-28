@@ -12,6 +12,9 @@ use Common\Traits\ServiceManagerTrait;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Expression;
 use Zend\Db\Sql\Join;
+use Application\Model\Content\TagDb;
+use Application\Model\MasterDb;
+use Common\Traits\Initializable;
 
 class CourseDb extends Table implements CRUDListModel, Multilingual{
 
@@ -23,7 +26,7 @@ class CourseDb extends Table implements CRUDListModel, Multilingual{
 		$this->adapter = $adapter;
 		$this->langFields(['title', 'summary', 'body', 'seo_title', 'seo_description', 'seo_keywords']);
 	}
-
+	
 	public function getMaxPrice(){
 		return 40000;
 	}
@@ -126,8 +129,6 @@ class CourseDb extends Table implements CRUDListModel, Multilingual{
 		return parent::buildItem($item);
 	}
 	
-	
-	
 	public function getByAlias($alias){
 		$select = new Select(['c' => $this->table]);
 		$select->where->expression('c.alias = ?', $alias);
@@ -178,5 +179,27 @@ class CourseDb extends Table implements CRUDListModel, Multilingual{
 		
 		return $this->get($id);		
 	}
+	
+	
+	public function getMasterCourses($masterId){
+		$select = new Select(['c' => 'courses']);
+		$select->join(['e' => 'course_events'], 'e.course_id = c.id', [], Join::JOIN_INNER);
+		$select->join(['e2m' => 'course_event2master'], 'e.id = e2m.event_id', [], Join::JOIN_INNER);
+		$select->join(['shed' => 'course_event_shedule'], 'e.id = shed.event_id', [], Join::JOIN_INNER);
+		
+		$select->where
+			->equalTo('c.status', 1)->and
+			->equalTo('e.status', 1)->and
+			->greaterThan('shed.date', time() - 2*7*24*60*60) // Мастер ведет или вел мероприятия по курсу последние 2 недели 
+			->equalTo('e2m.master_id', $masterId);
+		
+		$select->group('c.id');
+			
+		return $this->fetchAll($select);
+		
+	}
+	
+	
+	
 	
 }

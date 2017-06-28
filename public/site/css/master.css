@@ -24,19 +24,19 @@ section.consult aside.right .form .has-error label.required:AFTER{color: #ff8c8c
 section.consult aside.right .fast-done {display: none;margin-top: 4em;}
 section.consult aside.right .fast-done p{text-align: center;padding: 30px;line-height: 2em;font-weight: normal;}
 
-section.course-list{   margin-left: -20px;}
-section.course-list .block{display: inline-block;width: 395px;padding-left: 20px;box-sizing: border-box;vertical-align: top;font-size: 0.9em;margin-bottom: 38px;cursor: pointer;}
-section.course-list .block img {margin: 0;width: 100%;max-width: none;border-radius: 11px;}
-section.course-list .block h2 {margin-top: 17px;margin-bottom: 15px;text-align: left;font-family: Helvetica Neue;font-weight: bold;}
-section.course-list .block p {/* margin-bottom: 11px; */}
-section.course-list .block p.info a,
-section.course-list .block .view-more{white-space: nowrap; border-bottom: none;}
-section.course-list .block p.info a.with-icon {border: none;text-decoration: underline;}
-section.course-list .block p.info a.with-icon>span{border-bottom: 1px dotted rgba(255, 255, 255, 0);transition: border-color 200ms ease;}
-section.course-list .block p.info a.with-icon:HOVER>span{border-bottom: 1px dotted black;}
-section.course-list .block p.info i{color: black;font-size: 0.9em;}
-section.course-list .block p.info a.like{float: right;}
-section.course-list .block p.info a.like i{color: #ff6580;}
+section.courses .course-list{   margin-left: -20px;}
+section.courses .block{display: inline-block;width: 395px;padding-left: 20px;box-sizing: border-box;vertical-align: top;font-size: 0.9em;margin-bottom: 38px;cursor: pointer;}
+section.courses .block img {margin: 0;width: 100%;max-width: none;border-radius: 11px;}
+section.courses .block h2 {margin-top: 17px;margin-bottom: 15px;text-align: left;font-family: Helvetica Neue;font-weight: bold;}
+section.courses .block p {/* margin-bottom: 11px; */}
+section.courses .block p.info a,
+section.courses .block .view-more{white-space: nowrap; border-bottom: none;}
+section.courses .block p.info a.with-icon {border: none;text-decoration: underline;}
+section.courses .block p.info a.with-icon>span{border-bottom: 1px dotted rgba(255, 255, 255, 0);transition: border-color 200ms ease;}
+section.courses .block p.info a.with-icon:HOVER>span{border-bottom: 1px dotted black;}
+section.courses .block p.info i{color: black;font-size: 0.9em;}
+section.courses .block p.info a.like{float: right;}
+section.courses .block p.info a.like i{color: #ff6580;}
 
 
 section.education {font-weight: lighter;}

@@ -16,7 +16,7 @@ $this->sidebar()->left('admin/courses/event/event-index.filter.phtml', $this->va
 		<tr>
 			<th style="width: 60px" class="tc">№</th>
 			<th class="tc" style="width: 100px" colspan="3">Дата</th>
-			<th>Курс</th>
+			<th>Курс / Мероприятие</th>
 			<th>Периодичность</th>			
 			<th>Заказов</th>
 			<th></th>
@@ -30,10 +30,16 @@ $this->sidebar()->left('admin/courses/event/event-index.filter.phtml', $this->va
 		<td class="tl" style="width: 70px"><?= $this->html()->date($item['date'],'M', '', '') ?></td>		
 		<td>
 			<a href="<?= $this->url('private/course-edit', ['id' => $item['course_id']]) ?>" title="Курс: <?= htmlentities($item['course_title'])?>">
-				<?= Utils::substrByWord($item['course_title'], 100)  ?>
-			</a></td>
+				<?= Utils::substrByWord($item['course_title'], 100)  ?></a>
+				<? if($item['course_title'] != $item['title']){  
+					echo ' / '.Utils::substrByWord($item['title'], 100);
+				} ?>				
+			</td>
 		<td><?= $item['type_name'] ?></td>		
-		<td><?= $item['order_count'] ?></td>
+		<td><?
+		if(!empty($item['order_count'])){
+			echo $item['order_count'];
+		} ?></td>
 		<td class="options">
 			 <a href="<?= $this->url('private/event-status', ['id' => $item['id']]) ?>" class="item-status">
 				<i class="fa fa-check <?= $item['status'] ? 'active': '' ?>"></i></a>

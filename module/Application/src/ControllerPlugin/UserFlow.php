@@ -13,8 +13,10 @@ use Zend\Session\Container;
 use Zend\View\Model\JsonModel;
 use ZfAnnotation\Annotation\ControllerPlugin;
 use Application\Model\Courses\EventDb;
+use Admin\Model\Courses\EventDb as AdminEventDb;
 use Application\Model\Courses\TarifsDb;
 use Application\Model\Orders\OrdersDb;
+use Admin\Model\Orders\OrdersDb as AdminOrderDb;
 
 /**
  * @ControllerPlugin(name = "userFlow")
@@ -122,8 +124,6 @@ class UserFlow extends AbstractPlugin implements ServiceManagerAware{
 	
 	
 	public function createOrder($data){
-
-		
 		
 		$controller = $this->getController();
 		if(!$controller instanceof SiteController){
@@ -143,6 +143,11 @@ class UserFlow extends AbstractPlugin implements ServiceManagerAware{
 		/* @var $tarifsDb TarifsDb */
 		$tarifsDb = $this->serv(TarifsDb::class);
 		
+		/* @var $adminEventDb AdminEventDb */
+		$adminEventDb = $this->serv(AdminEventDb::class);
+		/* @var $adminOrderDb AdminOrderDb */
+		$adminOrderDb = $this->serv(AdminOrderDb::class);
+		
 		$order = [];
 		$order['date'] = time();	
 		
@@ -153,7 +158,6 @@ class UserFlow extends AbstractPlugin implements ServiceManagerAware{
 		
 		$order['payed'] = 0;
 		$order['message'] = $data['message'];
-		
 				
 		if(!empty($data['date'])){ 
 			// Make event order
@@ -180,7 +184,13 @@ class UserFlow extends AbstractPlugin implements ServiceManagerAware{
 			
 			$order['status'] = \Admin\Model\Orders\OrdersDb::STATUS_NEW;
 			$orderId = $orderDb->insert($order);
-			$orderDb->addShedule($orderId, $shedule['id']);
+			
+			// Добавляем даты
+			$dates = $adminEventDb->getDefaultOrderShedule($orderId, $shedule['date']);
+			
+			foreach ($dates as $date){
+				$adminOrderDb->addOrderShedule($orderId, $date['id']);
+			}
 			
 		} else {
 			

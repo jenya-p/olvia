@@ -112,7 +112,7 @@ class CourseController extends CRUDController implements CRUDEditModel{
 		$imageService = $this->serv(ImageService::class);
 		
 		if(!$this->isNew){
-			// $this->layout()->site_url = $this->url()->fromRoute('course', ['id' => $this->id]);
+			$this->layout()->site_url = $this->url()->fromRoute('course-view', ['alias' => $this->item['alias']]);
 		}
 		
 		$uploadUrl = $this->url()->fromRoute('private/course-image-upload', ['id' => $this->id]);

@@ -14,6 +14,7 @@ use Admin\Model\Content\TagDb;
 use Common\Traits\ServiceManagerTrait;
 use Common\Traits\ServiceManagerAware;
 use Common\Db\OptionsModel;
+use Zend\Db\Adapter\ParameterContainer;
 
 class CourseDb extends Table implements CRUDListModel, Multilingual, Historical, ServiceManagerAware, OptionsModel {
 
@@ -58,13 +59,44 @@ class CourseDb extends Table implements CRUDListModel, Multilingual, Historical,
 		$select->limit($ipp)->offset(($p-1)*$ipp);
 		$select->order('c.id asc');
 		$items = $select->fetchAll();
-		foreach ($items as &$item){
-			$this->buildItem($item);
+	
+		if(!empty($items)){
+			$ids = array_column($items, 'id');
+			$ids = implode(', ', $ids);
+			
+			$eventsCount = $this->getAdapter()->fetchPairs('select e.course_id, count(*) from course_events e where e.course_id in ('.$ids.') group by e.course_id;');
+			$tarifsCount = $this->getAdapter()->fetchPairs('select t.course_id, count(*) from course_tarifs t where t.course_id in ('.$ids.') group by t.course_id;');
+			
+			foreach ($items as &$item){
+				
+				if(array_key_exists($item['id'], $eventsCount)){
+					$item['event_count'] = $eventsCount[$item['id']];
+				} else {
+					$item['event_count'] = 0;
+				}
+				if(array_key_exists($item['id'], $tarifsCount)){
+					$item['tarif_count'] = $tarifsCount[$item['id']];
+				} else {
+					$item['tarif_count'] = 0;
+				}
+				
+				$this->buildItem($item);
+			}
+		
 		}
+		
+		
 		return $items;
 	}
-		
+	
+	
 	public function buildItem(&$item){
+		if(!array_key_exists('event_count', $item)){
+			$item['event_count'] = $this->getAdapter()->fetchPairs('select count(*) from course_events e where e.course_id = :id', ['id' => $item['id']]);
+		}
+		if(!array_key_exists('tarif_count', $item)){
+			$item['tarif_count'] = $this->getAdapter()->fetchPairs('select count(*) from course_tarifs t where t.course_id = :id', ['id' => $item['id']]);
+		}
 		return parent::buildItem($item);
 	}
 

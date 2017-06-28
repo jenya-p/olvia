@@ -14,6 +14,9 @@ use Application\Model\Content\DiplomDb;
 use Application\Model\Content\ReviewDb;
 use Common\Db\Select;
 use Zend\View\Model\JsonModel;
+use Application\Model\Courses\CourseDb;
+use Application\Model\Content\TagDb;
+use Application\Model\Courses\EventDb;
 
 
 /**
@@ -86,6 +89,7 @@ class MasterController extends SiteController implements LoggerAware{
 			'item' => $item,
 			'tarifs' => $masterPricesDb->getMasterPrices($item['id']),
 			'diplomas' => $diplomDb->getMasterDiplomas($item['id']),
+			'courses' => $this->getMasterCourses($item['id']),
 			'review_items' =>	$reviewDb->getItems($reviewFilter, 1, 2),
 			'review_totals' =>	$reviewDb->getTotals($reviewFilter),
 		];
@@ -120,7 +124,26 @@ class MasterController extends SiteController implements LoggerAware{
 	
 	}
 
-	
+	private function getMasterCourses($masterId){
+		/* @var $courseDb CourseDb */
+		$courseDb = $this->serv(CourseDb::class);
+		
+		/* @var $tagDb TagDb */
+		$tagDb = $this->serv(TagDb::class);
+		
+		/* @var $eventDb EventDb */
+		$eventDb = $this->serv(EventDb::class);
+		
+		$courses = $courseDb->getMasterCourses($masterId);
+		foreach ($courses as &$course){
+			$course['tags'] = $tagDb->getCourseTags($itemId);
+			$course['dates'] = $eventDb->getCourseDates($itemId);
+			if(empty($course['dates'])){
+				$course['announcements'] = $eventDb->getCourseAnnouncements($itemId);
+			}			
+		}
+		return $courses;
+	}
 
 	
 }
