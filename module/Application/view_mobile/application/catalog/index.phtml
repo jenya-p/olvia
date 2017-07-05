@@ -1,0 +1,69 @@
+<?
+use Application\Controller\CatalogController;
+/* @var $this Common\View */
+
+$query = $this->query;
+$type = $this->filter['type'];
+$tag = $this->tag;
+
+$this->inlineScript()->appendFile("/assets/moment-with-locales.js");
+$this->inlineScript()->appendFile("/assets/date-range-picker/jquery.daterangepicker.min.js");
+$this->headLink()->appendStylesheet("/assets/date-range-picker/daterangepicker.min.css");
+
+$this->inlineScript()->appendFile("/assets/wnumb/wNumb.js");
+$this->inlineScript()->appendFile("/assets/nouislider/nouislider.min.js");
+$this->headLink()->appendStylesheet("/site/css/nouislider.custom.css");
+
+$this->inlineScript()->appendFile("/site/js/catalog.js");
+$this->headLink()->appendStylesheet("/site/css/catalog.css");
+
+$this->inlineScript()->appendFile('/site/js/course-order-popup.js');
+$this->headLink()->appendStylesheet('/site/css/_course-order.css');
+
+if(!empty($tag)){
+	$this->seo($tag);
+}
+if($type == CatalogController::TYPE_ANNOUNCEMENTS){
+	$h1 = 'Анонсы мероприятий';
+	$this->headTitle($h1);
+} else if($type == CatalogController::TYPE_ARCHIVE){
+	$h1 ='Архив мероприятий';
+	$this->headTitle($h1);
+} else {
+	$h1 = 'Каталог тренингов';
+	$this->headTitle($h1);	
+}
+
+//$this->layout('layout/home');
+?>
+
+<ul class="breadcrumb">
+	<li><a href="/">Главная</a></li>
+	<? if(empty($tag)){ ?>
+		<li><?= $h1 ?></li>
+	<? } else { ?>
+		<li><a href="<?= $this->url('catalog-index', ['type' => $type]) ?>">,<?= $h1 ?></a></li>
+		<li><?= $tag['name'] ?></li>
+	<? } ?>
+</ul>
+<?= $this->partial('index.filter.phtml', $this->vars())?>
+
+
+<section class="with-left-aside">
+	<h1><?= $h1 ?></h1>
+	
+	<div class="list">
+		<? foreach ($this->items as $item){ ?>
+		<?= $this->partial('index.item.phtml', ['item' => $item]) ?>
+		<? } ?>
+	</div>	
+	<? 
+		
+	?>
+	<nav class="pager">	
+		<?= $this->sitePaginator($this->page, $this->pageCount, function($i) use ($query){
+			return $this->url(null, ['p' => $i], ['query' => $query], true);
+		}); ?>
+	</nav>
+	
+</section>

@@ -92,70 +92,7 @@ $this->popupSigne();
 		</header>
 		<nav class="main-menu">
 			<div class="lay-wrapper-inner">
-				<ul class="lvl-1">
-					<li>
-						<a href="/article/sistemnye-rasstanovki">Системные расстановки</a>
-						<ul class="lvl-2">
-							<li><a href="/article/individualnie-rasstanovki">Индивидуальные</a></li> 
-							<li><a href="/article/semeynye-rasstanovki">Семейные</a></li> 
-							<li><a href="/article/organizacionnye-rasstanovki">Организационные</a></li>
-							<li><a href="/article/strukturnye-rasstanovki">Структурные</a></li>
-							<li><a href="/article/duhovnye-rasstanovki">Духовные</a></li>
-						</ul> 
-					</li>
-					<li>
-						<a href="<?= $this->url('catalog-index') ?>">Услуги</a>
-						<ul class="lvl-2">
-							<li><a href="/article/sistemnye-rasstanovki">Системные расстановки</a></li>
-							<li><a href="<?= $this->url('shedule') ?>">Расписание занятий</a></li>
-							<li><a href="/article/konsultacii-s-psihologom">Консультации с психологом</a></li>
-							<li><a href="/article/kouching">Коучинг</a></li>
-							<li><a href="/article/rabota-s-telom">Работа с телом</a></li>
-							<li><a href="<?= $this->url('catalog-index') ?>">Тренинги</a></li>
-							<li><a href="/article/uslugi-dlya-zhenschin">Для женщин</a></li>
-							<li><a href="/article/ezoterika">Эзотерика</a></li>
-							<li><a href="/article/vyezdnye-intensivy">Выездные интенсивы</a></li>
-							<li><a href="/article/astrologiya">Астрология</a></li>
-							<li><a href="/article/treningi-na-zakaz">Тренинги на заказ</a></li>
-							<li><a href="/article/proekty">Проекты</a></li>							
-						</ul>
-					
-					</li>
-					<li><a href="/article/obuchenie-v-centre-olviya">Обучение</a>
-						<ul class="lvl-2">
-							<li><a href="/article/obuchenie-rasstanovkam">Обучение расстановкам</a></li>
-							<li><a href="/article/telesno-orientirovannaya-terapiya">Телесно-ориентированная терапия</a></li>
-							<li><a href="/article/obuchenie-nlp">Обучение НЛП</a></li>
-							<li><a href="/article/gipnoz">Гипноз</a></li>
-							<li><a href="/article/travmoterapiya">Травмотерапия</a></li>
-							<li><a href="/article/semeynoe-konsultirovanie">Семейное консультирование</a></li>
-							<li><a href="/article/aromakonsultirovanie">Аромаконсультирование</a></li>
-							<li><a href="/article/processualnaya-rabota">Процессуальная работа</a></li>
-							<li><a href="/article/art-terapiya">Арт-терапия</a></li>
-							<li><a href="/article/ekzotericheskoe-obuchenie">Экзотерическое обучение</a></li>
-							<li><a href="/article/shkola-astrologii">Школа астрологии</a></li>							
-						</ul>
-					</li>
-					<li>
-						<a href="/article/biblioteka">Библиотека</a>
-						<ul class="lvl-2">
-							<li><a href="<?= $this->url('video-index') ?>">Видео</a></li> 
-							<li><a href="<?= $this->url('content-index') ?>">Статьи</a></li>
-							<li><a href="<?= $this->url('photo-index') ?>">Фотографии</a></li> 
-							<li><a href="/article/vebinary">Вебинары</a></li>
-						</ul>		
-					</li>
-					<li><a href="<?= $this->url('master-index') ?>">Наши специалисты</a></li>
-					<li><a href="<?= $this->url('catalog-index', ['type' => 'announcements']) ?>">Анонсы</a></li>
-					<li>
-						<span>О нас</span>
-						<ul class="lvl-2">
-							<li><a href="/contacts.php">Контакты</a></li>
-							<li><a href="<?= $this->url('master-index') ?>">Наши специалисты</a></li> 
-							<li><a href="<?= $this->url('review-index') ?>">Отзывы</a></li>
-						</ul>					
-					</li>
-				</ul>
+				<?= $this->partial('/parts/main-menu.phtml') ?>
 			</div>
 		</nav>
 <div class="navbar-placeholder"></div>

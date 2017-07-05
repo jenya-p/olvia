@@ -1,0 +1,31 @@
+<?
+/* @var $this Common\View */
+$this->headTitle($this->division['seo_title']);
+if(!empty($this->article['seo_keywords'])){
+	$this->headMeta($this->division['seo_keywords'], "keywords");
+}
+if(!empty($this->article['seo_description'])){
+	$this->headMeta($this->division['seo_description'], "description");
+}
+
+$this->inlineScript()->appendFile("/site/js/article.js");
+$this->headLink()->appendStylesheet('/site/css/content-index.css');
+?>
+
+<ul class="breadcrumb">
+	<li><a href="/">Главная</a></li>
+	<li><a href="<?= $this->url('content-index') ?>">Статьи</a></li>
+	<li><?= $this->division['title'] ?></li>
+</ul>
+
+<h1><?= $this->division['title'] ?></h1>
+
+<img src="<?= $this->image($this->division['image'], 1180, 360) ?>">
+
+<div class="block-wrp">
+	<ul>
+		<? foreach ($articles as $article){ ?>
+		<li><?= $this->html()->hdate($article['created']) ?> <a href="<?= $this->url('content-article', ['alias' => $article['alias']]) ?>"><?= $article['title'] ?> </a></li>
+		<? } ?> 
+	</ul>
+</div>

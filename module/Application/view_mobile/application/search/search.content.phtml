@@ -1,0 +1,24 @@
+<?
+use Common\ImageService;
+
+/* @var $this Common\View */
+?>
+
+<div class="image-wrp">
+	<img src="<?= $this->image($this->item['division']['image'], ImageService::SIZE_SEARCHLIST) ?>" />	
+</div>
+<div class="search-description"  data-href="<?= $this->url('content-article', ['alias' => $item['alias']])?>">
+<h2 class="like-h3">Статья: <?= $this->item['title'] ?></h2>
+	<? if(!empty($item['tags'])) {?>
+			<p class="info">
+				<? foreach ($item['tags'] as $tag) {?>
+				<a href="<?= $this->url('catalog-index', ['tag' => $tag['alias']]) ?>"><i class="icon-tag"></i><?= $tag['name'] ?></a>	
+				<? } ?>
+			</p>
+	<? }?>
+	<? if(!empty($item['intro'])){ ?>
+	<div class="summary">		
+		<?= $this->html()->plain2html( $item['intro']) ?>
+	</div>					
+	<? } ?>
+</div>

@@ -1,0 +1,10 @@
+<?
+
+/* @var $this Common\View */
+/* @var array $photo */
+$size = $this->image()->getSize($this->photo['image']);
+	?>
+<a href="<?= $this->image($this->photo['image']) ?>"  class="item" data-fancybox="gallery" title="<?= htmlentities($this->photo['title']) ?>">
+	<img src="<?= $this->image($this->photo['image'], 278, 180) ?>" alt="<?= htmlentities($this->photo['title']) ?>"/>
+</a>
+

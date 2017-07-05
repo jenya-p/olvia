@@ -197,6 +197,12 @@
       "css": "undo",
       "code": 59411,
       "src": "iconic"
+    },
+    {
+      "uid": "559647a6f430b3aeadbecd67194451dd",
+      "css": "menu",
+      "code": 61641,
+      "src": "fontawesome"
     }
   ]
 }

@@ -1,0 +1,86 @@
+<?
+/* @var $this Common\View */
+$this->headTitle('Расписание');
+$this->inlineScript()->appendFile('/site/js/course-order-popup.js');
+$this->inlineScript()->appendFile('/site/js/shedule.js');
+$this->headLink()->appendStylesheet('/site/css/_course-order.css');
+$this->headLink()->appendStylesheet('/site/css/shedule.css');
+
+
+echo $this->partial('application/shedule/filter.phtml', $this->vars());
+
+?>
+<nav class="month-pager">
+	<? $url = $this->url(null, ['date' => 'dummy_date'], [], true);
+echo $this->monthPaginator($this->currentDate, $this->sheduleBounds, 4, function($dt) use($url){
+	return str_replace('dummy_date', date('y-m-01', $dt), $url);
+}); ?>
+</nav>	
+
+<table class="shedule-calendar white-bg">
+<tr>
+	<th>понедельник</th>
+	<th>вторник</th>
+	<th>среда</th>
+	<th>четверг</th>
+	<th>пятница</th>
+	<th class="holiday">суббота</th>
+	<th class="holiday">восресение</th>
+</tr>
+					
+<tr>
+	<?
+	$thisMonth = date('m', $this->currentDate);
+	$nextMonth = date('m', strtotime('+ 1 month', $this->currentDate));	
+	$w  = intval(date('w', $this->currentDate));	
+	if($w == 0){
+		$w = 6;
+	} else {
+		$w --;
+	}
+	$date = $this->currentDate - 60*60*24*$w;		
+	do{
+		for ($d = 1; $d < 8; $d++){	?>
+			<?	
+				$cls = [];
+				if (date('m', $date) !== $thisMonth){
+					$cls[] = 'not-current-month';
+				}
+				if ($d > 5){
+					$cls[] = 'holiday';
+				}
+				if(!empty($cls)){
+					$cls = ' class="'.implode(' ', $cls).'"';
+				} else {
+					$cls = '';
+				}
+			?>
+			<td<?= $cls ?>>			
+				<span class="date"><?= date('d', $date) ?></span>
+				<? 
+				$dateKey = date('d-m-Y', $date);				
+				if(!empty($this->items[$dateKey])){
+					foreach ($this->items[$dateKey] as $item){ 
+						$query = [
+								'date' => $item['id'],
+						]
+					?>
+					<a class="course twm-popup-link" href="<?= $this->url('order-event-popup', [], ['query' => $query])?>" >
+						<span class="time"><?= $item['event']['time_text_from'] ? : date('H:i', $item['date']) ?></span><?= $item['event']['title'] ?>
+					</a>	
+				<? } } ?>
+			</td><?			
+			$date += 60*60*24; 
+		}
+		echo '</tr><tr>';
+	} while(date('m', $date) !== $nextMonth);
+	?> 
+	</tr>
+</table>
+
+<nav class="month-pager">
+	<? $url = $this->url(null, ['date' => 'dummy_date'], [], true);
+echo $this->monthPaginator($this->currentDate, $this->sheduleBounds, 4, function($dt) use($url){
+	return str_replace('dummy_date', date('y-m-01', $dt), $url);
+}); ?>
+</nav>	

@@ -13,8 +13,9 @@ return [
     'Zend\Router',
     'Zend\Validator',
 	'Zend\Navigation',
+	'Neilime\MobileDetect',
 	'ZfAnnotation',
-    'Common',
+    'Common',	
 	'Admin',
 	'Application',
 	'Api'

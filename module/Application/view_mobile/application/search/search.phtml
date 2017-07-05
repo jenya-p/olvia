@@ -1,0 +1,31 @@
+<?
+/* @var $this Common\View */
+$this->headTitle('Результаты поиска');
+$this->headLink()->appendStylesheet('/site/css/search.css');
+$this->inlineScript()->appendFile('/site/js/course-order-popup.js');
+$this->headLink()->appendStylesheet('/site/css/_course-order.css');
+?>
+<ul class="breadcrumb">
+	<li><a href="/">Главная</a></li>
+	<li>Результаты поиска</li>
+</ul>
+
+<form action="<?= $this->url('search-index') ?>" class="form">
+	<input type="text" name="query" value="<?= $this->query ?>" />
+	<input type="submit" value="Поиск"/>
+</form>
+<? if(!empty($this->search_results)) {
+	$i = 0;
+	foreach ($this->search_results as $sItem){ 
+		$item = $sItem['item'];
+		$entity= $sItem['entity'];
+		?><div class="search-result-item clr-after">
+		<div class="counter"><?= ++$il ?></div>
+		<?		
+		echo $this->partial('search.'.$entity.'.phtml', ['item' => $item]);
+		?></div><?
+	} 
+} else {?>
+<p class="empty-list-message">По вашему запросу ничего не найдено</p>
+
+<?}?>

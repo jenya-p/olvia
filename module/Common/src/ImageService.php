@@ -5,7 +5,8 @@ class ImageService{
 	
 	const SIZE_VIDEO_THUMB = 'vt';
 	const SIZE_REVIEW_USERPICK = 'rup';
-	const SIZE_BANNER = 'b'; 
+	const SIZE_BANNER = 'b';
+	const SIZE_BANNER_MOBILE = 'bmob';
 	const SIZE_ADMIN_LIST_THUMB = 'alt';
 	const SIZE_USERPICK_LARGE = 'ul';
 	const SIZE_SEARCHLIST = 'sl';
@@ -16,6 +17,7 @@ class ImageService{
 		self::SIZE_VIDEO_THUMB => 	[218,164],
 		self::SIZE_REVIEW_USERPICK => [78, 78],
 		self::SIZE_BANNER => [null, 550],
+		self::SIZE_BANNER_MOBILE => [500, 250],
 		self::SIZE_ADMIN_LIST_THUMB => [75, 25],
 		self::SIZE_USERPICK_LARGE => [310,310],
 		self::SIZE_SEARCHLIST => [135,135],
@@ -25,6 +27,7 @@ class ImageService{
 		self::SIZE_VIDEO_THUMB => '_vth',
 		self::SIZE_REVIEW_USERPICK => '_rup',
 		self::SIZE_BANNER => '_b',
+		self::SIZE_BANNER_MOBILE => '_bmob',
 		self::SIZE_ADMIN_LIST_THUMB => '_thumb',
 		self::SIZE_USERPICK_LARGE => '_ul',
 		self::SIZE_SEARCHLIST => '_sl',

@@ -1,0 +1,28 @@
+<?
+/* @var $this Common\View */
+/* @var $item array */
+?>
+
+<aside class="right white order">				
+	<h3>Записаться
+	<? /*	<a href="#panelToggleCalendar"><i class="icon-calendar"></i></a>
+		<a href="#panelToggleList" class="active"><i class="icon-list"></i></a>
+	*/ ?>
+	</h3>
+	
+	<form action="<?= $this->url('order-event') ?>" class="form form-course-order" id="courseOrderForm" method="post">
+		<div id="calendar_selector_wrapper">
+			<?= $this->partial('course-view.order.calendar.phtml', $this->vars()) ?>			
+		</div>
+		
+		<div class="field field-message">
+			<label class="label">Дополнительная информация</label>
+			<textarea name="message"></textarea>
+		</div>
+		
+		<div class="button-group">
+			<button type="submit" class="button purple">Записаться</button>
+		</div>
+	</form>
+	
+</aside>	

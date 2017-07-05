@@ -155,7 +155,7 @@ trait BaseElements{
 	
 	private function htmlHidden(Element $element){
 		$extras = $element->extraString();
-		return '<input type="hidden" name="'.$element->name().'" value="'.$element->value().'" '.$extras.'/>';
+		return '<input type="hidden" name="'.$element->name().'" value="'.htmlentities($element->value()).'" '.$extras.'/>';
 	}
 	
 	private function htmlPassword(Element $element){
@@ -165,7 +165,7 @@ trait BaseElements{
 	
 	private function htmlText(Element $element){
 		$extras = $element->extraString();
- 		return '<input type="text" name="'.$element->name().'" value="'.$element->value().'" '.$extras.'/>';
+		return '<input type="text" name="'.$element->name().'" value="'.htmlentities($element->value()).'" '.$extras.'/>';
 	}
 	
 	private function htmlNumber(Element $element){
@@ -174,7 +174,7 @@ trait BaseElements{
 	
 	private function htmlTextarea(Element $element){
 		$extras = $element->extraString();
-		return '<textarea name="'.$element->name().'" '.$extras.'>'.$element->value().'</textarea>';
+		return '<textarea name="'.$element->name().'" '.$extras.'>'.htmlentities($element->value()).'</textarea>';
 	}
 	
 	private function htmlSummernote(Element $element){

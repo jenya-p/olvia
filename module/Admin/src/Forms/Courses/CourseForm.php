@@ -46,11 +46,7 @@ class CourseForm extends Form implements ServiceManagerAware, Initializable{
  		$this->field('seo_description', 'textarea', 'SEO Description');
  			
  		$this->field('seo_keywords', 'textarea', 'SEO Keywords');
- 		
- 		
- 		$this->field('shedule', 'text', 'Расписание мероприятий');
- 		
- 		
+ 		 		
  		$this->field('submit', 'submit-group', null, ['label-save' => 'Сохранить', 'label-apply' => 'Применить', 'decorator' => 'simple']);
  		
  		$this->addClass('g-form');

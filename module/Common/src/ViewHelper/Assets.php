@@ -1,7 +1,5 @@
 <? 
 namespace Common\ViewHelper;
-use ZfAnnotation\Annotation\ViewHelper;
-use Zend\View\Renderer\PhpRenderer;
 
 
 class Assets extends \Zend\View\Helper\AbstractHelper {

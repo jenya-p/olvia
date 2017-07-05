@@ -1,0 +1,38 @@
+<?
+/* @var $this Common\View */
+$album = $this->album;
+
+$this->seo($album);
+
+$this->inlineScript()->appendFile('/assets/fancybox/jquery.fancybox.min.js');
+$this->headLink()->appendStylesheet("/assets/fancybox/jquery.fancybox.min.css");
+$this->headLink()->appendStylesheet("/site/css/photo.css");
+
+?>
+
+<ul class="breadcrumb">
+	<li><a href="/home.php">Главная</a></li>
+	<li><a href="<?= $this->url('photo-index') ?>">Фотоальбомы</a></li>
+	<li><?= $this->album['title'] ?></li>
+</ul>
+
+<h1><?
+if (! empty($album ['created'])) {
+	echo '<span class="date">' . $this->html()->date($album ['created'], 'M Y', '', '') . '</span>';
+}
+echo ' ' . $album ['title'];
+?></h1>
+
+
+<div class="photoalbum-wrp">
+	<? 
+	$i = 0;
+	foreach ($this->photos as $photo){ ?>
+	<? echo $this->partial('application/photo/album.item.phtml', ['photo'=>$photo]); ?>		
+	<? } ?>
+</div>
+
+
+<div class="content" data-editable="photoalbum-<?= $album['id'] ?>-body" >
+<?= $album['body'] ?>
+</div>

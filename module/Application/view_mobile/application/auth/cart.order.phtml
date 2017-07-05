@@ -1,0 +1,20 @@
+<?
+/* @var $this Common\View */
+?>
+<div class="info-message white-bg">
+	<div class="image">
+		<img src="/site/img/thanks.jpg" alt="Спасибо!" title="Спасибо!"/>
+	</div>
+	<div>				
+		<h2>Запись на мероприятие</h2> 
+		<? if(! empty($this->course_name)){ ?>
+		<p>Вы записываетесь на курс <?= $this->course_name?></p>
+		<? } else { ?>
+		<p>Вы записываетесь на мероприятие по курсу</p>
+		<? } ?>
+		<? if(! empty($this->tarif_name)){ ?>
+		<p>Тариф: <?= $this->tarif_name ?></p>
+		<? } ?>		
+		<p>Для успешного завершения зарегестрируйтесь на нашем сайте, или войдите под своими логином и паролем.</p>
+	</div>	
+</div>

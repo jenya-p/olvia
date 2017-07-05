@@ -1,0 +1,76 @@
+<? use Zend\Db\Adapter\Exception\InvalidQueryException;
+$this->layout('layout/simple');?>
+<div class = "exception-wrp">
+<h1><?php echo $this->translate('Ошибка') ?></h1>
+<?
+if (isset($this->display_exceptions) && $this->display_exceptions){
+if(isset($this->exception) && $this->exception instanceof Throwable){ 
+	$e = $this->exception;
+	$str = '';
+	do {		
+		
+		$str .= '<h3>'. get_class($e) .'</h3>';
+		if($e instanceof PDOException || $e instanceof Zend\Db\Adapter\Exception\RuntimeException ){
+			$str .= '<p>' . iconv('cp1251', 'UTF-8', $e->getMessage())  . "</p>";
+		} else {
+			$str .= '<p>ERROR: ' . 	$e->getMessage() . "</p>";
+		}
+		
+		$trace = $e->getTraceAsString();
+		foreach (explode("\n", $trace) as $line){
+			$line = str_replace(getcwd()."\\", "", $line);
+			
+			if(strpos($line, 'Doctrine\DBAL\Driver\PDOConnection->__construct') ||
+					strpos($line, 'Doctrine\DBAL\Driver\PDOMySql\Driver->connect')  ||
+					strpos($line, 'PDO->__construct') ){
+						$line = ' ------------------- censored --------------------- ';
+			}
+			
+			if(!strpos($line, "vendor\\")){
+				$str .= '<div class="primary-line">'.$line.'</div>';
+			} else {
+				$str .= '<div class="secondary-line">'.$line.'</div>';
+			}
+			
+		}		
+			
+// 		if($e instanceof PDOException ){
+// 			foreach ($e->getTrace() as $trace){
+// 				echo $trace['class']. ' => '.$trace['function']. "<br />";
+// 				if(	$trace['class'] == 'PDOStatement' && $trace['function'] == 'execute'){
+// 					print_r($trace);
+// 					$str .="<br /><br />SQL:<p>".$trace['args'][0].'</p>';
+// 				}
+// 			}
+// 		}
+						
+		$e = $e->getPrevious();
+		if ($e) {
+			$str .=' <hr/>';
+		} 
+	} while($e); 
+	
+	echo $str;  
+	
+   ?> </div>
+
+
+<?php } else { ?>
+<h3><?php echo $this->translate('No Exception available') ?></h3>
+<?php } ?>
+<?php } ?>
+
+</div>
+
+<style>
+body {background: #0e1228 ;color: #eee}
+
+.exception-wrp{margin: 2em 40px; font-family: monospace; font-size: 15px; line-height: 20px; text-indent: -20px;}
+.exception-wrp h1{text-align: left;}
+.exception-wrp h3 {text-align: left;}
+.exception-wrp .primary-line{color: #f0ad4e}
+.exception-wrp .secondary-line{color: #9D9D9D}
+</style>
+
+ 
+ 

@@ -1,0 +1,33 @@
+<?
+/* @var $this Common\View */
+/* @var $item array */
+$shedule = $this->shedule;
+if (!empty($shedule)) {;
+?>
+<h2>Расписание мероприятий на <?= $this->html()->date($this->calendar_date,'M Y', '', '') ?></span></h2>		
+<div class="white-bg">		
+	<table class="shedule-list-light">
+		<tr>
+			<th>Дата</th>
+			<th>Время</th>
+			<th>Наименование мероприятия и тренер</th>
+			<th>Тариф</th>
+			<th class="shedule-list--price">Цена</th>
+			<th></th>
+		</tr>
+		<? foreach ($this->shedule as $date){
+			foreach ($date['tarifs'] as $tarif){
+				echo $this->partial('application/courses/course-view.shedule.item.phtml', ['date' => $date, 'tarif' => $tarif]);
+			}
+		} ?>
+	</table>
+	<? } ?>			
+	<nav class="month-pager">
+	<?			
+		$url = $this->url('course-shedule-part', ['id' => $this->item['id'], 'month' => 'dummy_date']);
+		echo $this->monthPaginator($this->calendar_date, $this->shedule_bounds, 5, function($dt) use($url){
+			return str_replace('dummy_date', date('y-m', $dt), $url);
+		});				
+	?>			
+	</nav>
+</div>

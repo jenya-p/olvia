@@ -1,0 +1,20 @@
+<?
+/* @var $this Common\View */
+$this->headTitle('Отзывы');
+$this->inlineScript()->appendFile("/site/js/master-list.js");
+$this->headLink()->appendStylesheet('/site/css/master-list.css');
+?>
+
+<ul class="breadcrumb">
+	<li><a href="/">Главная</a></li>
+	<li>Наши специалисты</li>
+</ul>
+<h1>Наши специалисты</h1>
+<div class="master-list column-view" data-url="<?= $this->url() ?>" data-page="1">
+	<div class="column column-1"></div>
+	<div class="column column-2"></div>		
+	<? echo $this->partial('/application/master/index.items.phtml', $this->vars()); ?>	
+</div>
+<p class="ajax-list-loading">Загрузка...</p>
+
+

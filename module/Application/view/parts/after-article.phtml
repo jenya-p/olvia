@@ -17,7 +17,7 @@ $item = $this->item;
 	
 	<span class="article-author">
 	<? if(!empty($item['author_alias']) && !empty($item['author_name'])){ ?>
-		<label>Автор: </label><a href="<?= $this->url('master', ['alias' => $item['author_alias']]) ?>"><?= $item['author_name'] ?></a>
+		<label>Автор: </label><a href="<?= $this->url('master-view', ['alias' => $item['author_alias']]) ?>"><?= $item['author_name'] ?></a>
 	<? } ?>
 	</span>
 	<? if(!empty($item['created'])){ ?>

@@ -1,0 +1,57 @@
+<?
+/* @var $this Zend\View\Renderer\PhpRenderer */
+$this->headTitle("Восстановление пароля");
+$this->headLink()->appendStylesheet("/site/css/user.css");
+/* @var $form Zend\Form\Form */
+$form = $this->form;
+?>
+
+<ul class="breadcrumb">
+	<li><a>Главная</a></li>
+	<li>Восстановление пароля</li>
+</ul>
+
+<div class="white-bg panel-w50">
+	<h1>Восстановление пароля</h1>
+	<form action="" method="post" class="form gray form-password" id="forgetForm" data-accepted="no">
+	<?= $errors->render('form');?>
+	<? if($this->step == 'pass'){?>
+	
+		<div class="field has-error">
+			<label class="label required">Новый пароль</label> 
+			<input type="password" name="password1"  />
+		</div>
+
+		<div class="field has-error">
+			<label class="label required">Повторите ввод пароля</label> 
+			<input type="password" name="password2" />
+		</div>
+
+		<div class="button-group">
+			<input type="submit" class="button pink submit" value="Поменять пароль" />
+		</div>
+	
+	<? } else if($this->step == 'code'){?>
+		<div class="field">
+			<label class="label required">Код</label> 
+			<input type="text" name="code" />
+			<p class="description">Введите код, полученный вами в письме</p>
+		</div>
+
+		<div class="button-group">
+			<input type="submit" class="button pink submit" value="Продолжить" />
+		</div>
+	<? } else {?>
+		<div class="field">
+			<label class="label required">Ваш email</label> 
+			<input type="text" name="login" />
+			<p class="description">На этот адрес будут отправлены инструкции по восстановлению</p>
+		</div>
+
+		<div class="button-group">
+			<input type="submit" class="button pink submit" value="Восстановить пароль" />
+		</div>
+	<? }?>	
+		
+</form>
+</div>

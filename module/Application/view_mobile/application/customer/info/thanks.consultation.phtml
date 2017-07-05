@@ -1,0 +1,21 @@
+<?
+/* @var $this Common\View */
+?>
+<div class="info-message white-bg">
+	<div class="image">
+		<img src="/site/img/thanks.jpg" alt="Спасибо!" title="Спасибо!"/>
+	</div>
+	<div>				
+		<h2>Вы успешно зарегистривались на консультацию</h2> 
+		<? if(! empty($this->master_name)){ ?>
+		<p>Вы записываетесь на персональную консультацию к специалисту <?= $this->master_name?></p>
+		<? } else { ?>
+		<p>Вы записываетесь на персональную консультацию</p>
+		<? } ?>
+		<? if(! empty($this->tarif_name)){ ?>
+		<p>Тариф: <?= $this->tarif_name ?></p>
+		<? } ?>		
+		<p>Вскоре наши операторы свяжутся с Вами для уточнения времени консультации</p>
+	</div>	
+</div>
+

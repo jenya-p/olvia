@@ -1,0 +1,17 @@
+
+/* Article-list page */
+.page-content-index .main .block-wrp{-webkit-column-count: 3;column-count: 3;-moz-column-count: 3;-webkit-column-gap: 40px;-moz-column-gap: 40px;column-gap: 40px;}
+.page-content-division .main .block-wrp{-webkit-column-count: 2;column-count: 2;-moz-column-count: 2;-webkit-column-gap: 40px;-moz-column-gap: 40px;column-gap: 40px;}
+.main .block-wrp .block{display: inline-block;width: 100%;box-sizing: border-box;overflow: hidden;margin-bottom: 2.8em;
+box-shadow: 0 36px 33px -42px rgba(0,0,0,0.2);}
+.main .block-wrp .block>a{color: inherit; text-decoration: none;}
+.main .block-wrp .block h2{line-height: 1.2em;margin: 0.8em 0 0.5em 0;}
+.main .block-wrp .block img{margin: -1em 0 0 -1em;}
+.main .block-wrp .block ul {}
+.main .block-wrp ul li {display: block;padding: 0.84em 0;position: relative;}
+.main .block-wrp ul li .htime{font-size: 0.9em; margin-right: 10px;}
+.page-content-index .main .block-wrp ul li a {color: black;font-size: 0.9em;}
+.main .block-wrp ul li a:HOVER { color: #813a94;    text-decoration: underline;}
+.main .block-wrp ul li a.view-more{text-align: center;display: block;}
+
+.page-content-division .main h1+img{margin-bottom: 2em}

@@ -1,0 +1,29 @@
+<?
+use Common\ViewHelper\Assets;
+
+/* @var $this Zend\View\Renderer\PhpRenderer */
+?>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<?= $this->headTitle($this->translate('Ольвия. Центр семейного консультирования'))->setSeparator(' - ')->setAutoEscape(false) ?>
+	
+	<?= $this->headMeta()
+			->appendName('viewport', 'width=device-width, initial-scale=1.0, user-scalable=0')
+			->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+	?>
+	<?= $this
+			->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/favicon.png'))
+			->prependStylesheet('/assets/fontello/css/animation.css')
+			->prependStylesheet('/assets/fontello/css/fontello-embedded.css')
+			->prependStylesheet('/mobile/css/_signe-form.css')
+			->prependStylesheet('/mobile/css/_call-form.css')
+			->prependStylesheet('/mobile/css/style.css')
+			->prependStylesheet('/site/css/fonts.css')
+			->prependStylesheet('/site/css/reset.css');            		
+	?>
+	
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+	
+	<?= $this->headScript()	?>
+	
+</head>

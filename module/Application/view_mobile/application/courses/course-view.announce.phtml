@@ -1,0 +1,48 @@
+<?
+/* @var $this Common\View */
+/* @var $item array */
+$announce = $this->announce;
+?>
+
+<aside class="right white order">				
+	<h3>Предварительная запись</h3>
+	<p style="margin-bottom: 1em;">На это мероприятие открыта предварительная запись</p>
+	<p class="clr-after date" style="margin-bottom: 2em;">
+		<span class="to-left"><i class="icon-calendar"></i> <?= $announce['date_text'] ?></span>
+		<? if(! empty($announce['time_text'])) { ?>
+		<span class="to-right"><i class="icon-clock"></i> 
+			<? if(!empty($announce['time_text_from'])){ ?>
+				c <?= $announce['time_text_from'] ?>
+			<? if(!empty($announce['time_text_till'])){ ?>
+				до <?= $announce['time_text_till'] ?>
+			<? } ?>
+			<? } else { ?> 
+			<?= $announce['time_text_duration'] ?>
+			<? } ?>
+		</span>
+		<? } ?>
+	</p>	
+	<? if(!empty($this->anounce_masters)) {?>
+	<p class="info" style="margin-bottom: 2em;">
+		<label>Ведущий: </label>
+	
+		<?= implode(', ', array_map(function($master){
+				return '<a href="'. $this->url('master-view', ['alias' => $master['alias']]) .'">'. $master['name'] .'</a>';
+			}, $this->anounce_masters)); ?>
+	 
+	</p>
+	<? } ?>
+	
+	<form action="<?= $this->url('order-event') ?>" class="form form-course-order" id="courseOrderForm" method="post">
+		<input type="hidden" name="event" value="<?= $announce['id'] ?>">
+		<div class="field field-message">
+			<label class="label">Дополнительная информация о Вас</label>
+			<textarea name="message"></textarea>
+		</div>
+		
+		<div class="button-group">
+			<button type="submit" class="button purple">Записаться</button>
+		</div>
+	</form>
+	
+</aside>	

@@ -1,0 +1,62 @@
+<?
+/* @var $this Common\View */
+$this->headTitle($this->article['seo_title']);
+if(!empty($this->article['seo_keywords'])){
+	$this->headMeta($this->article['seo_keywords'], "keywords");
+}
+if(!empty($this->article['seo_description'])){
+	$this->headMeta($this->article['seo_description'], "description");
+}
+$this->headLink()->appendStylesheet('/mobile/css/article.css');
+?>
+
+<? if(!empty($this->division)){ ?>
+	<a class="breadcrumb-back-link" href="<?= $this->url('content-division', ['alias' => $this->division['alias']]) ?>"><?= $this->division['title'] ?></a></li>
+<? } else if($this->article['type'] == 'article'){ ?>
+	<a class="breadcrumb-back-link" href="<?= $this->url('content-index') ?>">Статьи</a></li>
+<? } else { ?>
+	<a class="breadcrumb-back-link" href="/">Главная</a>	
+<? } ?>
+
+<? if(strpos($this->article['body'], '<h1>') === false){ ?> 
+	<h1><?= $this->article['title'] ?></h1>
+<?}?>
+<div class="content">
+	<?= $this->article['body'] ?>
+</div>
+	
+<? if (!empty($this->courses)){ ?>
+<aside class="right white">
+	<p>Обратите внимание на <i>наши курсы</i>:</p> 
+	<? foreach ($this->courses as $course){ ?>
+
+	<div class="block course-block" data-href="<?= $this->url('course-view', ['alias' => $course['alias']]) ?>">
+		<h2 class="like-h3"><?= $course['title'] ?></h2>
+		<img src="<?= $this->image($course['image'], 380, 176) ?>" alt="<?= htmlentities($course['title']) ?>" />
+		<? if(!empty($similar['tags'])) {?>
+			<p class="info">
+				<? foreach ($course['tags'] as $tag) {?>
+				<a href="<?= $this->url('catalog-index', ['tag' => $tag['alias']]) ?>"><i class="icon-tag"></i><?= $tag['name'] ?></a>	
+				<? } ?>
+			</p>
+		<? }?>					
+
+		<? if(!empty($course['masters'])) {?>
+			<p class="info">
+			<label>Тренер: </label>			
+				<?= implode(', ', array_map(function($master){
+						return '<a href="'. $this->url('master-view', ['alias' => $master['alias']]) .'">'. $master['name'] .'</a>';
+					}, $similar['masters'])); ?>			 
+			</p>
+		<? } ?>	
+		<? if(!empty($course['summary'])){ ?>
+		<div class="summary">		
+			<?= $this->html()->plain2html( $course['summary']) ?>
+		</div>					
+		<? } ?>	
+	</div>
+<? } ?>		
+</aside>
+<? } ?>
+
+<?= $this->partial('/parts/after-article', ['item' => $this->article]); ?>

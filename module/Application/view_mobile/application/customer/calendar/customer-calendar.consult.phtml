@@ -1,0 +1,62 @@
+<?php
+	$meetDate = $this->item['meet_date'];
+	$order = 	$this->order;
+	$shedule = 	$this->shedule;
+	$event = 	$this->event;
+	$tarif = 	$this->tarif;		
+?>
+<tr>
+	<td class="twm-popup-link" href="#courseOrderPopup">
+		<? $date = explode(' ',$dateArr[0]); ?>
+			<p><?= $date[0] ?> <?= $date[1] ?></p>
+			<p><?= $date[2] ?></p>
+	</td>
+	<td class="shedule-list--time" class="twm-popup-link" href="#courseOrderPopup">
+		<? $time = explode(' ',$dateArr[1]); ?>
+		<p class="time-till-wrp">
+			<span class="from"><?= $time[0] ?></span>
+			<span class="till"><?= $time[1] ?></span>
+		</p>
+	</td>
+	<td class="twm-popup-link" href="#courseOrderPopup">	
+		<p><?= $name ?></p>
+		<? if(!empty($master)){ ?> 
+		<p class="info">Ведущий: <?
+			echo implode(', ', array_map(function ($master) {
+				return '<a href="/master.php">'. $master .'</a>';
+			}, $master));
+				
+		?></p>
+		<p class="info">Адрес: 
+		<? if (!empty($dateArr[2])){ ?>
+			<a href="javascrpt:;"><i class="icon-location"></i><?= $dateArr[2] ?></a> 
+		<? }  else { ?>
+			<a href="javascrpt:;"><i class="icon-location"></i> м. Пушкинская, ул. Малая Дмитровка, 18а </a>
+		<? } ?>			
+		</p>
+		<? } ?>
+	</td>
+	<td class="twm-popup-link" href="#courseOrderPopup"><?= $tarif ?></td>
+	
+	<td class="pay">			
+		<? if ($price > 0){ ?>
+			<label class="checkbox"><input type="checkbox" name="payment" checked="checked" data-value="<? $price ?>" /><span><?= number_format($price, 0, '.', ' ')?> р.</span></label>
+		<? } else if ($price < 0){ ?>
+			<label class="payed"><i class="icon-check-1"></i><?= number_format(-$price, 0, '.', ' ')?> р.</span></label>
+		<? } else if ($price == 0){ ?>
+			<label class="free">бесплатно</label>
+		<? } ?>			
+	</td>
+	<td class="status">	
+		<? if ($status == 0){ ?>
+			<i class="icon-lock"></i>
+		<? } else { ?>
+			<a href="#removeCoursePopup" class="twm-popup-link">
+				<i class="icon-edit"></i>
+			</a>
+			<a href="#removeCoursePopup" class="twm-popup-link">					
+				<i class="icon-trash-empty"></i>
+			</a>
+		<? } ?>			
+	</td>
+</tr>	

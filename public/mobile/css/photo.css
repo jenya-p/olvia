@@ -1,0 +1,8 @@
+
+/* Photo page */
+
+.main {}
+.main h1 .date {color: #854698;margin: 0 0.8em 0 0;display: inline-block;}
+.main .photoalbum-wrp {margin-bottom: 3em;}
+.main .photoalbum-wrp .row{white-space: nowrap;	overflow: hidden;	text-align: center;}
+.main .photoalbum-wrp a{ margin: 6px; display: inline-block; height: 180px; overflow: hidden;}

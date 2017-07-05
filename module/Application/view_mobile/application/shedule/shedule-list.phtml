@@ -1,0 +1,61 @@
+<?
+/* @var $this Common\View */
+$this->headTitle('Расписание');
+
+$this->inlineScript()->appendFile('/site/js/course-order-popup.js');
+
+$this->inlineScript()->appendFile('/site/js/shedule.js');
+$this->headLink()->appendStylesheet('/site/css/_course-order.css');
+$this->headLink()->appendStylesheet('/site/css/shedule.css');
+
+echo $this->partial('application/shedule/filter.phtml', $this->vars());
+
+?>
+
+<nav class="month-pager">
+	<? $url = $this->url(null, ['date' => 'dummy_date'], [], true);
+echo $this->weekPaginator($this->currentDate, $this->sheduleBounds, 2, function($dt) use($url){
+	return str_replace('dummy_date', date('y-m-d', $dt), $url);
+}); ?>
+</nav>
+<?
+if(!empty($this->items)){ ?> 
+<table class="shedule-list">
+	<tr>
+		<th>Дата</th>
+		<th>Время</th>
+		<th colspan="2">Название тренинга и тарифы</th>
+		<th>Запись</th>
+	</tr>	
+	<? foreach ($this->items as $date => $dateItems){ ?>	
+	<tr class="borderred"><td colspan="6">&nbsp;</td></tr>	
+	<? foreach ($dateItems as $key => $item){ ?>
+	<tr>
+	<? if($key == 0) {
+		$dayTime = strtotime($date);
+		$w = date('w',$dayTime);		
+		?>	
+		<td rowspan="<?= count($dateItems) ?>" class="date<?= ($w == 0 || $w == 6) ? ' holiday': '' ?>">
+			<p><?= date('d', $dayTime) ?></p>
+			<p><?= $this->html()->date($dayTime, 'M', '', 's') ?></p>
+			<p><?= $this->html()->date($dayTime, 'l') ?></p>
+		</td>
+	
+	<? } ?>
+	<?= $this->partial('shedule-list.item.phtml', ['item' => $item]) ?>
+	</tr>
+	<? } ?>
+		
+	<? } ?>
+</table>
+
+<nav class="month-pager">
+	<? $url = $this->url(null, ['date' => 'dummy_date'], [], true);
+echo $this->weekPaginator($this->currentDate, $this->sheduleBounds, 4, function($dt) use($url){
+	return str_replace('dummy_date', date('y-m-d', $dt), $url);
+}); ?>
+</nav>
+
+<? } else { ?>
+	<p class="empty-list-message">Мероприятия на этой неделе не запланированы</p>
+<? } ?>

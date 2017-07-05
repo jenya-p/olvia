@@ -1,0 +1,17 @@
+<?
+use Common\ImageService;
+
+/* @var $this Common\View */
+/* @var array $photo */
+$url = $this->url('video-view', ['alias' => $this->item['alias']]);
+?>
+
+<div class="video-entry">
+	<a href="<?= $url ?>">
+		<img src="<?= $this->image($this->item['thumb'], ImageService::SIZE_VIDEO_THUMB) ?>" />
+		<? if(!empty($this->item['duration'])) { ?>
+		<span class="time"><?= $this->html()->time($this->item['duration']) ?></span>
+		<? } ?>
+		<span><?= $this->item['title'] ?></span>
+	</a>
+</div>

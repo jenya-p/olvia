@@ -1,0 +1,25 @@
+<?
+use Common\ImageService;
+/* @var $this Common\View */
+$banners = $this->banners;
+if (empty($banners)){return ;}
+?>
+
+<section class="lay-banner">	
+	<ul class="banner">
+		<? foreach ($banners as $banner){ 
+			$image = $banner['image_m'];
+			if(empty($image)){
+				$image = $banner['image'];
+			}
+			?>
+		<li style="background-color: <?= $banner['bg_color'] ?>; background-image: url(<?= $this->image($image, ImageService::SIZE_BANNER_MOBILE) ?>)"<? 
+			?> class="<?= $banner['alias'] ?>"<?		
+			?> data-href="<?= $banner['link'] ?>">			
+			<? if(!empty($banner['body'])){ ?>
+			<?= $banner['body'] ?>
+			<? } ?>			
+		</li>	
+		<? } ?>		
+	</ul>	
+</section>

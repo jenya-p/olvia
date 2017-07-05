@@ -32,6 +32,10 @@ class BannerForm extends Form implements Initializable{
  		$this->field('image', 'image-upload', ['text' => ''])
  			->description('Рекомендованная высота: 550px, ширина - от 1180px')
  			->validator('required', 'Загрузите изображение');
+ 		
+ 		$this->field('image_m', 'image-upload', ['text' => ''])
+ 			->description('Рекомендованная ширина - 500px, высота: 250px');
+ 			
  		$this->field('bg_color', 'text', 'Цвет фона')
  			->description('Валидный CSS цвет');
  		

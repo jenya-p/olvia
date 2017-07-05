@@ -14,12 +14,30 @@ use Application\ViewHelper\UserFlowCartInfo;
 use Application\ViewHelper\SitePaginator;
 use Application\ViewHelper\MonthPaginator;
 use Application\ViewHelper\WeekPaginator;
+use Zend\Http\Header\SetCookie;
+use Zend\Http\Request;
+use Zend\Mvc\MvcEvent;
+use Zend\ModuleManager\Feature\BootstrapListenerInterface;
+use Common\ContextSwitcher;
 
-class Module implements ConfigProviderInterface, AutoloaderProviderInterface, ViewHelperProviderInterface {
+class Module implements ConfigProviderInterface, AutoloaderProviderInterface, ViewHelperProviderInterface,BootstrapListenerInterface {
 
 	public function getConfig() {
 		return include __DIR__ . '/config/module.config.php';
 	}
+	
+	
+	public function onBootstrap(\Zend\EventManager\EventInterface $e) {
+		/* @var $app \Zend\Mvc\Application */
+		$app = $e->getApplication();
+		$context = new ContextSwitcher();
+		$context->setMobileViewPath(__DIR__.DS.'view_mobile'.DS);
+		$context->attach($app->getEventManager());
+		
+	}
+	
+	
+
 
 	public function getViewHelperConfig() {
 		return [ 

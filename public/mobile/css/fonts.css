@@ -1,0 +1,93 @@
+
+@font-face {
+    font-family:'Comfortaa';
+    src: url('../fonts/Comfortaa Light.woff2') format('woff2'),
+		url('../fonts/Comfortaa Light.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-2074;
+}
+
+@font-face {
+    font-family:'Comfortaa';
+    src: url('../fonts/Comfortaa Regular.woff2') format('woff2'),
+		url('../fonts/Comfortaa Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-2074;
+}
+
+
+@font-face {
+    font-family:'Comfortaa';
+    src: url('../fonts/Comfortaa Bold.woff2') format('woff2'),
+		url('../fonts/Comfortaa Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-2074;
+}
+
+/*
+@font-face {
+    font-family: "Comfortaa";
+    src: url("../fonts/ComfortaaRegular/ComfortaaRegular.eot");
+    src: url("../fonts/ComfortaaRegular/ComfortaaRegular.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/ComfortaaRegular/ComfortaaRegular.woff") format("woff"),
+    url("../fonts/ComfortaaRegular/ComfortaaRegular.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 200;    
+}
+
+@font-face {
+    font-family: "Comfortaa";
+    src: url("../fonts/ComfortaaLight/ComfortaaLight.eot");
+    src: url("../fonts/ComfortaaLight/ComfortaaLight.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/ComfortaaLight/ComfortaaLight.woff") format("woff"),
+    url("../fonts/ComfortaaLight/ComfortaaLight.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Comfortaa";
+    src: url("../fonts/ComfortaaBold/ComfortaaBold.eot");
+    src: url("../fonts/ComfortaaBold/ComfortaaBold.eot?#iefix")format("embedded-opentype"),
+    url("../fonts/ComfortaaBold/ComfortaaBold.woff") format("woff"),
+    url("../fonts/ComfortaaBold/ComfortaaBold.ttf") format("truetype");
+    font-style: normal;
+    font-weight: 700;
+}
+*/
+
+@font-face {
+    font-family:'Helvetica Neue';
+    src: url('../fonts/HelveticaNeueCyr-Medium.woff2') format('woff2'),
+		url('../fonts/HelveticaNeueCyr-Medium.woff') format('woff');
+    font-weight: 550;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-0491;
+}
+
+@font-face {
+    font-family:'Helvetica Neue';
+    src: url('../fonts/HelveticaNeueCyr-Bold.woff2') format('woff2'),
+		url('../fonts/HelveticaNeueCyr-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-0491;
+}
+
+@font-face {
+    font-family:'Helvetica Neue';
+    src: url('../fonts/HelveticaNeueCyr-Light.woff2') format('woff2'),
+		url('../fonts/HelveticaNeueCyr-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-stretch: normal;
+    unicode-range: U+0020-0491;
+}

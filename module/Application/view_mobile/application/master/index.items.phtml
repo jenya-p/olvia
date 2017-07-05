@@ -1,0 +1,18 @@
+<?
+/* @var $this Common\View */
+foreach ($this->items as $master){ 
+	$url = $this->url('master-view', ['alias' => $master['alias']]);
+?>
+<div class="block" data-href="<?= $url ?>">
+	<div class="block-inner">
+		<img src="<?= $this->image($master['image'],195, 195)?>" alt="<?= $master['name'] ?>" />
+		<h4><?= $master['name'] ?></h4>
+		<? if(!empty($master['summary'])){ ?>
+			<div data-editable="master-<?= $master['id'] ?>-summary" >		
+			<?= $master['summary'] ?>
+			</div>
+			<a href="<?= $url ?>" class="view-more">читать далее...</a>
+		<? } ?>
+	</div>
+</div>	
+<? } ?>

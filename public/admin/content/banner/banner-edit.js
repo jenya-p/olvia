@@ -40,4 +40,6 @@ jQuery(function(){
 	
 	$('[name=image]', form).imageUpload();
 	
+	$('[name=image_m]', form).imageUpload();
+	
 })

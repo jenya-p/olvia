@@ -97,6 +97,11 @@ class BannerController extends CRUDController implements CRUDEditModel{
 			->url($uploadUrl)
 			->preview($imageService->resize($this->item['image'], ImageService::SIZE_BANNER))
 			->full($imageService->resize($this->item['image']));
+		
+		$this->form->field('image_m')
+			->url($uploadUrl)
+			->preview($imageService->resize($this->item['image_m'], ImageService::SIZE_BANNER))
+			->full($imageService->resize($this->item['image_m']));
 				
 		return [
 			'stat' => $this->db->getStat($this->item['id'])
@@ -148,13 +153,35 @@ class BannerController extends CRUDController implements CRUDEditModel{
     		$id = $this->db->getNextId();
     	}
     
-    	$image = $imageService->import($this->params()->fromFiles('image'), 'banners/'.$id);
-        	
+    	$imageSrc = $this->params()->fromFiles('image');
+    	$imageSrcMob = $this->params()->fromFiles('image_m');
+    	
+    	if(!empty($imageSrc)){
+    		$image = $imageService->import($imageSrc, 'banners/'.$id);
+    		return new JsonModel([
+    				'result' => 'ok',
+    				'original' => $image,
+    				'preview' => $imageService->resize($image,  ImageService::SIZE_BANNER)
+    		]);
+    	}
+    	
+    	if(!empty($imageSrcMob)){
+    		$image = $imageService->import($imageSrcMob, 'banners/'.$id.'m');
+    		return new JsonModel([
+    				'result' => 'ok',
+    				'original' => $image,
+    				'preview' => $imageService->resize($image,  ImageService::SIZE_BANNER_MOBILE)
+    		]);
+    	}
+    	
     	return new JsonModel([
-    			'result' => 'ok',
-    			'original' => $image,
-    			'preview' => $imageService->resize($image,  ImageService::SIZE_BANNER)
+    			'result' => 'error',
+    			'message' => 'Что то пошло не так'
     	]);
+    	
+    	
+        	
+    	
     
     }
     

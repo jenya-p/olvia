@@ -1,0 +1,11 @@
+/* Article page */
+.course-block{font-size: 0.9em;margin-bottom: 4em;cursor: pointer;margin-top: 3em;}
+.course-block img {margin: 0;height: 176px;width: 380px;margin-left: -16px;margin-bottom: 10px;}
+.course-block h2 {margin-top: 17px;margin-bottom: 15px;text-align: left;font-family: Helvetica Neue;font-weight: bold;}
+.course-block p {/* margin-bottom: 11px; */}
+.course-block p.info a,
+.course-block .view-more{white-space: nowrap;}
+.course-block p.info a.with-icon {border: none;text-decoration: underline;}
+.course-block p.info a.with-icon>span{border-bottom: 1px dotted rgba(255, 255, 255, 0);transition: border-color 200ms ease;}
+.course-block p.info a.with-icon:HOVER>span{border-bottom: 1px dotted black;}
+.course-block p.info i{color: #222;font-size: 0.9em;}

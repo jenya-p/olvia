@@ -1,0 +1,43 @@
+<?
+use Common\ImageService;
+
+/* @var $this Common\View */
+$reviews = $this->review_items;
+$item = $this->item;
+$this->popup('review', ['subject' => 'course-'.$this->item['alias'], 'header' => 'Оставить отзыв о курсе']);
+?>
+<section class="reviews">
+	<div class="lay-wrapper-inner">		
+		<? if (!empty($reviews)) { ?>
+		<h2>Отзывы о курсе</h2>
+		<ul class="review-list">
+			<? foreach ($reviews as $review){ ?>
+			<li class="review-block">
+				<img src="<?= $this->image($review['userpic'], ImageService::SIZE_REVIEW_USERPICK)?>" alt="<?= htmlentities($review['name']) ?>" />
+				<span class="date"><i class="icon-calendar"></i><?= $this->html()->hdate($review['date']) ?></span>
+				<? if($review['social']) { ?>
+				<a href="<?= $review['social'] ?>" class="name" target="_blank">
+					<? if(!empty($review['social_icon'])) { ?>
+						<i class="icon-<?= $review['social_icon'] ?>"></i>
+					<? } ?>
+					<span><?= $review['name'] ?></span></a>
+				<? } else {?>
+				<span class="name"><?= $review['name'] ?></span>
+				<?}?>	
+				<div class="body white">
+					<?= $review['body'] ?>						
+				</div>
+			</li>
+			<? } ?>			
+		</ul>
+		<? } else { ?>
+		<p class="like-h2">Пока о курсе нет ни одного отзыва</p>
+		<? } ?>
+		<div class="button-group">
+			<? if($this->review_totals['count'] > 2){?>
+			<a href="<?= $this->url('review-index', ['p' => 1, 'subject' => 'course-'.$item['alias']])?>" class="button">Помотреть еще <?= $this->html()->grammar('отзыв',$this->review_totals['count'],'','а','ов', true) ?></a>
+			<? } ?>
+			<a href="#reviewPopup" class="button purple twm-popup-link">Оставить отзыв</a>
+		</div>
+	</div>
+</section> 

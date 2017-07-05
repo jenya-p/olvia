@@ -1,0 +1,45 @@
+<?
+/* @var $this Common\View */
+/* @var $item array */
+if(empty($this->tarifs)) return;
+?>
+
+<div class="field field-tarif">
+	<label class="label">Тариф</label>	
+	<? foreach ($this->tarifs as $key => $tarif) { ?>
+	<label class="radio">
+		<input type="radio" name="tarif" value="<?= $tarif['id'] ?>" <?= $key == 0 ? ' checked="checked"': ''?>/>
+		<span class="to-left"><?= $tarif['title'] ?></span>
+		<? if($tarif['price'] == 0){ ?>
+		<span class="to-right free">бесплатно</span>
+		<? } else { ?>
+		<span class="to-right">
+			<? if($tarif['price'] != $tarif['actual_price']){ ?>
+			<span class="price"><?= number_format($tarif['actual_price'], 0, '.', ' ')?> р.</span>
+			<span class="price-old"><?= number_format($tarif['price'], 0, '.', ' ')?></span>
+			<? } else { ?>
+			<span class="price"><?= number_format($tarif['actual_price'], 0, '.', ' ')?> р.</span>
+			<? } ?>
+		</span>
+		<? } ?>
+	</label>	
+	<? } ?>
+</div>	
+	
+<? foreach ($this->tarifs as $key => $tarif) { ?>
+	<?	$firstPrimary = ' primary';	?>
+	<div class="tarif-details tarif-details-<?= $tarif['id']?>" style="display: none;">
+		<? foreach (array_reverse($tarif['actual_discounts']) as $discountRec){ ?>
+		<p class="info<?= $firstPrimary?>"><?= number_format($discountRec['price'], 0, '.', ' ')?>р. при 
+			оплате online до <?= $this->html()->date($discountRec['till_date'], 'd M') ?></p>
+		<? 
+		$firstPrimary = ''; 
+		} ?>
+		<? if($tarif['price'] != 0){ ?>
+		<p class="info<?= $firstPrimary?>"><?= number_format($tarif['price'], 0, '.', ' ') ?>р. в день мероприятия</p>
+		<? 
+		$firstPrimary = '';
+		} ?>					
+		<?/* <p class="info">Количество мест ограничено, осталось 4 из 7</p> */?>
+	</div>	
+<? } ?>	
