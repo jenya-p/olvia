@@ -34,13 +34,10 @@ if (empty($reviewItems)){return ;}
 		<? if($this->review_totals['count'] > 2){?>
 		<a href="<?= $this->url('review-index', ['p' => 1])?>" class="button light review-expander">Помотреть еще <?= $this->html()->grammar('отзыв',$this->review_totals['count'],'','а','ов', true) ?></a>
 		<? } ?>
-		<a href="#reviewPopup" class="button pink twm-popup-link">Оставить свой</a>
+		<a href="<?= $this->url('review-index', ['p' => 1])?>" class="button pink">Оставить свой</a>
 	</div>
 
 </section>
-
-<?= $this->popup('review'); ?> 
-		
 
 
 		
