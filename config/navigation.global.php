@@ -186,14 +186,14 @@ return [
 												'route' => 'private/master-prices-index',
 												'icon' => 'fa-user-md'
 										],						
-										'settings' => [ 
-												'label' => 'Настройки',
-												'route' => 'home',
-												'icon' => 'fa-wrench'
-										],						
+// 										'settings' => [ 
+// 												'label' => 'Настройки',
+// 												'route' => 'home',
+// 												'icon' => 'fa-wrench'
+// 										],						
 										'remiders' => [ 
 												'label' => 'Напоминания',
-												'route' => 'home',
+												'route' => 'private/todos-index',
 												'icon' => 'fa-bell'
 										] 
 								],
@@ -240,12 +240,12 @@ return [
 						],
 						'events' => [
 								'label' => 'Расписание',
-								'route' => 'private',
+								'route' => 'private/event-index',
 								'icon' => 'fa-calendar'
 						],
 						'remiders' => [
 								'label' => 'Напоминания',
-								'route' => 'home',
+								'route' => 'private/todos-index',
 								'icon' => 'fa-bell'
 						]
 				]

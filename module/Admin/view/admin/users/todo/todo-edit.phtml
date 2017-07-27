@@ -1,0 +1,64 @@
+<?
+/* @var $this Common\View */
+/* @var $form Admin\Forms\Content\DivisionForm */
+/* @var $item array */
+$item = $this->item;
+
+$this->assets(['user-select']);
+
+$this->sidebar()->left('admin/users/todo/todo-edit.left.phtml', $this->vars());
+
+if ($this->isNew) {
+	$this->headTitle("Новая задача");
+} else {
+	$this->headTitle($item['title'] . " №" . $this->id);
+}
+
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+	<li><a href="<?= $this->url('private/todos-index') ?>">Напоминания</a></li>
+</ul>
+<h1 class="page-header"><?if ($this->isNew) {
+	echo "Новая задача";
+} else {
+	echo $this->id .' - ' . $this->item['title'];
+}?>
+</h1>
+
+<?= $form->start() ?>
+
+<table class="form-wrapper-table" >
+	<tr>
+		<td class="left-cell common-group">
+			<h2 id="common">Задача</h2>
+				
+			<?= $form('title') ?>
+		
+			<?= $form('body') ?>
+		<td class="right-cell comments-group" rowspan="2">
+			<h2>Выполнение</h2>
+			<?= $form('status') ?>
+			<?= $this->adminComments('todo') ?>
+		</td>
+	</tr>
+	<tr>	
+		<td class="left-cell info-group">
+			<div class=" minimizable">
+				<h2>Инфо <a href="javascript:;" class="minimize-link"></a></h2>
+				<?= $form('priority') ?>
+			
+				<?= $form('intensity') ?>
+			
+				<?= $form('user_id') ?>
+			
+				<?= $form('till_date') ?>
+			</div>
+		</td>
+	</td>
+		
+</table>
+
+
+<?= $form('*') ?>
+<?= $form->end();?>

@@ -27,6 +27,7 @@ use Admin\Model\Orders\CallDb;
 use Admin\Model\Courses\CourseDb;
 use Admin\Model\Courses\EventDb;
 use Admin\Model\Courses\TarifsDb;
+use Admin\Model\Users\TodoDb;
 
 /**
  * @Controller
@@ -72,6 +73,7 @@ class HistoryController extends SiteController {
 				'course' => CourseDb::class,
 				'event' => EventDb::class,
 				'tarifs' => TarifsDb::class,
+				'todo' => TodoDb::class,
 				
 		];
 		

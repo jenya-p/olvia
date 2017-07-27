@@ -1,0 +1,56 @@
+<?
+use Common\Utils;
+
+/* @var $this Common\View */
+$this->headTitle("Напоминания");
+
+$this->sidebar()->left('admin/users/todo/todo-index.filter.phtml', $this->vars());
+?>
+<ul class="breadcrumb">
+	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
+</ul>
+<h1 class="page-header">Напоминания <small><?= $this->counts['count'] ?></small></h1>
+
+<table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
+	<thead>
+		<tr>
+			<th style="width: 60px" class="tc">№</th>
+			<th style="width: 100px" >Статус</th>
+			<th>Задача</th>		
+			<th>Cотрудник</th>
+			<th  style="width: 60px" class="tc">Приоритет</th>
+			<th  style="width: 60px" class="tc">Трудоемкость</th>
+			<th>Дата</th>
+			<th></th>
+		</tr>
+	</thead>
+	<?foreach ($this->items as $item) {?>
+	<tr data-href="<?=$this->url('private/todos-edit', ['id' => $item['id']])?>">
+		<td class="tc"><?= $item['id']?></td>
+		<td class="status-<?= $item['status'] ?>"><?= $item['status_name'] ?></td>
+		<td>
+			<p class="primary"><?= $item['title'] ?></p>
+			<p class="secondary"><?= Utils::substrByWord($item['body'], 100) ?></p>
+		</td>
+				
+		
+		<td>		
+			<? if( $item['user_id'] !== null) { ?>
+				<a href="<?= $this->url('private/user-edit', ['id' => $item['user_id']])?>" title="Пользователь">
+					<i class="fa fa-user" style="color: #aeaeae"></i> <?= $item['user_name'] ?></a>
+			<? } else { ?>
+				все
+			<? } ?>			
+		</td>
+		<td class="tc"><?= $item['priority'] ?></td>
+		<td class="tc"><?= $item['intensity'] ?></td>
+		<td><?= $this->html()->hdate($item['till_date']) ?></td>
+		<td class="options">
+
+						
+		</td>
+	</tr>
+	<?}?>
+</table>	
+
+<?= $this->html()->pages($this->page, $this->pageCount) ?>
