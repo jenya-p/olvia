@@ -2,11 +2,45 @@
 
 jQuery(function (){
 
-	var filterForm = $('.page-catalog-index aside.left form.searchForm');
+	var filterForm = $('.page-catalog-index form.searchForm');
 	
-	$("input", filterForm)
-		.not("#tutorSearch")
-			.change(updateFilters);
+	var win = $(window);
+	var buttons = $('.buttons', filterForm);
+	var buttonsFixed = false; 
+	win.scroll(function(e){
+		var delta = filterForm.offset().top + filterForm.outerHeight() - Math.round(win.scrollTop()) - win.height();
+		if(buttonsFixed == false && delta < 0){
+			buttons.addClass('normal').removeClass('fixed');
+			buttonsFixed = true;
+		} else if(buttonsFixed && delta > 0){
+			buttons.removeClass('normal').addClass('fixed');
+			buttonsFixed = false;
+		}		
+	})
+	
+	
+	var filterOpener = $('.breadcrumb-bar .icon-search');
+	filterOpener.click(function(){
+		if(filterOpener.hasClass('opened')){
+			filterForm.slideUp();
+			filterOpener.removeClass('opened');
+		} else {
+			filterForm.slideDown();
+			filterOpener.addClass('opened');
+		}
+	})
+	
+	
+	$('select.tag-selector', filterForm).change(function(){
+		var t = $(this);
+		var opt = t.find('option:selected');
+		if(t.val() == ''){
+			t.attr('name', '');
+		} else {
+			t.attr('name', 'tag' + t.val());	
+		}			
+	}).trigger('change');
+	
 	
 	$('.range-container', filterForm).each(function(){
 		var $range = $(this);		
@@ -36,27 +70,27 @@ jQuery(function (){
 		});
 	});
 	
-	$('#tutorSearch', filterForm).autocomplete({
-		serviceUrl: '/ajax/masters.json',
-		paramName: 'q',
-		onSelect: function (suggestion) {
-			var t = $(this);
-			var label = t.siblings('label[data-id=' + suggestion.id + ']');
-			if(label.length!=0){
-				label.find('[type=checkbox]').prop('checked', true);
-			} else {
-				var label = $('<label class="checkbox" data-id="' + suggestion.id + '">' +
-						'<input type="checkbox" checked="checked">' +
-						'<span>'+suggestion.value+'</span>' +
-						'<span class="count" title="5 курсов">5</span>' +						
-						'</label>');
-				t.before(label);
-			}
-			updateFilters.apply(label);
-			
-			t.val('');
-		}
-	});
+//	$('#tutorSearch', filterForm).autocomplete({
+//		serviceUrl: '/ajax/masters.json',
+//		paramName: 'q',
+//		onSelect: function (suggestion) {
+//			var t = $(this);
+//			var label = t.siblings('label[data-id=' + suggestion.id + ']');
+//			if(label.length!=0){
+//				label.find('[type=checkbox]').prop('checked', true);
+//			} else {
+//				var label = $('<label class="checkbox" data-id="' + suggestion.id + '">' +
+//						'<input type="checkbox" checked="checked">' +
+//						'<span>'+suggestion.value+'</span>' +
+//						'<span class="count" title="5 курсов">5</span>' +						
+//						'</label>');
+//				t.before(label);
+//			}
+//			updateFilters.apply(label);
+//			
+//			t.val('');
+//		}
+//	});
 	
 	moment.locale('ru');
 	var nextMonth = moment().add(1, 'month');

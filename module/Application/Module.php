@@ -19,8 +19,11 @@ use Zend\Http\Request;
 use Zend\Mvc\MvcEvent;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Common\ContextSwitcher;
+use Zend\ModuleManager\Feature\ControllerPluginProviderInterface;
+use Application\ViewHelper\WeekPaginatorOptions;
 
-class Module implements ConfigProviderInterface, AutoloaderProviderInterface, ViewHelperProviderInterface,BootstrapListenerInterface {
+class Module implements ConfigProviderInterface, AutoloaderProviderInterface, ViewHelperProviderInterface,
+	BootstrapListenerInterface {
 
 	public function getConfig() {
 		return include __DIR__ . '/config/module.config.php';
@@ -35,9 +38,6 @@ class Module implements ConfigProviderInterface, AutoloaderProviderInterface, Vi
 		$context->attach($app->getEventManager());
 		
 	}
-	
-	
-
 
 	public function getViewHelperConfig() {
 		return [ 
@@ -79,12 +79,17 @@ class Module implements ConfigProviderInterface, AutoloaderProviderInterface, Vi
 							$vhm = $cnt->get('ViewHelperManager');
 		                	$service = new WeekPaginator($vhm);
 			                return $service;
+		                },
+		                'weekPaginatorOptions' => function(ContainerInterface $cnt){
+			                $vhm = $cnt->get('ViewHelperManager');
+			                $service = new WeekPaginatorOptions($vhm);
+			                return $service;
 		                }
 		                
 				] 
 		];
 	}
-
+	
 	public function getAutoloaderConfig() {
 		return [ 
 				'Zend\Loader\StandardAutoloader' => [ 
@@ -94,4 +99,6 @@ class Module implements ConfigProviderInterface, AutoloaderProviderInterface, Vi
 				] 
 		];
 	}
+	
+
 }

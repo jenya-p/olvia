@@ -2,8 +2,11 @@
 /* @var $this Common\View */
 $item=$this->item;
 $this->seo($item);
-$this->inlineScript()->appendFile("/site/js/master.js");
-$this->headLink()->appendStylesheet('/site/css/master.css');
+$this->headLink()->appendStylesheet("/assets/lightslider/css/lightslider.min.css");
+$this->inlineScript()->appendFile("/assets/lightslider/js/lightslider.min.js");
+
+$this->inlineScript()->appendFile("/mobile/js/master.js");
+$this->headLink()->appendStylesheet('/mobile/css/master.css');
 $this->layout("layout/home");
 ?>
 
@@ -17,6 +20,4 @@ $this->layout("layout/home");
 <?= $this->partial('application/master/view.education.phtml', $this->vars()) ?>
 <div class="clr"></div>
 <?= $this->partial('application/master/view.reviews.phtml', $this->vars()) ?>
-
-
 

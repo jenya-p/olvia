@@ -1,20 +1,17 @@
 <?
 /* @var $this Common\View */
 $this->headTitle('Отзывы');
-$this->inlineScript()->appendFile("/site/js/master-list.js");
-$this->headLink()->appendStylesheet('/site/css/master-list.css');
+$this->inlineScript()->appendFile("/mobile/js/master-list.js");
+$this->headLink()->appendStylesheet('/mobile/css/master-list.css');
 ?>
 
-<ul class="breadcrumb">
-	<li><a href="/">Главная</a></li>
-	<li>Наши специалисты</li>
-</ul>
+<a href="/" class="breadcrumb-bar">Главная</a>
+
 <h1>Наши специалисты</h1>
-<div class="master-list column-view" data-url="<?= $this->url() ?>" data-page="1">
-	<div class="column column-1"></div>
-	<div class="column column-2"></div>		
+<div class="master-list" data-url="<?= $this->url() ?>" data-page="1">
 	<? echo $this->partial('/application/master/index.items.phtml', $this->vars()); ?>	
 </div>
-<p class="ajax-list-loading">Загрузка...</p>
-
+<nav class="pager">	
+	<?= $this->sitePaginator($this->page, $this->pageCount, 'master-index'); ?>
+</nav>
 

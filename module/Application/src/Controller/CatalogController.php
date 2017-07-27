@@ -73,22 +73,22 @@ class CatalogController extends SiteController implements LoggerAware{
 				$filter['tags'][] = $tag['id'];
 				$filter['tags'] = array_unique($filter['tags']);
 			} else {
-				return $this->redirect()->toRoute('catalog-index');
+				return $this->redirect()->toRoute('catalog-index', ['type' => $filter['type']]);
 			}
 			if (count($filter['tags']) > 1){				
 				$query ['tag'.$tag['id']] = '';
-				return $this->redirect()->toRoute('catalog-index', ['p' => 1], ['query' => $query]);
+				return $this->redirect()->toRoute('catalog-index', ['p' => 1,'type' => $filter['type']], ['query' => $query]);
 			}
 		} else if (count($filter['tags']) == 1){
 			$tagId = $filter['tags'][0];
 			unset($query ['tag'.$tagId]);
 			$tag = $this->tagDb->get($tagId);			
-			return $this->redirect()->toRoute('catalog-index', ['tag' => $tag['alias'], 'p' => 1], ['query' => $query]);
+			return $this->redirect()->toRoute('catalog-index', ['tag' => $tag['alias'], 'p' => 1, 'type' => $filter['type']], ['query' => $query]);
 		}
 		
 		$p = $this->params('p', null);
 		if(empty($p)) { 
-			return $this->redirect()->toRoute('catalog-index', ['p' => 1], ['query' => $query], true);
+			return $this->redirect()->toRoute('catalog-index', ['p' => 1,'type' => $filter['type']], ['query' => $query], true);
 		}
 				
 		$items = $this->courseDb->getItems($filter, $p,self::IPP );

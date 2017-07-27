@@ -7,10 +7,14 @@ use Common\Db\Select;
 use Common\Db\Table;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Join;
+use Common\Traits\ServiceManagerAware;
+use Common\Traits\ServiceManagerTrait;
+use Application\Model\Courses\CourseDb;
+use Application\Controller\CatalogController;
 
-class TagDb extends Table implements Multilingual {
+class TagDb extends Table implements Multilingual, ServiceManagerAware {
 	
-	use MultilingualTrait;
+	use MultilingualTrait, ServiceManagerTrait;
 	
 	protected $table = 'content_tags';
 
@@ -27,21 +31,29 @@ class TagDb extends Table implements Multilingual {
 	}
 	
 	
-	public function getCouseFilterTags(){		
+	public function getCouseFilterTags($type){
+		/* @var $courseDb CourseDb */ 
+// 		$courseDb = $this->serv(CourseDb::class);
+		
+// 		$ids = $courseDb->getCourseIdsForEventType($type);
+// 		if(empty($ids)){
+// 			return [];
+// 		}
+		
 		return $this->getAdapter()->fetchGroups('select
-				tg.name_'.$this->lang.' as group_name,
-				tg.id as group_id,
-				t.id as tag_id,
-				t.name_'.$this->lang.' as tag_name,
-				t.alias as tag_alias,
-				count(c.id) as course_count
-					from content_tags t
-					left join content_tag_groups tg on tg.id = t.group_id
-					left join content_tag_refs tr on tr.tag_id = t.id and tr.entity = "course"
-					left join courses c on c.id = tr.item_id
-					group by t.id
-					having count(c.id) > 0
-					ORDER by tg.priority desc, tg.id asc, t.priority desc, t.id asc', ['group_name', 'group_id']);
+					tg.name_'.$this->lang.' as group_name,
+					tg.id as group_id,
+					t.id as tag_id,
+					t.name_'.$this->lang.' as tag_name,
+					t.alias as tag_alias,
+					count(c.id) as course_count
+				from content_tags t
+				left join content_tag_groups tg on tg.id = t.group_id
+				left join content_tag_refs tr on tr.tag_id = t.id and tr.entity = "course"
+				left join courses c on c.id = tr.item_id				
+				group by t.id
+				having count(c.id) > 0
+				ORDER by tg.priority desc, tg.id asc, t.priority desc, t.id asc', ['courseIds' => $ids]);
 			
 	}
 	

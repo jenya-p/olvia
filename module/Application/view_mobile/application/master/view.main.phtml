@@ -3,19 +3,12 @@
 $item = $this->item;
 ?>
 
+<a href="<?= $this->url('master-index') ?>" class="breadcrumb-bar">Наши специалисты</a>
+
 <section class="main">
-	<div class="lay-wrapper-inner">
-	
-		<ul class="breadcrumb">
-			<li><a href="/">Главная</a></li>
-			<li><a href="<?= $this->url('master-index') ?>">Наши специалисты</a></li>
-			<li><?= $item['name'] ?></li>
-		</ul>
-	
-		<h1><?= $item['name'] ?></h1>											
-		<img src="<?= $this->image($item['image'], 380,380) ?>" class="userpick"/>
-		<div class="content" data-editable="master-<?= $item['id'] ?>-body" style=" text-align: justify;">
-			<?= $item['body'] ?> 
-		</div>
-	</div>
+	<h1><?= $item['name'] ?></h1>											
+	<img src="<?= $this->image($item['image'], 380,380) ?>" class="userpick"/>
+	<div class="content">
+		<?= $item['body'] ?> 
+	</div>	
 </section>

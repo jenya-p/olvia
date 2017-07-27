@@ -47,7 +47,12 @@ class SitePaginator extends AbstractHelper{
 			if(is_callable($this->url)){
 				$url = call_user_func($this->url, $i);
 			} else if(is_string($this->url)){
-				$url = $this->getView()->url($this->url,[], ['query' => ['p' => $i]], true);
+				if($i < 2){
+					$query = [];
+				} else {
+					$query = ['p' => $i];
+				}
+				$url = $this->getView()->url($this->url, [], ['query' => $query], true);
 			} else {
 				$url = 'javascript:;';
 			}

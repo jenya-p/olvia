@@ -1,88 +1,78 @@
 <?
 use Application\Controller\CatalogController;
-
+use Common\View;
+ 
 /* @var $this Common\View */
 $tagIds = $this->filter['tags'];
 $type = $this->filter['type'];
 
 ?>
 
-<aside class="left white">
-<form class="form searchForm" data-search-preview-url="<?= $this->url('catalog-search-preview') ?>">
-	<div class="field field-query">
-		<input type="text" name="query" placeholder="Поиск..." class="gray" value="<?= $this->filter['query']?>"/>
-	</div>
-	<? foreach ($this->filter_tags as $group){ ?>
-	<div class="field">
-		<label><?= $group['group_name'] ?></label>
-		<? foreach ($group['items'] as $tag){
-			if(in_array($tag['tag_id'], $tagIds)){
-				$checked = ' checked="checked"';
-			} else {
-				$checked = '';
-			}							
-			?>
-		<label class="checkbox">
-			<input type="checkbox" name="tag<?= $tag['tag_id'] ?>" value="" <?= $checked?> />							
-			<span><?= $tag['tag_name'] ?></span>
-			<span class="count" title="<?= $tag['course_count'] ?> курсов"><?= $tag['course_count'] ?></span>						
-		</label>
-		<? } ?>
-	</div>
-	<? } ?>
-	<? if($type == CatalogController::TYPE_COURSES) { ?>					
-	<div class="field field-price">
-	 	<label>Стоимость</label>
-	 	<div class="range">
-	 		<label class="range-left">бесплатно</label>
-	 		<span class="range-right">до <span class="value">40 000</span> руб.</span>
-	 		<div class="clr"></div>
-			<div class="range-container" data-max="40000" data-from="#priceFrom" data-to="#priceTo" data-digits="0"></div>
-			<?
-			if( $this->filter['price_max'] === null){
-				$priceMax = 40000;
-			} else {
-				$priceMax = intval($this->filter['price_max']);
-			} ?>
-			<input type="hidden" name="price_max" id="priceTo" value="<?= $priceMax ?>" />											
-		</div>	
-	</div>
-		
-	<div class="field">
-	<label>Даты проведения</label>
-		<input type="text" value="" class="gray date-range-text"/>
-		<input type="hidden" name="date_range" value="<?= $this->filter['date_range'] ?>" />
-	</div>
-	<? } ?>
-	  
-	<div class="field">
-		<ul class="period-menu">
+<div class="purple-bg">
+	<form class="form searchForm" data-search-preview-url="<?= $this->url('catalog-search-preview') ?>" action="<?= $this->url('catalog-index', ['type' => $type]) ?>">
+		<h2>Поиск по каталогу тренингов</h2>
+		<div class="field field-query">
+			<input type="text" name="query" placeholder="Поиск тренинга..." class="gray" value="<?= $this->filter['query']?>"/>
+		</div>
+		<? foreach ($this->filter_tags as $group){ ?>
+		<div class="field">
+			<label><?= $group['group_name'] ?></label>
+			<select class="tag-selector">
 			<? 
-			if($type == CatalogController::TYPE_ANNOUNCEMENTS){ ?>
-			<li><span>Анонсы</span></li>
-			<li><a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_COURSES]) ?>">Актуальные мероприятия</a></li>
-			<li><a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_ARCHIVE]) ?>">Архив тренингов</a></li>
-			<? } else if($type == CatalogController::TYPE_ARCHIVE){ ?>
-			<li><a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_ANNOUNCEMENTS]) ?>">Анонсы</a></li>
-			<li><a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_COURSES]) ?>">Актуальные мероприятия</a></li>
-			<li><span>Архив тренингов</span></li>
-			<? } else { ?>
-			<li><a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_ANNOUNCEMENTS]) ?>">Анонсы</a></li>
-			<li><span>Актуальные мероприятия</span></li>
-			<li><a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_ARCHIVE]) ?>">Архив тренингов</a></li>
-			<? } ?>			
-		</ul>
-	</div>
-	 
-	<div class="buttons">
-		<button type="reset"  class="button light" data-href="<?= $this->url('catalog-index') ?>">Очистить</button>
-		<button type="submit" class="button">Найти</button>
-	</div>
-	 
-	<div class="preview loading">
-		<div class="loading"><i class="icon-spin1 animate-spin"></i></div>
-		<div class="normal"><a href="javascript:;" >Найдено <span class="value"></span> курсов</a></div>
-		<div class="zero">Курсы не найдены</div>
-	</div>	 
-</form>
-</aside>
+			echo $this->html()->option('Все', '', []);
+			foreach ($group['items'] as $tag){
+				echo $this->html()->option($tag['tag_name'], $tag['tag_id'], in_array($tag['tag_id'], $tagIds));			
+			} ?>
+			</select>
+		</div>
+		<? } ?>
+		<? if($type == CatalogController::TYPE_COURSES) { ?>					
+		<div class="field field-price">
+		 	<label>Стоимость</label>
+		 	<div class="range">
+		 		<label class="range-left">бесплатно</label>
+		 		<span class="range-right">до <span class="value">40 000</span> руб.</span>
+		 		<div class="clr"></div>
+				<div class="range-container" data-max="40000" data-from="#priceFrom" data-to="#priceTo" data-digits="0"></div>
+				<?
+				if( $this->filter['price_max'] === null){
+					$priceMax = 40000;
+				} else {
+					$priceMax = intval($this->filter['price_max']);
+				} ?>
+				<input type="hidden" name="price_max" id="priceTo" value="<?= $priceMax ?>" />											
+			</div>	
+		</div>
+			
+		<div class="field">
+		<label>Даты проведения</label>
+			<input type="text" value="" class="gray date-range-text"/>
+			<input type="hidden" name="date_range" value="<?= $this->filter['date_range'] ?>" />
+		</div>
+		<? } ?>
+		  
+		<div class="field">
+			<ul class="period-menu">
+				<? 
+				if($type == CatalogController::TYPE_ANNOUNCEMENTS){ ?>
+				<li><span>Анонсы</span></li>
+				<li><a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_COURSES]) ?>">Актуальные мероприятия</a></li>
+				<li><a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_ARCHIVE]) ?>">Архив тренингов</a></li>
+				<? } else if($type == CatalogController::TYPE_ARCHIVE){ ?>
+				<li><a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_ANNOUNCEMENTS]) ?>">Анонсы</a></li>
+				<li><a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_COURSES]) ?>">Актуальные мероприятия</a></li>
+				<li><span>Архив тренингов</span></li>
+				<? } else { ?>
+				<li><a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_ANNOUNCEMENTS]) ?>">Анонсы</a></li>
+				<li><span>Актуальные мероприятия</span></li>
+				<li><a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_ARCHIVE]) ?>">Архив тренингов</a></li>
+				<? } ?>			
+			</ul>
+		</div>
+		 
+		<div class="buttons fixed">
+			<button type="submit" class="button ">Найти</button>
+		</div>
+	
+	</form>
+</div>

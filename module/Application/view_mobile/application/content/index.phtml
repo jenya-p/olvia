@@ -1,14 +1,11 @@
 <?
 /* @var $this Common\View */
 $this->headTitle('Самое интересное в разделе статьи');
-$this->inlineScript()->appendFile("/site/js/article.js");
-$this->headLink()->appendStylesheet('/site/css/content-index.css');
+$this->inlineScript()->appendFile("/mobile/js/article.js");
+$this->headLink()->appendStylesheet('/mobile/css/content-index.css');
 ?>
 
-<ul class="breadcrumb">
-	<li><a href="/">Главная</a></li>
-	<li>Статьи</li>
-</ul>
+<a href="/" class="breadcrumb-bar">Главная</a>
 
 <h1>Самое интересное в разделе статьи</h1>
 
@@ -16,7 +13,7 @@ $this->headLink()->appendStylesheet('/site/css/content-index.css');
 	<? foreach ($this->divisions as $division){ ?>
 	<div class="block white-bg">
 		<a href="<?= $this->url('content-division', ['alias' => $division['alias']]) ?>">
-			<img src="<?= $this->image($division['image'], 367, 229) ?>" alt="<?= htmlentities($division['title']) ?>">
+			<img src="<?= $this->image($division['image'], 400, 200) ?>" alt="<?= htmlentities($division['title']) ?>">
 			<h2><?= $division['title'] ?></h2>
 		</a>
 		

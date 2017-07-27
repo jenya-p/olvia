@@ -40,11 +40,14 @@ class VideoDb extends Table implements Multilingual {
 
 	public function buildHtml(&$video){
 		if($video['source'] == AdminVideoDb::SOURCE_HTML){
-			return ; 
+			$video['html_mobile'] = $video['html'];
+			return ; 			
 		} else if($video['source'] == AdminVideoDb::SOURCE_YOUTUBE){
 			$video['html'] = '<iframe allowfullscreen="" frameborder="0" height="800" src="https://www.youtube.com/embed/'.$video['code'].'" width="1180"></iframe>';
+			$video['html_mobile'] = '<iframe allowfullscreen="" frameborder="0" height="200" src="https://www.youtube.com/embed/'.$video['code'].'"></iframe>';
 		} else if($video['source'] == AdminVideoDb::SOURCE_VIMEO){
 			$video['html'] = '<iframe src="https://player.vimeo.com/video/'.$video['code'].'" width="1180" height="800" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+			$video['html_mobile'] = '<iframe src="https://player.vimeo.com/video/'.$video['code'].'" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
 		}
 	}
 	

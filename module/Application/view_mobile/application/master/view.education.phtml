@@ -6,28 +6,20 @@ if(empty(trim($item['education'])) && empty($diplomas)){return ;}
 ?>
 
 <section class="education purple">
-	<div class="lay-wrapper-inner">
-		<h2>Образование</h2>
-		<div class="with-right-aside">					
-			<div class="content" data-editable="master-<?= $item['id'] ?>-education" style=" text-align: justify;">
-				<?= $item['education'] ?>
-			</div>
-		</div>
-		
-		<aside class="right">
-			<div class="diplomas column-view">
-				<div class="column column-1"></div>
-				<div class="column column-2"></div>
-				<? foreach ($this->diplomas as $diplom){ ?>
-				<a class="column-view-item" href="<?= $diplom['image'] ?>" title="<?= $diplom['name'] ?>" data-fancybox="diplomas">
-					<img src="<?= $this->image($diplom['image'], 158, null) ?>"/>
-				</a>
-				<? } ?>						
-			</div>		
-		</aside>
-		<div class="clr"></div>
-		<div class="button-group">
-			<a href="#signPopup" class="button twm-popup-link" data-master="Надежда Матвеева" data-master-id="10">Записаться на консультацию к этому специалисту</a>
-		</div>
+	<h2>Образование</h2>
+	<div class="content">
+		<?= $item['education'] ?>
 	</div>
+	<? if(!empty($this->diplomas)){ ?>  
+	<h2>Дипломы</h2>
+	
+	<ul class="diplomas">
+	<? foreach ($diplomas as $diplom){ ?>
+		<li><a href="<?= $diplom['image'] ?>" title="<?= $diplom['title'] ?>" data-fancybox="diplomas">
+			<img src="<?= $this->image($diplom['image'], null, 266) ?>" /></a>
+		</li>
+	<? } ?>
+	</ul>
+
+	<? } ?>
 </section>

@@ -4,9 +4,11 @@
 $announce = $this->announce;
 ?>
 
-<aside class="right white order">				
-	<h3>Предварительная запись</h3>
-	<p style="margin-bottom: 1em;">На это мероприятие открыта предварительная запись</p>
+<aside class="white-bg order">	
+					
+	<h2>Предварительная запись</h2>
+	<form action="<?= $this->url('order-event') ?>" class="form form-course-order" id="courseOrderForm" method="post">
+	<p>На это мероприятие открыта предварительная запись</p>
 	<p class="clr-after date" style="margin-bottom: 2em;">
 		<span class="to-left"><i class="icon-calendar"></i> <?= $announce['date_text'] ?></span>
 		<? if(! empty($announce['time_text'])) { ?>
@@ -33,7 +35,7 @@ $announce = $this->announce;
 	</p>
 	<? } ?>
 	
-	<form action="<?= $this->url('order-event') ?>" class="form form-course-order" id="courseOrderForm" method="post">
+	
 		<input type="hidden" name="event" value="<?= $announce['id'] ?>">
 		<div class="field field-message">
 			<label class="label">Дополнительная информация о Вас</label>
@@ -45,4 +47,4 @@ $announce = $this->announce;
 		</div>
 	</form>
 	
-</aside>	
+</aside>

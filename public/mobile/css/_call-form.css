@@ -1,4 +1,4 @@
 /* Обратный звонок */
-#callMePopup{width: 360px;}
+#callMePopup{width: 70%;}
 #callMePopup [type=submit]{margin: 0 auto;display: block;width: 145px;}
 

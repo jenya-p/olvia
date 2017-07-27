@@ -2,7 +2,7 @@
 .masters .lay-wrapper-inner,
 .main  .lay-wrapper-inner{padding: 0}
 .main h1{margin-bottom: 0.5em;margin-top: 0.6em;text-align: left;}
-.main img.course-img{border-radius:15px;margin-bottom: 1.4em;}
+.main img.course-img{margin-bottom: 1.4em;width: 100%;}
 .main a i.icon-tag{color:black;}
 .main .with-right-aside{width: 680px;}
 .main aside.right{padding-bottom: 30px;padding-right: 20px;width: 460px;}

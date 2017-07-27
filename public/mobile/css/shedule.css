@@ -1,51 +1,88 @@
 
-form.filter table{width: 100%;margin-bottom: 2em;}
-form.filter table tr{width: 100%}
-form.filter td{width: *;padding-left: 20px;vertical-align: bottom;}
-form.filter td:FIRST-CHILD{padding: 0}
-form.filter td.button-group{width: 450px;text-align: right;padding: 0;padding-bottom: 3px;}
-form.filter td.button-group .view-links a{   width: 35px;    height: 35px;    line-height: 37px;    display: inline-block;    border-radius: 20px;text-align: center;}
-form.filter td.button-group .view-links span{	width: 35px;	height: 35px;	line-height: 35px;	display: inline-block;border-radius: 20px;	text-align: center;	background-color: #fff;	color: black;}
-form.filter .button {margin: 0 15px 0 5px;height: 30px;line-height: 30px;font-size: 0.9em;}
-form.filter input[type=text],
-form.filter select{margin: 5px 0;}
+.breadcrumb-bar .icon-search.opened{background: #8c4d9e;color: white;margin: 9px 4px 0 0;border-radius: 14px 14px 0 0;}
+.breadcrumb-bar .icon-search.opened:before{content: '\e809'}
+
+.purple-bg{background: #8c4d9e;
+	background: linear-gradient(to bottom, #8c4d9e 0%,#8c4d9e 0%,#77388a 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8c4d9e', endColorstr='#7e3e91',GradientType=0 );
+	color: #fff;
+	box-shadow: 0px 2px 4px rgba(193, 143, 187, 0.55);}
+
+form.filter{padding: 4px 8px 20px 8px;max-width: 350px;margin: 0 auto;display: none;}
+form.filter h2 {margin-top: 10px;margin-bottom: 0;}
+form.filter [name=query]{font-size: 1em;padding-right: 33px; }
+
+form.filter .field.field-query{position: relative;}
+form.filter .field.field-query:AFTER{content: '\e808';font-family: 'fontello';color: #c9c9c9;position: absolute;right: 10px;top: 0;font-size: 0.9em;line-height: 31px;}  
+form.filter label:not(.checkbox) {margin-bottom: 8px;margin-left: 3px;}
+form.filter label.checkbox{margin-bottom: 16px;padding-right: 23px;position: relative;display: block;}
+form.filter label.checkbox .count{position: absolute;right: 0;top:50%;margin-top: -0.5em;color: #a0a0a0;font-size: 0.9em;}
+form.filter .field-price label {text-align: center;}
+form.filter .range{margin: 0px 10px 30px 0px;}
+form.filter .range .min{font-size: 8px;}
+form.filter .range .max{font-size: 8px; float: right;}
+form.filter .range:AFTER{display: block;content: ''; clear: both;}
+form.filter .range .range-left{font-size: 17px;float: left;margin: 0 0 9px 0px;line-height: 22px;font-weight: normal;font-size: inherit;}
+form.filter .range .range-right{font-size: 16px;float: right;margin: 0 0 7px 0px;line-height: 20px;font-family: Helvetica Neue;vertical-align: bottom;font-size: inherit;}
+form.filter .range .range-right .value{font-size: 18px;}
+form.filter .button-group{text-align: center;}	
+form.filter .button-group{white-space: nowrap;position: relative;height: 36px; }
+form.filter .button-group button,
+form.filter .button-group a{
+}
+
+.week-select-pager{
+	border: 1px hidden rgba(0,0,0,0);
+	border-radius: 7px;
+	height: 30px;
+	box-shadow: 0 0 4px rgba(135, 135, 135, 0.5);
+	background: #fff;
+	transition: box-shadow 200ms ease;
+	font-family: inherit;
+	font-weight: inherit;
+	box-sizing: border-box;
+	padding: 0px 12px;
+	outline: none;
+	line-height: 2.2em;
+	text-align: center;
+	margin: 0 auto 2em auto;
+	display: block;
+}
+	
 
 .main .white-bg{margin-bottom: 3em}
-.shedule-list{width: 100%;}
-.shedule-list>tbody>tr>th{border-bottom: 1px solid #cecece;padding: 5px 20px 22px 0;text-align: left;font-weight: bold;}
-.shedule-list>tbody>tr>td{padding: 0px 20px 50px 0;vertical-align: top;}
-.shedule-list>tbody>tr.borderred>td{border-top: 1px dashed #cecece;padding-bottom: 35px;}
-.shedule-list>tbody>tr>td p{margin: 0}
-.shedule-list>tbody>tr>td p.signed{margin: 6px 0;}
-.shedule-list>tbody>tr>td p.done{color: #777;font-weight: lighter;}
-.shedule-list img{  width: 200px;    height: 90px;    border-radius: 5px;}
-
-.shedule-list>tbody>tr>td.status{vertical-align: top;text-align: center;padding-right: 0;width: 1px;padding-top: 0;font-size: 0.9em;vertical-align: middle;}
-
-.shedule-list>tbody>tr>td.info{font-size: 0.9em;vertical-align: top;}
-.shedule-list>tbody>tr>td.info .name{font-size: 1.1em;font-weight: bold;border-bottom: none;text-align: left;margin: 0 0 0.5em 0;line-height: 1.3em;font-family: Helvetica Neue;}
-.shedule-list>tbody>tr>td.info .tarif{width: 370px;}
-.shedule-list>tbody>tr>td.info .tarif+.tarif{border-top: 1px dotted #dedede;}
-.shedule-list>tbody>tr>td.info .tarif-price{float: right;}
-.shedule-list>tbody>tr>td.info .masters{margin-bottom: 0.5em;}
-.shedule-list>tbody>tr>td.info .masters a{white-space: nowrap;}
 
 
-.shedule-list>tbody>tr>th.date{text-align: center;}
-.shedule-list>tbody>tr>td.date{padding-top: 4px;text-align: center;}
-.shedule-list>tbody>tr>td.date p:FIRST-CHILD{font-size: 6.3em;color: #c2c2c2;line-height: 1em;}
-.shedule-list>tbody>tr>td.date.holiday p:FIRST-CHILD{color: #d25fa4;}
-.shedule-list>tbody>tr>td.time{font-size: 0.9em;padding-top: 5px;}
-.shedule-list>tbody>tr>td.time p.time{padding-left: 21px;position: relative;width: 44px;}
-.shedule-list>tbody>tr>td.time .till{color: gray;}
-.shedule-list>tbody>tr>td.time a.place{padding-left: 21px;position: relative;margin-top: 1.2em;display: inline-block;text-decoration: none;white-space: nowrap;}
-.shedule-list>tbody>tr>td.time p.time:BEFORE{content: '\e800';	font-family: 'fontello';position: absolute;width: 10px;left: 0;top: 0%;display: inline-block;}
-.shedule-list>tbody>tr>td.time a.place:BEFORE{content: '\e805';	font-family: 'fontello';position: absolute;width: 10px;left: 0;top: 50%;display: inline-block;margin-top: -0.5em;}	
+.shedule-list h2{text-align: center;margin: 0.2em 4px 1.5em 4px;}
+.shedule-list{margin-bottom: 30px;}
+.shedule-list h3{margin-top: 0}
+.shedule-list .block{font-size: 0.9em;margin-bottom: 0px;}
+.shedule-list .date-big{font-size: 2.3em;color: #c2c2c2;line-height: 1em;text-align: center;margin-bottom: 0.3em;}
+.shedule-list .date{ line-height: 1em;    text-align: center;    margin-bottom: 0.6em;}
+.shedule-list .time-till-wrp{margin-top: 1em;padding-left: 0;padding-top: 17px;width: 100%;text-align: center;}
+.shedule-list .time-till-wrp:BEFORE{top:0;left:50%;margin-left: -5px;margin-top: 0;}
+.shedule-list .tarif-list{width: 100%}
 
-
-
-.shedule-list>tbody>tr>td.image{}
-.shedule-list span+.button{   margin-top: 10px; font-size: inherit;}
+.shedule-list .tarif-list .price-old{margin-bottom: 0}
+@media(min-width:301px){
+	.shedule-list .date-wrp{width: 90px;display: block;float: left;}
+	.shedule-list .text-wrp{display: block;margin-left: 110px;}	 
+	.shedule-list .tarif-list th{text-align: center;padding: 6px 0;}
+	.shedule-list .tarif-list td{border-top: 1px dotted #dedede;vertical-align: middle;padding: 6px 0;}
+	.shedule-list .tarif-list td.tarif-list--price{text-align: right; padding-right: 10px;}
+	.shedule-list .tarif-list td.tarif-list--status{text-align: right;}		
+}
+@media(max-width:300px){
+	.shedule-list .date-wrp{width: 100%;}
+	.shedule-list h3{text-align: center;}
+	.shedule-list .tarif-list th{display: block;}
+	.shedule-list .tarif-list tr{display: block;border-bottom: 1px dotted #dedede;padding: 6px 0;}
+	.shedule-list .tarif-list td, .shedule .tarif-list td *{text-align: center;}	
+	.shedule-list .tarif-list td{display: block;text-align: center;}
+	.shedule-list .tarif-list td .price-wrp .price,
+	.shedule-list .tarif-list td .price-wrp .price-old{display: inline-block;margin: 3px 6px;}
+	.shedule-list .tarif-list td.tarif-list--status{color: gray;}	
+}
 
 
 .shedule-calendar{width: 100%;border-color: white;}

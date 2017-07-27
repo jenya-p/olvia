@@ -1,55 +1,46 @@
 <?
 /* @var $this Common\View */
 $this->headTitle("Видео");
-$this->headLink()->appendStylesheet("/site/css/video-index.css");
+$this->headLink()->appendStylesheet("/mobile/css/video-index.css");
 
 ?>
 
-<ul class="breadcrumb">
-	<li><a href="/">Главная</a></li>
-	<li>Видео</li>
-</ul>
+<a href="/"  class="breadcrumb-bar">Главная</a>
 
 <? if(!empty($this->latest)){ ?> 
 <div class="block">
 	<h1 class="like-h2">Последние добавленные видео</h1>
-	<div class="video-row">	 
-		<? foreach ($this->latest as $video){ 
+	<? foreach ($this->latest as $video){ 
 		echo $this->partial('application/video/index.item.phtml', ['item'=>$video]);
 } ?>		
-	</div>
 </div>
 <? } ?>
 
 <? if(!empty($this->top)){ ?>
 <div class="block">
 	<h2>Самое интересное</h2>
-	<div class="video-row">	 
-		<? foreach ($this->top as $video){ 
-		echo $this->partial('application/video/index.item.phtml', ['item'=>$video]);
+	<? foreach ($this->top as $video){ 
+	echo $this->partial('application/video/index.item.phtml', ['item'=>$video]);
 } ?>		
-	</div>
 </div>
 <? } ?>
 
 <? foreach ($this->albums as $album){ ?>
 <div class="block">
-	<h2><? if(!empty($album['created'])) { 
-		echo '<span class="date">'.$this->html()->date($album['created'], 'M Y', '', '').'</span>';
-		}
-		echo ' '.$album['title'];
+	<h2><? 
+		$title = $album['title'];
+		if(!empty($album['created'])) { 
+			$title = '<span class="date">'.$this->html()->date($album['created'], 'M Y', '', '').'</span>'.$album['title'];
+		};
 		?>
-		<? if ($album['video_count'] > count($album['items'])) { ?>
-		<a href="<?= $this->url('video-album', ['alias' => $album['alias']]) ?>">Все видео (<?= $album['video_count'] ?>)</a>
-		<? } ?>
+		<a href="<?= $this->url('video-album', ['alias' => $album['alias']]) ?>"><?= $title ?> (<?= $album['video_count'] ?> видео)</a>
+		
 	</h2>
 	
 	<div class="photoalbum-wrp">
-		<div class="video-row">	  
 		<? foreach ($album['items'] as $item){ 
 		echo $this->partial('application/video/index.item.phtml', ['item'=>$item, 'album' => $album]);
 		} ?>
-		</div>
 	</div>
 </div>
 <? } ?>

@@ -1,6 +1,20 @@
+<?php
+use Application\Model\UserDb;
+?>
 <ul class="lvl-1">
 	<li>
+		<? if($this->identity()->isLogged()){ ?>
+			<a href="<?= $this->url('customer-calendar') ?>" class="current-user"><?= $this->identity()->displayname ?></a>
+			<ul class="lvl-2">
+				<li><a href="<?= $this->url('customer-calendar') ?>">Мои мероприятия</a></li>
+				<li><a href="<?= $this->url('customer-history') ?>">Прошедшие мероприятия</a></li> 
+				<li><a href="<?= $this->url('customer-cabinet') ?>">Личный кабинет</a></li>
+				<li><a href="<?= $this->url('logout') ?>">Выйти</a></li>
+			</ul>
+			
+		<? } else { ?>
 		<a href="/register" class="icon-user">Войти</a>
+		<? } ?>
 	</li>
 	<li>
 		<a href="/article/sistemnye-rasstanovki">Системные расстановки</a>

@@ -24,10 +24,10 @@ $masters =  $this->masters;
 			<? if($tarif['price'] == 0){ ?>
 			<span class="free">бесплатно</span>
 			<? } else if($tarif['price'] != $tarif['actual_price']){ ?>
-			<span class="price"><?= number_format($tarif['actual_price'], 0, '.', ' ')?> р.</span>
-			<span class="price-old" ><?= number_format($tarif['price'], 0, '.', ' ')?></span>
+			<span class="price nobr"><?= number_format($tarif['actual_price'], 0, '.', ' ')?> р.</span>
+			<span class="price-old nobr" ><?= number_format($tarif['price'], 0, '.', ' ')?></span>
 			<? } else { ?>			
-			<span class="price"><?= number_format($tarif['actual_price'], 0, '.', ' ')?> р.</span>
+			<span class="price nobr"><?= number_format($tarif['actual_price'], 0, '.', ' ')?> р.</span>
 			<? } ?>			
 		</p>
 		<? } ?>
@@ -42,13 +42,13 @@ $masters =  $this->masters;
 		
 		<p>	
 			<? if($isAnnounce){ ?>
-			<i class="icon-calendar"></i><?= $event['date_text'] ?>
+			<span class="nobr"><i class="icon-calendar"></i><?= $event['date_text'] ?></span>
 			<? } else { ?>
-			<i class="icon-calendar"></i><?= $this->html()->date($shedule['date'], 'd M, l') ?>
+			<span class="nobr"><i class="icon-calendar"></i><?= $this->html()->date($shedule['date'], 'd M, l') ?></span>
 			<? }			
 			if(!empty($event['time_text'])){ ?>			
-			&nbsp;&nbsp;&nbsp;&nbsp;
-			<i class="icon-clock"></i> 
+			&nbsp;&nbsp;&nbsp; 
+			<span class="nobr"><i class="icon-clock"></i> 
 				<? if(!empty($event['time_text_from'])){ ?>
 				c <?= $event['time_text_from'] ?>
 				<? if(!empty($event['time_text_till'])){ ?>
@@ -57,7 +57,7 @@ $masters =  $this->masters;
 				<? } else { ?> 
 				<?= $event['time_text_duration'] ?>
 				<? } ?>
-			<? } ?>			
+			<? } ?></span>
 		</p>
 		<? if(!$isAnnounce){ ?>	
 		<p>

@@ -98,7 +98,7 @@ class Adapter extends ZendAdapter {
 	 * @return array
 	 */
 	public function fetchGroups($select, $parameters = null, $groupColumn = null){
-		$resultArr = $this->fetchAll($select, $parameters = null);
+		$resultArr = $this->fetchAll($select, $parameters);
 		if(empty($resultArr)) return [];
 		
 		$result = [];

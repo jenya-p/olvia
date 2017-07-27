@@ -45,7 +45,7 @@ class ContextSwitcher extends AbstractListenerAggregate{
 		
 		if(substr($routeName, 0, 8) == 'private/'){ return ;}
 		
-		if(empty($request->getCookie()->mobile_mode)){
+		// if(empty($request->getCookie()->mobile_mode)){
 			/* @var $response Response */
 			$response = $e->getResponse();
 			
@@ -53,16 +53,16 @@ class ContextSwitcher extends AbstractListenerAggregate{
 			$mobileDetect = $e->getApplication()->getServiceManager()->get('mobileDetect');
 			
 			if($mobileDetect->isMobile() || $mobileDetect->isTablet()){
-				$cookieValue = self::MODE_MOBILE;
+				$this->mode = self::MODE_MOBILE;
 			} else {
-				$cookieValue = self::MODE_DESKTOP;
+				$this->mode = self::MODE_DESKTOP;
 			}
 			
-			$cookie = new SetCookie('mobile_mode', $cookieValue, null, '/');
+			$cookie = new SetCookie('mobile_mode', $this->mode, null, '/');
 			$response->getHeaders()->addHeader($cookie);
-		} else if ($request->getCookie()->mobile_mode == self::MODE_MOBILE){
-			$this->mode = self::MODE_MOBILE;
-		}
+// 		} else if ($request->getCookie()->mobile_mode == self::MODE_MOBILE){
+// 			$this->mode = self::MODE_MOBILE;
+// 		}
 		
 	}
 	

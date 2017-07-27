@@ -35,18 +35,14 @@ section.purple{
 	padding-bottom: 1px;
 }
 
-section.diplomas {height: 240px;padding-top: 1px;}
-section.diplomas .lay-wrapper-inner{padding-bottom: 4.5em;}
-section.diplomas h2{font-size: 1.25em;text-align: center;}
-section.diplomas ul.diplomas{height: 245px;  height: 0px;    overflow: hidden;    }
-section.diplomas ul.diplomas li{padding: 4px 6px;border: 1px solid rgba(255, 233, 246, 0.42);display: inline-block;margin: 0px 15px 0px 2px;box-sizing: border-box;}
+section.diplomas {/* height: 240px; */padding-top: 1px;}
+section.diplomas .lay-wrapper-inner{padding-bottom: 1.5em;}
+section.diplomas h2{font-size: 1.25em;text-align: center;white-space: nowrap;}
+section.diplomas ul.diplomas{height: 140px!important; overflow: hidden;}
+section.diplomas ul.diplomas li{display: none;}
+section.diplomas ul.diplomas li.lslide{padding: 4px 6px;border: 1px solid rgba(255, 233, 246, 0.42);display: inline-block;margin: 0px 15px 0px 2px;box-sizing: border-box;}
 section.diplomas ul.diplomas li a{border: none;}
 section.diplomas ul.diplomas li img{height: 126px;}
-section.diplomas .lSSlideOuter{margin-left: -4px;}
-section.diplomas .lSSlideOuter .lSPager{margin-top: 13px!important;}
-section.diplomas .lSSlideOuter .lSPager.lSpg>li a {background-color: #d25fa4;border: none; width: 5px; height: 5px; border-radius: 50%}
-section.diplomas .lSSlideOuter .lSPager.lSpg>li.active a, 
-section.diplomas .lSSlideOuter .lSPager.lSpg>li:hover a {background-color: #ffffff;}
 
 
 section.services {}
@@ -58,11 +54,11 @@ section.services .block img{display: block;margin-bottom: 0.8em;}
 section.services .button-group{margin: 0 0 35px 0;text-align: center;}
 section.services .button-group>.button+.button{margin-top: 15px;}
 
-section.main{/* padding-top: 1em; *//* padding-bottom: 1em; */padding-left: 4px;}
+section.main{/* padding-top: 1em; *//* padding-bottom: 1em; */}
 section.main h1{font-size: 1.25em;text-align: center;}
 section.main h3{padding: 14px 20px 1.1em 0;margin: 0;text-align: left;font-size: 1.4em;line-height: 1.3em;font-family: Comfortaa;}
 section.main p {/* font-weight: normal; */}
-section.main.purple{margin-top: 2em;padding-top: 1em;}
+section.main.purple{margin-top: 2em;padding-top: 1em;padding-left: 4px;}
 section.main  table{margin-left: -4px;margin-top: 1.7em;}
 section.main  td{vertical-align: middle;height: 47px;}
 section.main  td:FIRST-CHILD{width: 4em;text-align: center;font-size: 1.4em;font-weight: bold;}
@@ -71,13 +67,10 @@ section.main  .purple td{background: #6b317b;color: white;}
 section.main  .pink td{background: #d25fa4;color: white;}
 section.main  .white td{background: white;color: black;}
 
-section.reviews{
-    margin-bottom: 3em;
-}
+section.reviews{margin-bottom: 3em;}
 section.reviews h2 {font-size: 1.25em;text-align: center;}
-
 section.reviews .button-group{margin: 0 0 35px 0;text-align: center;}
 section.reviews .button-group>.button+.button{margin-top: 15px;}
 
-section.sub-footer{padding-bottom: 50px;}
+section.sub-footer{}
 section.footer-buttons{position: fixed;bottom: 0;left: 0;right: 0;box-shadow: 0 9px 27px black;}

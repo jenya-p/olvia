@@ -54,19 +54,8 @@ class CourseDb extends Table implements CRUDListModel, Multilingual{
 				->and->in('tr.tag_id', $filter['tags']);
 		}
 		
+		$ids = $this->getCourseIdsForEventType($filter['type']);
 		
-		if($filter['type'] == CatalogController::TYPE_ANNOUNCEMENTS){			
-			// Есть мероприятия с типом анонс
-			$ids = $this->getActualAnnouncmentIds();
-						
-		} else if($filter['type'] == CatalogController::TYPE_ARCHIVE){
-			// Нет активных мероприятий
-			$ids = $this->getArchiveCoursesIds();
-			
-		} else {
-			// Есть активные мероприятия
-			$ids = $this->getActualCoursesIds();
-		}
 		if(!empty($ids)){
 			$select->where->in('c.id', $ids);
 		} else {
@@ -96,6 +85,23 @@ class CourseDb extends Table implements CRUDListModel, Multilingual{
 		$select->group('c.id');
 		// echo $select->toString(); die;
 		return $select;
+	}
+	
+	
+	public function getCourseIdsForEventType($type){
+		
+		if($type == CatalogController::TYPE_ANNOUNCEMENTS){
+			// Есть мероприятия с типом анонс
+			return  $this->getActualAnnouncmentIds();
+			
+		} else if($type == CatalogController::TYPE_ARCHIVE){
+			// только прошедшие мероприятия
+			return  $this->getArchiveCoursesIds();
+			
+		} else {
+			// Активные мероприятия
+			return  $this->getActualCoursesIds();
+		}
 	}
 	
 	public function getTotals($filter){

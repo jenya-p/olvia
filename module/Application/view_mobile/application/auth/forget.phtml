@@ -1,19 +1,16 @@
 <?
 /* @var $this Zend\View\Renderer\PhpRenderer */
 $this->headTitle("Восстановление пароля");
-$this->headLink()->appendStylesheet("/site/css/user.css");
+$this->headLink()->appendStylesheet("/mobile/css/user.css");
 /* @var $form Zend\Form\Form */
 $form = $this->form;
 ?>
 
-<ul class="breadcrumb">
-	<li><a>Главная</a></li>
-	<li>Восстановление пароля</li>
-</ul>
+<a class="breadcrumb-bar" href="<?= $this->url('register') ?>">Вход на сайт</a>
 
-<div class="white-bg panel-w50">
-	<h1>Восстановление пароля</h1>
-	<form action="" method="post" class="form gray form-password" id="forgetForm" data-accepted="no">
+<h1>Восстановление пароля</h1>
+
+<form action="" method="post" class="form gray form-password" id="forgetForm" data-accepted="no">
 	<?= $errors->render('form');?>
 	<? if($this->step == 'pass'){?>
 	
@@ -51,7 +48,5 @@ $form = $this->form;
 		<div class="button-group">
 			<input type="submit" class="button pink submit" value="Восстановить пароль" />
 		</div>
-	<? }?>	
-		
+	<? }?>
 </form>
-</div>

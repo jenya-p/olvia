@@ -7,9 +7,11 @@ $tarifs = $date['tarifs'];
 $masters = $date['masters'];
 
 ?>
-<div class="twm-popup course-order-popup" style="background-image: url(<?= $this->image($course['image'], 456, 150) ?>);">
+<a class="breadcrumb-bar" href="<?= $this->url('course-view', ['alias' => $course['alias']]) ?>"><?= $course['title'] ?></a>
 
-	<h3>Запись на &laquo;<?= $event['title'] ?>&raquo;</h3>
+<img src="<?= $this->image($course['image'], 456, 150) ?>" />
+
+<h1>Запись на &laquo;<?= $event['title'] ?>&raquo;</h1>
 		
 	<form action="<?= $this->url('order-event') ?>" class="form form-course-order" id="courseOrderForm" method="POST">
 		<input type="hidden" name="date" value="<?= $date['id'] ?>" />

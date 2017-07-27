@@ -15,13 +15,16 @@ use Zend\View\Model\ViewModel;
 use Zend\Stdlib\InitializableInterface;
 use Application\Model\UserDb;
 use Admin\Forms\Users\UserForm;
+use Common\ControllerPlugin\Platform;
 
 /**
  * @method \Common\Identity identity()
  * @method \Zend\Http\PhpEnvironment\Request getRequest()
  * @method \Common\ControllerPlugin\SendFlashMessage sendFlashMessage($msg, $class)
  * @method \Application\ControllerPlugin\UserFlow userFlow()
+ * @method \Common\ControllerPlugin\Platform platform()
  */
+
 class SiteController extends \Zend\Mvc\Controller\AbstractActionController implements ServiceManagerAware, ConfigAware{
 	
 	use ServiceManagerTrait, ConfigTrait;

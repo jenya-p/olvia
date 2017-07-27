@@ -8,14 +8,16 @@ $masters = 	$this->masters;
 
 ?>
 
-<tr>
-	<td>	
-		<p><?= $this->html()->date($meetDate, 'd M') ?></p>
-		<p><?= $this->html()->date($meetDate, 'l') ?></p>
-	</td>
+<div class="white-bg shedule-block">
 	
-	<td>
-		<p><?= $this->event['title'] ?></p>
+	<div class="date-wrp">
+		<p class="date-big"><?= $this->html()->date($meetDate, 'd')?></p>
+		<p class="date"><?= $this->html()->date($meetDate, 'M')?></p>
+		<p class="date"><?= $this->html()->date($meetDate, ' l')?></p>
+	</div>
+	
+	<div class="text-wrp">
+		<h3><?= $this->event['title'] ?></h3>
 		
 		<? if(!empty($this->masters)) {?>
 		<p class="info">Ведущий: 
@@ -25,12 +27,13 @@ $masters = 	$this->masters;
 		</p>
 		<? } ?>
 				
-	</td>
-	<td><?= $tarif['title'] ?></td>
+	</div>
 	
-	<td class="status">	
+	<div class="clr"></div>
+	<p class="status">
 		<? if(!empty($this->course['alias'])) { ?>
-		<a href="#reviewPopup" class="button pink twm-popup-link" data-subject="course-<?= $this->course['alias']?>">Оставить отзыв</a>
+		<a href="#reviewPopup" class="button twm-popup-link" data-subject="course-<?= $this->course['alias']?>">Оставить отзыв</a>
 		<? } ?>
-	</td>
-</tr>
+	</p>
+	
+</div>

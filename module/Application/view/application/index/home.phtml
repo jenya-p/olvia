@@ -2,10 +2,12 @@
 /* @var $this Common\View */
 
 $this->headLink()->appendStylesheet("/assets/bxslider/jquery.bxslider.min.css");
-$this->headLink()->appendStylesheet("/assets/lightslider/css/lightslider.min.css");
-$this->headLink()->appendStylesheet("/site/css/home.css");
 $this->inlineScript()->appendFile("/assets/bxslider/jquery.bxslider.min.js");
+
+$this->headLink()->appendStylesheet("/assets/lightslider/css/lightslider.min.css");
 $this->inlineScript()->appendFile("/assets/lightslider/js/lightslider.min.js");
+
+$this->headLink()->appendStylesheet("/site/css/home.css");
 $this->inlineScript()->appendFile("/site/js/home.js");
 $this->layout("layout/home");
 

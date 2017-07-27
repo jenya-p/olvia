@@ -11,17 +11,18 @@ use Admin\Model\Orders\OrdersDb;
 	$tarif = 	$this->tarif;
 	$masters = 	$this->masters;
 ?>
-<tr>
-	<td class="-twm-popup-link" -href="#courseOrderPopup">		
+<div class="white-bg shedule-block">
+	<div class="date-wrp">
 		<? if($type == 'preorder'){ ?>
-			<p><?= $event['date_text']?></p>
-			<p class="secondary">Предварительная заявка</p>		
+			<p class="date"><?= $event['date_text']?></p>
+			<p class="date">Предзаказ</p>					
 		<? } else { ?>
-			<p><?= $this->html()->date($meetDate, 'd M') ?></p>
-			<p><?= $this->html()->date($meetDate, 'l') ?></p>
+			<p class="date-big"><?= $this->html()->date($meetDate, 'd')?></p>
+			<p class="date"><?= $this->html()->date($meetDate, 'M')?></p>
+			<p class="date"><?= $this->html()->date($meetDate, ' l')?></p>
 		<? }?>
-	</td>
-	<td class="shedule-list--time" class="twm-popup-link" href="#courseOrderPopup">				
+		
+	
 		<? if(!empty($event['time_text'])){ ?>
 		<p class="time-till-wrp">		
 			<? if(!empty($event['time_text_from'])){ ?>
@@ -30,13 +31,13 @@ use Admin\Model\Orders\OrdersDb;
 			<span class="till"><?= $event['time_text_till'] ?></span>
 			<? } ?>
 			<? } else { ?> 
-			<span class="from"><?= $event['time_text_duration'] ?></span>
+			<span class="till"><?= $event['time_text_duration'] ?></span>
 			<? } ?>		
 		</p>
 		<? }?>	
-	</td>
-	<td class="-twm-popup-link" -href="#courseOrderPopup">		
-		<p><?= $event['title'] ?></p>		
+	</div>
+	<div class="text-wrp" >		
+		<h3><?= $event['title'] ?></h3>		
 		<? if(!empty($masters)) {?>
 		<p class="info">Ведущий: 
 			<?= implode(', ', array_map(function($master){
@@ -50,33 +51,39 @@ use Admin\Model\Orders\OrdersDb;
 			<a href="javascrpt:;"><i class="icon-location"></i> м. Пушкинская, ул. Малая Дмитровка, 18а </a>			
 		</p>
 		<? } ?>
-	</td>
-	<td class="-twm-popup-link" -href="#courseOrderPopup"><?= $tarif['title'] ?></td>
-	
-	<td class="pay">			
-		<? 
-		if ($order['actual_price'] == 0){ ?>
-			<label class="free">бесплатно</label>			
-		<? } else if (empty($order['payed'])){ ?>
+		<p class="info">Тариф:
+			<?= $tarif['title'] ?>
+			<? 
+			if ($order['actual_price'] == 0){ ?>
+				<span class="free">бесплатно</span>			
+			<? } else if (empty($order['payed'])){ ?>
+				<label class="checkbox">
+					<span class="price"><?= number_format($order['actual_price'], 0, '.', ' ')?> р.</span>
+					<? if($order['actual_price'] < $order['price'] && $order['price']!=0){ ?> 
+					<span class="price-old"><?= number_format($order['price'], 0, '.', ' ')?> р.</span>
+					<? } ?>
+				</label>
+			<? } ?>
+		</p>
+	</div>
+	<div class="clr"></div>
+	<p class="status">		
+		
+		<? if($order['actual_price'] != 0){
+			if (empty($order['payed'])){ ?>
 			<label class="checkbox">
 				<input type="checkbox" name="payment" checked="checked" data-value="<? $order['actual_price'] ?>" />
-				<span><?= number_format($order['actual_price'], 0, '.', ' ')?> р.</span>
-				<? if($order['actual_price'] < $order['price'] && $order['price']!=0){ ?> 
-				<span class="price-old"><?= number_format($order['price'], 0, '.', ' ')?> р.</span>
-				<? } ?>
+				<span>Оплатить</span>	
 			</label>
-		<? } else { ?>
-			<label class="payed"><i class="icon-check-1"></i><?= number_format($order['payed'], 0, '.', ' ')?> р.</span></label>
-		<? } ?>			
-	</td>
+			<? } else { ?>
+			<label class="payed"><i class="icon-check-1"></i> оплачено <?= number_format($order['payed'], 0, '.', ' ')?> р.</span></label>
+			<? } ?>
+		<? } ?>
+		
+		<? if (empty($order['payed']) && ($order['status'] == OrdersDb::STATUS_PREORDER || $order['status'] == OrdersDb::STATUS_NEW)){ ?>
+			<a href="#removeCoursePopup" class="twm-popup-link cancel-link">отменить</a>			
+		<? } ?>
 	
-	<td class="status">	
-		<? if (empty($order['payed']) && ($order['status'] == OrdersDb::STATUS_PREORDER || $order['status'] == OrdersDb::STATUS_NEW) ){ ?>
-			<a href="#removeCoursePopup" class="twm-popup-link">					
-				<i class="icon-trash-empty"></i>
-			</a>			
-		<? } else { ?>
-			<i class="icon-lock"></i>
-		<? } ?>			
-	</td>
-</tr>	
+	</p>
+		
+</div>

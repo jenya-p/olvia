@@ -147,8 +147,11 @@ class Html extends \Zend\View\Helper\AbstractHelper{
 	
 	
 	function option($lbl, $option, $value, $ex=null){
+		if(!is_scalar($value)){
+			$value = ($option == $value); 
+		}
 		return '<option value="'.$option.'" lable="'.htmlspecialchars($lbl).'"'
-				.($option == $value ? ' selected="selected"': '')
+				.($value ? ' selected="selected"': '')
 				.(empty($ex) ? '': ' '.$ex)
 				.$ex.'>'.$lbl.'</option>';
 	}

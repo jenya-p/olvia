@@ -2,59 +2,44 @@
 /* @var $this Common\View */
 $this->headTitle('Расписание');
 
-$this->inlineScript()->appendFile('/site/js/course-order-popup.js');
+$this->inlineScript()->appendFile('/mobile/js/course-order-popup.js');
 
-$this->inlineScript()->appendFile('/site/js/shedule.js');
-$this->headLink()->appendStylesheet('/site/css/_course-order.css');
-$this->headLink()->appendStylesheet('/site/css/shedule.css');
+$this->inlineScript()->appendFile('/mobile/js/shedule.js');
+$this->headLink()->appendStylesheet('/mobile/css/_course-order.css');
+$this->headLink()->appendStylesheet('/mobile/css/shedule.css');
 
 echo $this->partial('application/shedule/filter.phtml', $this->vars());
-
 ?>
 
-<nav class="month-pager">
-	<? $url = $this->url(null, ['date' => 'dummy_date'], [], true);
-echo $this->weekPaginator($this->currentDate, $this->sheduleBounds, 2, function($dt) use($url){
-	return str_replace('dummy_date', date('y-m-d', $dt), $url);
-}); ?>
-</nav>
+<h1>Расписание мероприятий</h1>
+
+<select class="week-select-pager" class="gray">
+	<? 
+	$url = $this->url(null, ['date' => 'dummy_date'], [], true);
+	echo $this->weekPaginatorOptions($this->currentDate, $this->sheduleBounds, 6, function($dt) use($url){
+		return str_replace('dummy_date', date('y-m-d', $dt), $url);
+	}); ?>
+</select>
 <?
 if(!empty($this->items)){ ?> 
-<table class="shedule-list">
-	<tr>
-		<th>Дата</th>
-		<th>Время</th>
-		<th colspan="2">Название тренинга и тарифы</th>
-		<th>Запись</th>
-	</tr>	
-	<? foreach ($this->items as $date => $dateItems){ ?>	
-	<tr class="borderred"><td colspan="6">&nbsp;</td></tr>	
-	<? foreach ($dateItems as $key => $item){ ?>
-	<tr>
-	<? if($key == 0) {
-		$dayTime = strtotime($date);
-		$w = date('w',$dayTime);		
-		?>	
-		<td rowspan="<?= count($dateItems) ?>" class="date<?= ($w == 0 || $w == 6) ? ' holiday': '' ?>">
-			<p><?= date('d', $dayTime) ?></p>
-			<p><?= $this->html()->date($dayTime, 'M', '', 's') ?></p>
-			<p><?= $this->html()->date($dayTime, 'l') ?></p>
-		</td>
-	
-	<? } ?>
-	<?= $this->partial('shedule-list.item.phtml', ['item' => $item]) ?>
-	</tr>
-	<? } ?>
-		
-	<? } ?>
-</table>
+<div class="shedule-list">	
+<?
+  foreach ($this->items as $date => $dateItems){ 	
+	foreach ($dateItems as $key => $item){
+	  echo $this->partial('shedule-list.item.phtml', ['item' => $item, 'date' => $date]);
+	}
+	echo '<br /><br />';
+  }
+?>
+</div>
 
-<nav class="month-pager">
-	<? $url = $this->url(null, ['date' => 'dummy_date'], [], true);
-echo $this->weekPaginator($this->currentDate, $this->sheduleBounds, 4, function($dt) use($url){
-	return str_replace('dummy_date', date('y-m-d', $dt), $url);
-}); ?>
-</nav>
+<select class="week-select-pager" class="gray">
+	<? 
+	$url = $this->url(null, ['date' => 'dummy_date'], [], true);
+	echo $this->weekPaginatorOptions($this->currentDate, $this->sheduleBounds, 6, function($dt) use($url){
+		return str_replace('dummy_date', date('y-m-d', $dt), $url);
+	}); ?>
+</select>
 
 <? } else { ?>
 	<p class="empty-list-message">Мероприятия на этой неделе не запланированы</p>

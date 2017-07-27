@@ -4,10 +4,19 @@
 section.main h1.like-h2,
 section.main h2 {text-align: left;font-weight: bold;}
 section.main h1.like-h2 a,
-section.main h2 a{margin-left: 14px;font-size: 0.8em;}
-section.main .video-row{vertical-align: top;margin: 0 -18px 2em -18px;}
-section.main .video-entry{display: inline-block;width: 218px;/* height: 200px; */vertical-align: top;margin: 0 0 2.8em 18px;}
-section.main .video-entry img{width: 100%;margin-bottom: 0.8em;}
+section.main h2 a{}
+section.main .video-entry{display: block;vertical-align: top;margin: 0 0 2.8em;}
+section.main .video-entry img{}
+section.main .video-entry a{
+    text-decoration: none;
+    position: relative;
+    height: 200px;
+    display: block;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+}
 section.main .video-entry a:HOVER {text-decoration: none;}
-section.main .video-entry span {line-height: 1.4em;}
-section.main .video-entry span.time {    color: black;    margin-right: 9px;}
+section.main .video-entry span.title {line-height: 1.4em;position: absolute;left: 0;right: 0;bottom: 0px;color: white;padding-left: 70px;background: rgba(0,0,0,0.6);padding-bottom: 10px;padding-top: 10px;padding-right: 4px;}
+section.main .video-entry span.time {line-height: 1.4em;color: #fff;position: absolute;padding-left: 14px;bottom: 10px;background: transparent;}

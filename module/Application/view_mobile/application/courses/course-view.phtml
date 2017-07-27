@@ -7,42 +7,34 @@ $this->inlineScript()->appendFile('/assets/moment-with-locales.js');
 $this->inlineScript()->appendFile('/assets/date-range-picker/jquery.daterangepicker.min.js');
 $this->headLink()->appendStylesheet('/assets/date-range-picker/daterangepicker.min.css');
 
-$this->inlineScript()->appendFile('/site/js/course.js');
-$this->headLink()->appendStylesheet('/site/css/_course-order.css');
+$this->inlineScript()->appendFile('/mobile/js/course.js');
+$this->headLink()->appendStylesheet('/mobile/css/_course-order.css');
 
-$this->headLink()->appendStylesheet('/site/css/course.css');
+$this->headLink()->appendStylesheet('/mobile/css/course.css');
 
 $this->headTitle($item['title']);
 $this->seo($item);
 
 ?>
-<section class="main">
-	<div class="lay-wrapper-inner">
-		<ul class="breadcrumb">
-			<li><a href="/">Главная</a></li>
-			<li><a href="<?= $this->url('catalog-index')?>">Каталог тренингов</a></li>
-			<li><?= $item['title'] ?></li>	
-		</ul>
-		
-		<div class="with-right-aside">	
-			<h1><?= $item['title'] ?></h1>
-					
-			<img src="<?= $this->image($item['image'], 680,224) ?>" class="course-img"/>
-			
-			<? if(!empty($item['tags'])) {?>
-				<p class="info">
-					<? foreach ($item['tags'] as $tag) {?>
-					<a href="<?= $this->url('catalog-index', ['tag' => $tag['alias']]) ?>"><i class="icon-tag"></i><?= $tag['name'] ?></a>	
-					<? } ?>
-				</p>
-			<? }?>	
-			
-			<div class="content" data-editable="course-<?= $item['id'] ?>-body" >
-				<?= $item['body'] ?>
-			</div> 
-			
-		</div>	
+<a class="breadcrumb-bar" href="<?= $this->url('catalog-index') ?>">Все курсы</a>
 
+<section class="main">
+			
+	<h1><?= $item['title'] ?></h1>
+	
+	<img src="<?= $this->image($item['image'], 420, 195) ?>" class="course-img"/>
+	<? if(!empty($item['tags'])) {?>
+		<p class="info leftside-margin">
+			<? foreach ($item['tags'] as $tag) {?>
+			<a href="<?= $this->url('catalog-index', ['tag' => $tag['alias']]) ?>"><i class="icon-tag"></i><?= $tag['name'] ?></a>	
+		<? } ?>
+		</p>
+	<? }?>	
+			
+	<div class="content" data-editable="course-<?= $item['id'] ?>-body" >
+		<?= $item['body'] ?>
+	</div> 
+</section>
 <? if(!empty($this->shedule)) {?>
 	<?= $this->partial('course-view.order.phtml', $this->vars()); ?>
 <? } else if(!empty($this->announce)){ ?>
@@ -50,9 +42,8 @@ $this->seo($item);
 <? } else if(!empty($this->similar)){ ?>
 	<?= $this->partial('course-view.similar.phtml', $this->vars()); ?>
 <? } ?>	
-	<div class="clr"></div>	
-	</div>
-</section>
+
+
 
 
 <? if(!empty($item['masters'])) {?>

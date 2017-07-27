@@ -76,9 +76,9 @@ $this->layout('layout/home');
 			<p class="done">Запись окончена</p>
 		<? } else if ($tarif['order_status'] == CoursesController::ORDER_STATUS_AVAILABLE) {
 				$getQuery = [
-					'event_id' => $event['id'],
-					'tarif_id' => $tarif['id'],
-					'shedule_id' => $date['id']
+					'event' => $event['id'],
+					'tarif' => $tarif['id'],
+					'shedule' => $date['id']
 				];			
 			?>
 			<a href="<?= $this->url('order-event',[], ['query' => $getQuery]) ?>" class="button purple">Записаться</a>

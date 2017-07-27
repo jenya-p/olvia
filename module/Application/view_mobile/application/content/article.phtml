@@ -11,17 +11,18 @@ $this->headLink()->appendStylesheet('/mobile/css/article.css');
 ?>
 
 <? if(!empty($this->division)){ ?>
-	<a class="breadcrumb-back-link" href="<?= $this->url('content-division', ['alias' => $this->division['alias']]) ?>"><?= $this->division['title'] ?></a></li>
+	<a class="breadcrumb-bar" href="<?= $this->url('content-division', ['alias' => $this->division['alias']]) ?>">Статьи: <?= $this->division['title'] ?></a></li>
 <? } else if($this->article['type'] == 'article'){ ?>
-	<a class="breadcrumb-back-link" href="<?= $this->url('content-index') ?>">Статьи</a></li>
+	<a class="breadcrumb-bar" href="<?= $this->url('content-index') ?>">Статьи</a>
 <? } else { ?>
-	<a class="breadcrumb-back-link" href="/">Главная</a>	
+	<a class="breadcrumb-bar" href="/">Главная</a>	
 <? } ?>
 
-<? if(strpos($this->article['body'], '<h1>') === false){ ?> 
-	<h1><?= $this->article['title'] ?></h1>
-<?}?>
+
 <div class="content">
+	<? if(strpos($this->article['body'], '<h1>') === false){ ?> 
+		<h1><?= $this->article['title'] ?></h1>
+	<?}?>
 	<?= $this->article['body'] ?>
 </div>
 	

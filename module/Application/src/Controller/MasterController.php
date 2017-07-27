@@ -26,6 +26,8 @@ class MasterController extends SiteController implements LoggerAware{
 
 	use LoggerTrait;
 	
+	const IPP = 25;
+	
 	/** @var MasterDb */
 	var $masterDb;
 	
@@ -33,19 +35,29 @@ class MasterController extends SiteController implements LoggerAware{
 		$this->masterDb = $this->serv(MasterDb::class);
 	}
 	
+	
+	
 	/**
 	 * 	@Route(name="master-index",route="/masters", type="Segment")
 	 */
 	public function indexAction(){
+
+		if($this->params()->fromQuery('p', null) === '1'){
+			return $this->redirect()->toRoute('master-index');
+		}
 		
 		$page = intval($this->params()->fromQuery('p', 1));
-		
+
 		$vm = new ViewModel();
 		
+		$totals = $this->masterDb->getTotals(null);
+		$items = $this->masterDb->getItems(null, $page, self::IPP);
+		
 		$vm->setVariables([
-				'items' => $this->masterDb->getItems(null, $page, 25 ),
-				'totals' => $this->masterDb->getTotals(null),				
-				'page' => $page
+				'items' => $items,
+				'totals' => $totals,				
+				'page' => $page,
+				'pageCount' => ceil($totals['count'] / self::IPP),
 		]);
 		
 		if($this->getRequest()->isXmlHttpRequest()){

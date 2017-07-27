@@ -3,6 +3,6 @@
 
 .main {}
 .main h1 .date {color: #854698;margin: 0 0.8em 0 0;display: inline-block;}
-.main .photoalbum-wrp {margin-bottom: 3em;}
+.main .photoalbum-wrp {margin: 0 auto 3em;text-align: center;max-width: 430px;}
 .main .photoalbum-wrp .row{white-space: nowrap;	overflow: hidden;	text-align: center;}
-.main .photoalbum-wrp a{ margin: 6px; display: inline-block; height: 180px; overflow: hidden;}
+.main .photoalbum-wrp a{margin: 1px 1px 1px 1px;display: inline-block;height: 75px;overflow: hidden;}

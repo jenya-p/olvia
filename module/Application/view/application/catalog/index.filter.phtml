@@ -8,7 +8,7 @@ $type = $this->filter['type'];
 ?>
 
 <aside class="left white">
-<form class="form searchForm" data-search-preview-url="<?= $this->url('catalog-search-preview') ?>">
+<form class="form searchForm" data-search-preview-url="<?= $this->url('catalog-search-preview', ['type' => $type]) ?>" action="<?= $this->url('catalog-index', ['type' => $type]) ?>">
 	<div class="field field-query">
 		<input type="text" name="query" placeholder="Поиск..." class="gray" value="<?= $this->filter['query']?>"/>
 	</div>

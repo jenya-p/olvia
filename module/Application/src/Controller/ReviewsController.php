@@ -26,6 +26,8 @@ class ReviewsController extends SiteController implements LoggerAware{
 
 	use LoggerTrait;
 	
+	const IPP = 25; // items per page
+	
 	/** @var ReviewDb */
 	var $reviewDb;
 	
@@ -37,10 +39,14 @@ class ReviewsController extends SiteController implements LoggerAware{
 	 * @Route(name="review-index",route="/reviews[/][:subject]",type="Segment")
 	 */
 	public function indexAction() {
-		
-		$subjectAlias = filter_var($this->params('subject', null), FILTER_SANITIZE_STRING);		
-		$page = intval($this->params()->fromQuery('p', 1));		
+		if($this->params()->fromQuery('p', null) === '1'){
+			return $this->redirect()->toRoute('review-index');
+		}
 				
+		$page = intval($this->params()->fromQuery('p', 1));		
+		
+		$subjectAlias = filter_var($this->params('subject', null), FILTER_SANITIZE_STRING);
+		
 		$ret = new ViewModel();
 		$filter = [];
 		
@@ -67,11 +73,15 @@ class ReviewsController extends SiteController implements LoggerAware{
 			
 		}
 		
+		$totals = $this->reviewDb->getTotals($filter);
+		$items = $this->reviewDb->getItems($filter, $page, self::IPP);
+		
 		$ret->setVariables([
 				'subject' => $subjectAlias,
-				'totals' => $this->reviewDb->getTotals($filter),
-				'items' => $this->reviewDb->getItems($filter, $page, 25),
-				'page' => $page
+				'totals' => $totals,
+				'items' => $items,
+				'page' => $page,
+				'pageCount' => ceil($totals['count'] / self::IPP),
 		]);
 		
 		if($this->getRequest()->isXmlHttpRequest()){			

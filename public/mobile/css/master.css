@@ -1,53 +1,46 @@
 
-section.main .userpick{float: right;/* padding-top: 90px; */width: 380px;border-radius: 4px;}
-section.main .content{/* float: left; */width: 760px;}
+section.main .userpick{max-width: 380px;width: 100%;margin: 0 auto;display: block;margin-bottom: 2em;}
+section.main .content{}
+
+section.consult {padding-bottom: 0}
+section.consult h2{text-align: center;}
+section.consult .form-wrp {margin: 0px -20px;padding: 1px 20px 3em 20px;width: 100%;background: #8c4d9e;background: linear-gradient(to bottom,  #8c4d9e 0%,#8c4d9e 0%,#77388a 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8c4d9e', endColorstr='#7e3e91',GradientType=0 ); /* IE6-9 */color: white;box-shadow: 0px 2px 4px rgba(193, 143, 187, 0.55);}
+section.consult .form-wrp form{max-width: 600px; margin: 0 auto;}
+section.consult .form-wrp h3{font-family: Comfortaa;margin-top: 1.6em;margin-bottom: 1.3em;text-align: center;}
+section.consult .form-wrp .error-msg{background: white;color: red;padding: 10px 20px;margin: 0 -20px;text-align: center;display: none;}
+section.consult .form-wrp label:not(.checkbox) {margin-bottom: 13px;line-height: 0.9em;margin-left: 4px;/* font-weight: bold; */font-size: 0.9em;margin-left: 7px;}
+section.consult .form-wrp label.checkbox{font-size: 0.9em;padding: 6px 6px 6px 10px;position: relative;display: block;font-weight: 300;}
+section.consult .form-wrp .buttons{padding: 0.3em 0 0 0;}
+section.consult .form-wrp .buttons button{margin-bottom: 1em;}
+section.consult .form-wrp .buttons a{color: white}
+section.consult .form-wrp .fast-buttons{text-align: center;}
+section.consult .form-wrp .fast-buttons button{
+    margin: 1em 0 0 1em;
+}
+@media(max-width: 400px){
+	section.consult .form-wrp .buttons .s-hidden{display: none;}
+}
+section.consult .form-wrp .form input,
+section.consult .form-wrp .form textarea{box-shadow: none} 
+section.consult .form-wrp .form label .error{color: #ff8c8c;text-align: center;display: none;}
+section.consult .form-wrp .form .has-error label .error{display: inline;}
+section.consult .form-wrp .form .has-error label.required:AFTER{color: #ff8c8c;}
+section.consult .form-wrp .fast-done {display: none;margin-top: 4em;}
+section.consult .form-wrp .fast-done p{text-align: center;padding: 30px;line-height: 2em;font-weight: normal;}
+section.consult .form-wrp label.checkbox .price,
+section.consult .form-wrp label.checkbox input+span{	position: static;	display: block;	padding: 5px 0 0 20px;}
+section.consult .form-wrp label.checkbox input+span{font-size: 1.1em;margin-bottom: 0.2em;}
 
 
-section.consult h2{text-align: left;margin-top: 1.1em;}
-section.consult .with-right-aside{width: 680px;}
-section.consult aside.right {margin-top: 16px;padding: 0px 20px 40px 20px;border-radius: 4px;width: 460px;}
-section.consult aside.right h3{font-family: Comfortaa;margin-top: 1.6em;margin-bottom: 1.3em;}
-section.consult aside.right .error-msg{background: white;color: red;padding: 10px 20px;margin: 0 -20px;text-align: center;display: none;}
-section.consult aside.right label:not(.checkbox) {margin-bottom: 13px;line-height: 0.9em;margin-left: 4px;/* font-weight: bold; */font-size: 0.9em;margin-left: 7px;}
-section.consult aside.right label.checkbox{font-size: 0.9em;margin-bottom: 21px;padding-right: 110px;position: relative;display: block;font-weight: 300;}
-section.consult aside.right label.checkbox .price{position: absolute;right: 0;top:50%;margin-top: -0.5em;color: #ffffff;font-size: 0.9em;}
-section.consult aside.right label.checkbox input:CHECKED+span, 
-section.consult aside.right label.checkbox input:CHECKED+span+.price{}
+section.courses h2{	font-family: Comfortaa;    margin-top: 1.6em;    margin-bottom: 1.3em;    text-align: center;}
 
-section.consult aside.right .buttons{padding: 1.8em 0.7em 0em;}
-section.consult aside.right .fast-buttons{text-align: center;}
-section.consult aside.right .fast-buttons button{margin-left: 40px;}
-section.consult aside.right .form input,section.consult aside.right .form textarea{box-shadow: none} 
-section.consult aside.right .form label .error{color: #ff8c8c;text-align: center;display: none;}
-section.consult aside.right .form .has-error label .error{display: inline;}
-section.consult aside.right .form .has-error label.required:AFTER{color: #ff8c8c;}
-section.consult aside.right .fast-done {display: none;margin-top: 4em;}
-section.consult aside.right .fast-done p{text-align: center;padding: 30px;line-height: 2em;font-weight: normal;}
-
-section.courses .course-list{   margin-left: -20px;}
-section.courses .block{display: inline-block;width: 395px;padding-left: 20px;box-sizing: border-box;vertical-align: top;font-size: 0.9em;margin-bottom: 38px;cursor: pointer;}
-section.courses .block img {margin: 0;width: 100%;max-width: none;border-radius: 11px;}
-section.courses .block h2 {margin-top: 17px;margin-bottom: 15px;text-align: left;font-family: Helvetica Neue;font-weight: bold;}
-section.courses .block p {/* margin-bottom: 11px; */}
-section.courses .block p.info a,
-section.courses .block .view-more{white-space: nowrap; border-bottom: none;}
-section.courses .block p.info a.with-icon {border: none;text-decoration: underline;}
-section.courses .block p.info a.with-icon>span{border-bottom: 1px dotted rgba(255, 255, 255, 0);transition: border-color 200ms ease;}
-section.courses .block p.info a.with-icon:HOVER>span{border-bottom: 1px dotted black;}
-section.courses .block p.info i{color: black;font-size: 0.9em;}
-section.courses .block p.info a.like{float: right;}
-section.courses .block p.info a.like i{color: #ff6580;}
-
-
-section.education {font-weight: lighter;}
+section.education {font-weight: lighter;padding: 1px 0 2.5em 0;}
 section.education .content{font-size: 0.9em;}
-section.education .diplomas  {text-align: center;overflow: hidden;}
-section.education .diplomas  .column{width: 172px;display: inline-block;vertical-align: top;}
-section.education .diplomas .column-view-item{margin-bottom: 10px;display: inline-block;}
-section.education .diplomas >.column-view-item {display: none;}
-section.education .diplomas{}
-section.education .diplomas a{margin-bottom: 15px;display: inline-block;padding: 5px 5px 2px 5px;border: 1px solid rgba(255, 233, 246, 0.42);}
-section.education .diplomas a img{width: 100%;}
+section.education ul.diplomas{height: 140px!important; overflow: hidden;}
+section.education ul.diplomas li{display: none;}
+section.education ul.diplomas li.lslide{padding: 4px 6px;border: 1px solid rgba(255, 233, 246, 0.42);display: inline-block;margin: 0px 15px 0px 2px;box-sizing: border-box;}
+section.education ul.diplomas li a{border: none;}
+section.education ul.diplomas li img{height: 126px;}
 
 
 

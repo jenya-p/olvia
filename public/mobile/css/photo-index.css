@@ -2,9 +2,10 @@
 /* Photo page */
 
 .page-photo-index .main h1.like-h2,
-.page-photo-index .main h2 {text-align: left;font-weight: bold;}
+.page-photo-index .main h2 {text-align: left;font-weight: bold;margin: 1em 4px 0.3em  4px;}
 .page-photo-index .main h1.like-h2 .date,
 .page-photo-index .main h2 .date {color: #854698;margin: 0 0.8em 0 0;font-size: 0.7em;/* width: 150px; */display: inline-block;white-space: nowrap;}
-.page-photo-index .main .photoalbum-wrp {vertical-align: top;margin: 0 -18px 2em -18px;white-space: nowrap;overflow: hidden;position: relative;}
-.page-photo-index .main .photoalbum-wrp .item{display: inline-block;height: 180px;vertical-align: top;margin: 0 0 0 18px;}
-.page-photo-index .main .photoalbum-wrp .item img{height: 180px;}
+.page-photo-index .main .block{max-width: 414px;margin: 0 auto 2em auto;}
+.page-photo-index .main .photoalbum-wrp {/* white-space: nowrap; */text-align: center;}
+.page-photo-index .main .photoalbum-wrp .item{display: inline-block;height: 75px;vertical-align: top;margin: 1px;}
+.page-photo-index .main .photoalbum-wrp .item img{height: 75px;}

@@ -8,7 +8,7 @@ use Common\Db\Select;
 use Common\Db\Table;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Expression;
-use Application\Model\Users\MasterPricesDb;
+use Application\Model\MasterPricesDb;
 use Zend\Db\Sql\Join;
 
 class MasterDb extends Table implements Multilingual{
@@ -139,5 +139,15 @@ class MasterDb extends Table implements Multilingual{
     	
     }
     
+    
+    public function options(){
+    	$select = new Select(['m' => $this->table]);
+    	$select->reset(Select::COLUMNS);
+    	$select->columns(['id', 'name' => 'name_'.$this->lang]);
+    	$select->where->equalTo('status', 1);
+    	$select->order('m.priority DESC');
+    	$select->order('m.id ASC');
+    	return $select->fetchAll();
+    }
     
 }

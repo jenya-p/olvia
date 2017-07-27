@@ -5,20 +5,14 @@ use Common\ImageService;
 /** @var $this Common\View */
 $this->headTitle("Личный кабинет");
 $this->inlineScript()->appendFile("/admin/js/image-upload.js");
-$this->inlineScript()->appendFile("/site/js/customer-cabinet.js");
-$this->headLink()->appendStylesheet("/site/css/user.css");
+$this->inlineScript()->appendFile("/mobile/js/customer-cabinet.js");
+$this->headLink()->appendStylesheet("/mobile/css/user.css");
 
 ?>
+<a href="/" class="breadcrumb-bar">Главная</a>
 
-<ul class="breadcrumb">
-	<li><a href="/">Главная</a></li>
-	<li>Кабинет пользователя</li>
-</ul>
-
-<?= $this->partial('/application/customer/tabs.phtml', $this->vars()); ?>
-
-<div class="white-bg to-left panel-w50" style="min-height: 1040px;">
-	<h2 class="like-h1">Общая информация</h2>
+<div class="panel">
+	<h1>Личный кабинет</h1>
 	<form action="" class="form gray form-user-commons" method="post">
 
 		<div class="field<?= $this->errors->ifHasErrorClass('email') ?>">
@@ -85,13 +79,13 @@ $this->headLink()->appendStylesheet("/site/css/user.css");
 		</div>
 
 		<div class="button-group clr-after">
-			<input type="submit" class="button pink submit to-right" value="Сохранить" />
+			<input type="submit" class="button pink submit" value="Сохранить" />
 		</div>
 	</form>
 </div>
 
-<div class="white-bg to-right panel-w50 image-panel">
-	<h1>Фотография</h1>
+<div class="white-bg image-panel">
+	<h2 class="like-h1">Фотография</h2>
 	<input type="file" data-url="<?= $this->url('customer-image-upload') ?>" accept="image/jpeg,image/png,image/bmp" />
 	<p class="error">Сюда можно загружать только картинки (jpeg, png, bmp)</p>
 	<div class="image-wrp">		
@@ -100,8 +94,8 @@ $this->headLink()->appendStylesheet("/site/css/user.css");
 </div>
 
 
-<div class="white-bg to-right panel-w50">
-	<h1>Социальные сети</h1>
+<div class="panel">
+	<h2 class="like-h1">Социальные сети</h2>
 	<form action="" class="form gray form-user-social">
 	
 		<div class="field">
@@ -113,7 +107,7 @@ $this->headLink()->appendStylesheet("/site/css/user.css");
 			];
 			$vkUrl = 'http://oauth.vk.com/authorize?' . urldecode(http_build_query($params));
  			?> 		
-			<a href="<?= $vkUrl ?>" class="button" ><i class="icon-vkontakte"></i> Войти через Вконтакте</a>
+			<a href="<?= $vkUrl ?>" class="button" ><i class="icon-vkontakte"></i> <span class="s-hidden">Войти через </span>Вконтакте</a>
 			<? } else { 
 				$vkUrl = 'vk.com/'.$item['vk_id']
 			?>
@@ -130,7 +124,7 @@ $this->headLink()->appendStylesheet("/site/css/user.css");
 			];
 			$fbUrl = 'https://www.facebook.com/dialog/oauth?' . urldecode(http_build_query($params));
 		?>	
-			<a href="<?= $fbUrl ?>" class="button" ><i class="icon-facebook"></i> Войти через Фэйсбук</a>
+			<a href="<?= $fbUrl ?>" class="button" ><i class="icon-facebook"></i> <span class="s-hidden">Войти через </span>Фэйсбук</a>
 		<? } else { 
 			$fbUrl = 'www.facebook.com/'.$item['fb_id'];
 			?>	            
@@ -142,8 +136,8 @@ $this->headLink()->appendStylesheet("/site/css/user.css");
 </div>
 
 
-<div class="white-bg to-right panel-w50">
-	<h1>Смена пароля</h1>
+<div class="white-bg">
+	<h2 class="like-h1">Смена пароля</h2>
 	<form action="<?= $this->url('customer-change-password')?>" class="form gray form-password">
 		<p class="success">Пароль изменен</p>
 		<div class="field field-password1">

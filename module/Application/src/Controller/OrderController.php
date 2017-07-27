@@ -134,10 +134,6 @@ class OrderController extends SiteController{
 	 * @Route(name="order-event", route="/order-event", type="segment")
 	 */
 	public function orderEventAction(){
-	
-		if (!$this->getRequest()->isPost()){
-			return $this->redirect()->toRoute('home');
-		}
 		
 		$data = $this->filterEventOrderDataFromRequest();
 				
@@ -151,7 +147,12 @@ class OrderController extends SiteController{
 	}
 	
 	private function filterEventOrderDataFromRequest(){
-		$data = filter_var_array($this->getRequest()->getPost()->toArray(), [
+		if ($this->getRequest()->isPost()){
+			$data = $this->getRequest()->getPost()->toArray();
+		} else {
+			$data = $this->getRequest()->getQuery()->toArray();
+		}
+		$data = filter_var_array($data, [
 			'date'		=> FILTER_SANITIZE_NUMBER_INT,
 			'tarif'		=> FILTER_SANITIZE_NUMBER_INT,
 			'event'		=> FILTER_SANITIZE_NUMBER_INT,
@@ -188,8 +189,9 @@ class OrderController extends SiteController{
 			'date' => $date,
 			'tarif_id' => $tarifId,
 		]);
-		
-		$vm->setTerminal(true);
+		if($this->getRequest()->isXmlHttpRequest()){
+			$vm->setTerminal(true);
+		}		
 		return $vm;
 		 
 	}
@@ -219,8 +221,9 @@ class OrderController extends SiteController{
 				'event' => $event,
 				'course' => $course,
 		]);
-	
-		$vm->setTerminal(true);
+		if($this->getRequest()->isXmlHttpRequest()){
+			$vm->setTerminal(true);
+		}
 		return $vm;			
 	}
 	

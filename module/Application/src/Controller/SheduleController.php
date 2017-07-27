@@ -14,6 +14,7 @@ use ZfAnnotation\Annotation\Route;
 use Zend\View\Model\ViewModel;
 use Common\Db\Select;
 use Zend\Db\Sql\Join;
+use Zend\Http\Response;
 
 /**
  * @Controller
@@ -76,6 +77,10 @@ class SheduleController extends SiteController implements LoggerAware{
 		
 		$this->vm = new ViewModel($ret);
 		
+		
+		$masterOptions = $this->masterDb->options();
+		$this->vm->setVariable('masterOptions', $masterOptions);
+				
 		if($type == 'blocks'){		
 			$this->blocks();
 			$this->vm->setTemplate('/application/shedule/shedule-blocks.phtml');

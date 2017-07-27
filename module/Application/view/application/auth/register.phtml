@@ -8,7 +8,7 @@ $errors = $this->errors;
 ?>
 
 <ul class="breadcrumb">
-	<li><a>Главная</a></li>
+	<li><a href="/">Главная</a></li>
 	<li>Вход на сайт</li>
 </ul>
 
@@ -36,7 +36,7 @@ echo $this->userFlowCartInfo()
 		<p class="error-msg">Неверный логин-пароль</p>
 	    
 		<div class="forget to-left">
-			<a href="/password.php">забыли пароль?</a>
+			<a href="<?= $this->url('forget') ?> ">забыли пароль?</a>
 		</div>
 		<input type="submit"class="button pink submit to-right" value="Bойти" tabindex="43"/>
 		<div class="clr"></div>

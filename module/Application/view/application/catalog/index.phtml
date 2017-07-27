@@ -42,7 +42,7 @@ if($type == CatalogController::TYPE_ANNOUNCEMENTS){
 	<? if(empty($tag)){ ?>
 		<li><?= $h1 ?></li>
 	<? } else { ?>
-		<li><a href="<?= $this->url('catalog-index', ['type' => $type]) ?>">,<?= $h1 ?></a></li>
+		<li><a href="<?= $this->url('catalog-index', ['type' => $type]) ?>"><?= $h1 ?></a></li>
 		<li><?= $tag['name'] ?></li>
 	<? } ?>
 </ul>

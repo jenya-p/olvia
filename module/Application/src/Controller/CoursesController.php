@@ -87,9 +87,9 @@ class CoursesController extends SiteController implements LoggerAware{
 		
 		// Serch for normal events and shedule
 		$sheduleBounds = $this->eventDb->getSheduleBounds($filter, false);
-
+		
 		if(!empty($sheduleBounds)){
-			$bounds = $this->getBoundsFromQuery($sheduleBounds);
+			$bounds = $this->getBoundsFromQuery($sheduleBounds);			
 			$shedule = $this->eventDb->getShedule($filter, $bounds, $this->identity()->id);			
 		}
 		

@@ -1,33 +1,13 @@
 jQuery(function (){
 
-	var maxHeight = $('section.education').height(); 
-	
-	var list = $('.diplomas').css('max-height', maxHeight - 300);  
-	var columns = [$('.column-1',list), $('.column-2',list)];
-	var columnCount = columns.length;
-	var win = $(window);
-	var block = false;
-	
-	var processReviewItem = function(){
-		var t = $(this);
-		var i = 0;
-		var h = columns[i].height();		
-		if(columnCount > 1){
-			if(columns[1].height() < h){
-				i = 1;
-				h = columns[1].height();				 
-			}
-			if(columnCount > 2){
-				if(columns[2].height() < h){
-					i = 2;
-					h = columns[2].height();				 
-				}
-			}
-		}
-		columns[i].append(t);		
-	}	
-	
-	$('.column-view-item',list).each(processReviewItem);
+	setTimeout(function(){
+		$('ul.diplomas').lightSlider({
+			autoWidth: true,
+			controls: false,
+			pager: false,
+			enableTouch: true
+		});	
+	}, 1000)
 	
 });
 

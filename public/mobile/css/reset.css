@@ -29,6 +29,7 @@ mark{color:inherit;}
 .hidden{display: none;}
 .to-left{float: left;}
 .to-right{float: right;}
+.to-center{text-align: center;}
 .nobr {white-space: nowrap;}
 a {text-decoration:none;}
 a:hover {text-decoration:underline;}

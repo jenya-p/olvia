@@ -1,6 +1,6 @@
 
 /* Форма отзыва */
-#reviewPopup{width: 360px;}
+#reviewPopup{}
 #reviewPopup p{margin-top: -5px;margin-bottom: 20px;}
 #reviewPopup [type=submit]{width: 145px;}
 #reviewPopup .done{display: none;}

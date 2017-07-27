@@ -6,99 +6,97 @@ $item = $this->item;
 $tarifs = $this->tarifs;
 if(!$item['personal']) return;
 ?>
-<section class="consult">
-	<div class="lay-wrapper-inner">
-		<div class="with-right-aside">
-			<h2>Персональная консультация c <?= $item['name'] ?></h2>		
-			<? if(!empty($item['consultation'])) { ?>
-			<div class="content" data-editable="master-<?= $item['id'] ?>-consultation" style=" text-align: justify;">
-				<?= $item['consultation'] ?>
+<section class="consult white-bg">
+	
+		<h2>Персональная консультация c <?= $item['name'] ?></h2>		
+		<? if(!empty($item['consultation'])) { ?>
+		<div class="content" data-editable="master-<?= $item['id'] ?>-consultation" style=" text-align: justify;">
+			<?= $item['consultation'] ?>
+		</div>
+		<? } else { ?>
+		<div class="content">						
+			<p>В работе использует мультимодальный интегративный  подход, который позволяет эффективно сочетать техники различных направлений и находить индивидуальный подход для эффективного решения запросов клиентов. Большой жизненный и профессиональный опыт, сильная интуиция, гарантированная конфиденциальность. Возможна работа по скайпу.</p>
+ 			<p>Профессиональные приоритеты в работе:</p>
+			<ul>
+				<li>Детско-родительские отношения.</li>
+				<li>Вопросы денег и бизнеса (многолетний опыт работы в бизнесе менеджером по продажам, бренд-менеджером и руководителем отдела маркетинга в крупных компаниях).</li>
+				<li>Психотравмы (терапия тяжелых жизненных ситуаций разного характера, в том числе потери близких, сексуальное насилие).</li>
+				<li>Зависимости (алкогольная, любовная и т.д).</li>
+				<li>Личностные и семейные кризисы, низкая самооценка и неуверенность в себе, проблемы в отношениях, внутренние и внешние конфликты, депрессивные состояния, страхи, обиды, вина, ревность, агрессия, зависть и т.д.</li>
+				<li>Психосоматические заболевания (кожаные, желудочно-кишечные заболевания, женские, детский энурез и т.д.).</li>
+				<li>Вопросы выбора, саморазвития, определения «своей дороги в жизни», коррекция жизненных сценариев и программ.</li>
+				<li>Работа со снами и сновидениями (расшифровка, переработка).</li>
+			</ul>
+		</div>
+		<? } ?>
+		
+	<? if(!empty($this->tarifs)){ ?> 
+	<div class="form-wrp">
+		<form action="<?= $this->url('order-consultation') ?>" class="form signe-form" method="POST">
+			<input type="hidden" name="master_id" id="master_id" value="<?= $this->item['id'] ?>" />
+			<h3>Записаться на консультацию</h3>				
+			<div class="error-msg"></div>				
+			<div class="field">
+				<? 
+				$extra = ' checked = "checked"';
+				foreach ($this->tarifs as $tarif){					
+				if($tarif['need_skype']){
+					$extra .= ' data-skype="1"';
+				}
+				if($tarif['need_phone']){
+					$extra .= ' data-phone="1"';
+				}
+					?>
+				<label class="checkbox">
+					<input type="radio" name="tarif_id" value="<?= $tarif['id'] ?>"<?= $extra?>/>
+					<span><?= $tarif['name'] ?></span>
+					<span class="price"><?= $tarif['price_desc'] ?></span>
+				</label>
+				<? 
+				$extra = '';
+				} ?>
+			</div>
+			<div class="field field-skype" style="display: none;">
+				<label class="required">Skype<span class="error">Заполните это поле</span></label>
+				<input type="text" id="skype" name="skype" value="<?= $this->identity()->skype ?>"/>
+			</div>
+			<div class="field">
+				<label for="">Тема консультирования</label>
+				<textarea id="message" name="message"></textarea>
+			</div>	
+			<? if($this->identity()->isLogged()){ ?>
+			<div class="buttons" style="text-align: center;">	 				 
+				<button type="submit" style="margin: 0 auto;">Записаться</button>
 			</div>
 			<? } else { ?>
-			<div class="content">						
-				<p>В работе использует мультимодальный интегративный  подход, который позволяет эффективно сочетать техники различных направлений и находить индивидуальный подход для эффективного решения запросов клиентов. Большой жизненный и профессиональный опыт, сильная интуиция, гарантированная конфиденциальность. Возможна работа по скайпу.</p>
- 				<p>Профессиональные приоритеты в работе:</p>
-				<ul>
-					<li>Детско-родительские отношения.</li>
-					<li>Вопросы денег и бизнеса (многолетний опыт работы в бизнесе менеджером по продажам, бренд-менеджером и руководителем отдела маркетинга в крупных компаниях).</li>
-					<li>Психотравмы (терапия тяжелых жизненных ситуаций разного характера, в том числе потери близких, сексуальное насилие).</li>
-					<li>Зависимости (алкогольная, любовная и т.д).</li>
-					<li>Личностные и семейные кризисы, низкая самооценка и неуверенность в себе, проблемы в отношениях, внутренние и внешние конфликты, депрессивные состояния, страхи, обиды, вина, ревность, агрессия, зависть и т.д.</li>
-					<li>Психосоматические заболевания (кожаные, желудочно-кишечные заболевания, женские, детский энурез и т.д.).</li>
-					<li>Вопросы выбора, саморазвития, определения «своей дороги в жизни», коррекция жизненных сценариев и программ.</li>
-					<li>Работа со снами и сновидениями (расшифровка, переработка).</li>
-				</ul>
+			<div class="buttons" style="text-align: center;">	 				 
+				<button type="submit" name="method" value="register"><span class="s-hidden">Войти или </span>зарегестрироваться</button><br />
+				<a href="javascript:;" class="fast-order-open">Быстрая запись</a>
+			</div>
+			<div class="fast-order-fields" style="display: none;">				
+				<div class="field field-name">
+					<label class="required">Ваше имя<span class="error">Заполните это поле</span></label>
+					<input type="text" id="name" name="name" value="<?= $this->identity()->displayname ?>"/>
+				</div>
+				<div class="field field-phone">
+					<label class="required">Телефон для связи с Вами<span class="error">Заполните это поле</span></label>
+					<input type="text" id="phone" name="phone" vlaue="<?= Phone::format($this->identity()->phone) ?>"/>
+				</div>
+				<div class="fast-buttons">	 				 
+					<a href="javascript:;" class="button light fast-order-cancel">отмена</a>
+					<button type="submit" name="method" value="fast">Записаться</button>						
+				</div>
 			</div>
 			<? } ?>
+		</form>
+		<? if(!$this->identity()->isLogged()){ ?>
+		<div class="fast-done">
+			<h3>Заявка отправлена</h3>
+			<p>Вскоре наши операторы свяжутся с Вами для уточнения времени консультации</p>
 		</div>
-	
-		<? if(!empty($this->tarifs)){ ?> 
-		<aside class="right purple">
-			<form action="<?= $this->url('order-consultation') ?>" class="form signe-form" method="POST">
-				<input type="hidden" name="master_id" id="master_id" value="<?= $this->item['id'] ?>" />
-				<h3>Записаться на консультацию</h3>				
-				<div class="error-msg"></div>				
-				<div class="field">
-					<? 
-					$extra = ' checked = "checked"';
-					foreach ($this->tarifs as $tarif){					
-					if($tarif['need_skype']){
-						$extra .= ' data-skype="1"';
-					}
-					if($tarif['need_phone']){
-						$extra .= ' data-phone="1"';
-					}
-						?>
-					<label class="checkbox">
-						<input type="radio" name="tarif_id" value="<?= $tarif['id'] ?>"<?= $extra?>/>
-						<span><?= $tarif['name'] ?></span>
-						<span class="price"><?= $tarif['price_desc'] ?></span>
-					</label>
-					<? 
-					$extra = '';
-					} ?>
-				</div>
-				<div class="field field-skype" style="display: none;">
-					<label class="required">Skype<span class="error">Заполните это поле</span></label>
-					<input type="text" id="skype" name="skype" value="<?= $this->identity()->skype ?>"/>
-				</div>
-				<div class="field">
-					<label for="">Тема консультирования</label>
-					<textarea id="message" name="message"></textarea>
-				</div>	
-				<? if($this->identity()->isLogged()){ ?>
-				<div class="buttons" style="text-align: center;">	 				 
-					<button type="submit" style="margin: 0 auto;">Записаться</button>
-				</div>
-				<? } else { ?>
-				<div class="buttons" style="text-align: center;">	 				 
-					<button type="submit" style="margin: 0 auto;" name="method" value="register">Войти или зарегестрироваться</button><br /><br /><br />
-					<a href="javascript:;" class="fast-order-open">Быстрая запись</a>
-				</div>
-				<div class="fast-order-fields" style="display: none;">				
-					<div class="field field-name">
-						<label class="required">Ваше имя<span class="error">Заполните это поле</span></label>
-						<input type="text" id="name" name="name" value="<?= $this->identity()->displayname ?>"/>
-					</div>
-					<div class="field field-phone">
-						<label class="required">Телефон для связи с Вами<span class="error">Заполните это поле</span></label>
-						<input type="text" id="phone" name="phone" vlaue="<?= Phone::format($this->identity()->phone) ?>"/>
-					</div>
-					<div class="fast-buttons">	 				 
-						<a href="javascript:;" class="button light fast-order-cancel">отмена</a>
-						<button type="submit" name="method" value="fast">Записаться</button>						
-					</div>
-				</div>
-				<? } ?>
-			</form>
-			<? if(!$this->identity()->isLogged()){ ?>
-			<div class="fast-done">
-				<h3>Заявка отправлена</h3>
-				<p>Вскоре наши операторы свяжутся с Вами для уточнения времени консультации</p>
-			</div>
-			<? } ?>
-		</aside>
 		<? } ?>
 	</div>
+	<? } ?>
+	
 </section>
 

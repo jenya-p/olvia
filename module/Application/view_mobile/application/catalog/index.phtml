@@ -14,11 +14,11 @@ $this->inlineScript()->appendFile("/assets/wnumb/wNumb.js");
 $this->inlineScript()->appendFile("/assets/nouislider/nouislider.min.js");
 $this->headLink()->appendStylesheet("/site/css/nouislider.custom.css");
 
-$this->inlineScript()->appendFile("/site/js/catalog.js");
-$this->headLink()->appendStylesheet("/site/css/catalog.css");
+$this->inlineScript()->appendFile("/mobile/js/catalog.js");
+$this->headLink()->appendStylesheet("/mobile/css/catalog.css");
 
-$this->inlineScript()->appendFile('/site/js/course-order-popup.js');
-$this->headLink()->appendStylesheet('/site/css/_course-order.css');
+$this->inlineScript()->appendFile('/mobile/js/course-order-popup.js');
+$this->headLink()->appendStylesheet('/mobile/css/_course-order.css');
 
 if(!empty($tag)){
 	$this->seo($tag);
@@ -33,26 +33,24 @@ if($type == CatalogController::TYPE_ANNOUNCEMENTS){
 	$h1 = 'Каталог тренингов';
 	$this->headTitle($h1);	
 }
-
-//$this->layout('layout/home');
 ?>
 
-<ul class="breadcrumb">
-	<li><a href="/">Главная</a></li>
-	<? if(empty($tag)){ ?>
-		<li><?= $h1 ?></li>
+<div class="breadcrumb-bar">
+	<? if(!empty($filter['query']) || !empty($filter['tags']) || (!empty($filter['price_max']) && $filter['price_max'] != 40000)){ ?>
+	<a class="left" href="<?= $this->url('catalog-index') ?>">Все курсы</a>
 	<? } else { ?>
-		<li><a href="<?= $this->url('catalog-index', ['type' => $type]) ?>">,<?= $h1 ?></a></li>
-		<li><?= $tag['name'] ?></li>
-	<? } ?>
-</ul>
+	<a class="left" href="/">Главная</a>
+	<? } ?>	
+	<a class="right icon-search" href="javascript:;"></a>
+</div>
+
 <?= $this->partial('index.filter.phtml', $this->vars())?>
 
+<h1><?= $h1 ?></h1>
 
-<section class="with-left-aside">
-	<h1><?= $h1 ?></h1>
-	
-	<div class="list">
+<section>
+
+	<div class="course-list">
 		<? foreach ($this->items as $item){ ?>
 		<?= $this->partial('index.item.phtml', ['item' => $item]) ?>
 		<? } ?>

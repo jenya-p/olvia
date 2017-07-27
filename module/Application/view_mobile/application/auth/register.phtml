@@ -1,122 +1,113 @@
 <?
 /* @var $this Common\View */
 
-$this->inlineScript()->appendFile("/site/js/register.js");
-$this->headLink()->appendStylesheet("/site/css/user.css");
+$this->inlineScript()->appendFile("/mobile/js/register.js");
+$this->headLink()->appendStylesheet("/mobile/css/user.css");
 $f = $this->data;
 $errors = $this->errors; 
+
+$cartInfo = $this->userFlowCartInfo();
+if(empty($cartInfo)){ ?>
+<a class="breadcrumb-bar" href="/">Главная</a>	
+<? } else {
+	echo $cartInfo;
+}
+$loginMode = $this->current_form != 'register';
 ?>
 
-<ul class="breadcrumb">
-	<li><a>Главная</a></li>
-	<li>Вход на сайт</li>
-</ul>
+<div class="switcher">
+	<a href="javascript:;" class="button login<?= $loginMode ? ' active': '' ?>">Вход</a>
+	<a href="javascript:;" class="button register<?= $loginMode ? '': ' active' ?>">Регистрация</a>
+</div>
 
-<?
-echo $this->userFlowCartInfo()
-?>
-
-<div class="white-bg to-left panel-w50">
-	<h2 class="like-h1">Вход на сайт</h2>
+<form action="<?= $this->url('login')?>" class="form gray form-login<?= $loginMode ? '': ' hidden' ?>" method="post">
+	<?= $this->errors->render('_login') ?>
+	<div class="field">
+		<label class="label">Email</label>
+		<input type="text" name="login" tabindex="41"/>
+	</div>
 	
+	<div class="field">
+		<label class="label">Пароль</label>
+		<input type="password" name="password" autocomplete="off" tabindex="42"/>	
+	</div>
 	
-	<form action="<?= $this->url('login')?>" class="form gray form-login" method="post">
-		<?= $this->errors->render('_login') ?>
-		<div class="field">
-			<label class="label">Email</label>
-			<input type="text" name="login" tabindex="41"/>	
-			
-		</div>
-		
-		<div class="field">
-			<label class="label">Пароль</label>
-			<input type="password" name="password" autocomplete="off" tabindex="42"/>	
-		</div>
-		
-		<p class="error-msg">Неверный логин-пароль</p>
-	    
-		<div class="forget to-left">
-			<a href="/password.php">забыли пароль?</a>
-		</div>
-		<input type="submit"class="button pink submit to-right" value="Bойти" tabindex="43"/>
-		<div class="clr"></div>
-		<p class="social-login">Войти через соц. сети:        
-		
+	<p class="error-msg">Неверный логин-пароль</p>
+    
+	<input type="submit"class="button pink submit to-right" value="Bойти" tabindex="43"/>
+	<div class="forget to-left">
+		<a href="<?= $this->url('forget') ?> ">забыли пароль?</a>
+	</div>
+	<div class="clr"></div>
+	<p class="social-login">Войти через соц. сети:        
 		<?php 
-		$params = [
-			'client_id' => 		$this->config('vk_client_id'),
-			'redirect_uri'  => 	$this->config('base_url').$this->url('vkauth')
-		];
-		$vkUrl = 'http://oauth.vk.com/authorize?' . urldecode(http_build_query($params));
-		$params = [
-				'client_id' => $this->config('fb_client_id'),
-				'redirect_uri'  => $this->config('base_url').$this->url('fbauth'),
-				'response_type' => 'code'
-		];
-		$fbUrl = 'https://www.facebook.com/dialog/oauth?' . urldecode(http_build_query($params));
-		?>		            
-		
-		<a href="<?= $vkUrl ?>"><i class="icon-vkontakte-rect"></i></a>
-		<a href="<?= $fbUrl ?>"><i class="icon-facebook-rect"></i></a> </p>
-		
-		</p>					
-	</form>	
-</div>
-				
+	$params = [
+		'client_id' => 		$this->config('vk_client_id'),
+		'redirect_uri'  => 	$this->config('base_url').$this->url('vkauth')
+	];
+	$vkUrl = 'http://oauth.vk.com/authorize?' . urldecode(http_build_query($params));
+	$params = [
+			'client_id' => $this->config('fb_client_id'),
+			'redirect_uri'  => $this->config('base_url').$this->url('fbauth'),
+			'response_type' => 'code'
+	];
+	$fbUrl = 'https://www.facebook.com/dialog/oauth?' . urldecode(http_build_query($params));
+	?>		            
+	<span class="nobr">
+	<a href="<?= $vkUrl ?>"><i class="icon-vkontakte-rect"></i></a>
+	<a href="<?= $fbUrl ?>"><i class="icon-facebook-rect"></i></a> </span></p>
+					
+</form>	
+
+<form action="<?= $this->url('register')?>" class="form gray form-register<?= $loginMode ? ' hidden': '' ?>" method="post">
+	
+	<?= $this->errors->render('form') ?>
+	
+	<div class="field<?= $this->errors->ifHasErrorClass('login')?>">
+		<label class="label required">Ваш Email</label>
+		<input type="text" name="login" value="<?=$this->data['login'] ?>"/>
+		<?= $this->errors->render('login') ?>	
+	</div>
+	
+	<div class="field<?= $this->errors->ifHasErrorClass('displayname')?>">
+		<label class="label required">Имя для отображения</label>
+		<input type="text" name="displayname" value="<?=$this->data['displayname'] ?>"/>
+		<?= $this->errors->render('displayname') ?>	
+	</div>
+	
+	<div class="field<?= $this->errors->ifHasErrorClass('password')?>">
+		<label class="label required">Пароль</label>
+		<input type="password" name="password" value="<?=$this->data['password'] ?>"/>
+		<?= $this->errors->render('password') ?>	
+	</div>
+	
+	<div class="field<?= $this->errors->ifHasErrorClass('password_c')?>">
+		<label class="label required">Повторите ввод пароля</label>
+		<input type="password" name="password_c" value="<?=$this->data['password_c'] ?>"/>
+		<?= $this->errors->render('password_c') ?>	
+	</div>
+	
+	<div class="field<?= $this->errors->ifHasErrorClass('phone')?>">
+		<label class="label required">Телефон для связи</label>
+		<input type="text" name="phone" value="<?= $this->data['phone'] ?>" class="monospaced"/>	
+		<?= $this->errors->render('phone') ?>
+	</div>
+	
+	<div class="field<?= $this->errors->ifHasErrorClass('agree')?>">
+		<label class="label checkbox required">
+			<input type="checkbox" name="agree" value="1" <?= $this->data['agree'] == '1' ? 'checked="checked"': ''?>>
+			<span>Я согласен с <a href="#">условиями предоставления услуг</a></span>
+		</label>
+		<?= $this->errors->render('agree') ?>
+	</div>
+	
+	<div class="button-group">
+		<input type="submit"class="button pink submit" value="Зарегестрироваться"/>
+	</div>
+
+</form>					
 
 
-<div class="white-bg to-right panel-w50">
-	<h1>Регистрация нового пользователя</h1>
-	
-	<form action="<?= $this->url('register')?>" class="form gray form-register" method="post">
-		
-		<?= $this->errors->render('form') ?>
-		
-		<div class="field<?= $this->errors->ifHasErrorClass('login')?>">
-			<label class="label required">Ваш Email</label>
-			<input type="text" name="login" value="<?=$this->data['login'] ?>"/>
-			<?= $this->errors->render('login') ?>	
-		</div>
-		
-		<div class="field<?= $this->errors->ifHasErrorClass('displayname')?>">
-			<label class="label required">Имя для отображения</label>
-			<input type="text" name="displayname" value="<?=$this->data['displayname'] ?>"/>
-			<?= $this->errors->render('displayname') ?>	
-		</div>
-		
-		<div class="field<?= $this->errors->ifHasErrorClass('password')?>">
-			<label class="label required">Пароль</label>
-			<input type="password" name="password" value="<?=$this->data['password'] ?>"/>
-			<?= $this->errors->render('password') ?>	
-		</div>
-		
-		<div class="field<?= $this->errors->ifHasErrorClass('password_c')?>">
-			<label class="label required">Повторите ввод пароля</label>
-			<input type="password" name="password_c" value="<?=$this->data['password_c'] ?>"/>
-			<?= $this->errors->render('password_c') ?>	
-		</div>
-		
-		<div class="field<?= $this->errors->ifHasErrorClass('phone')?>">
-			<label class="label required">Телефон для связи</label>
-			<input type="text" name="phone" value="<?= $this->data['phone'] ?>" class="monospaced"/>	
-			<?= $this->errors->render('phone') ?>
-		</div>
-		
-		<div class="field<?= $this->errors->ifHasErrorClass('agree')?>">
-			<label class="label checkbox required">
-				<input type="checkbox" name="agree" value="1" <?= $this->data['agree'] == '1' ? 'checked="checked"': ''?>>
-				<span>Я согласен с <a href="#">условиями предоставления услуг</a></span>
-			</label>
-			<?= $this->errors->render('agree') ?>
-		</div>
-		
-		<div class="button-group">
-			<input type="submit"class="button pink submit" value="Зарегестрироваться"/>
-		</div>
-	
-	</form>					
-</div>
-	
 <div class="clr"></div>	
 	
 <?= $this->content('register') ?>

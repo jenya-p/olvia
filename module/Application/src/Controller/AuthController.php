@@ -175,24 +175,30 @@ class AuthController extends \Common\SiteController implements LoggerAware{
 					
     			}
     		}
-    		
+    		    		
     	} else {
     		$data = [
-    				'displayname' => $this->identity()->displayname,
-    				'password' => '',
-    				'password_c' => '',
-    				'login' => $this->identity()->email,
-    				'phone' => $this->identity()->phone,    				
+    			'displayname' => $this->identity()->displayname,
+    			'password' => '',
+    			'password_c' => '',
+    			'login' => $this->identity()->email,
+    			'phone' => $this->identity()->phone,    				
     		];
     		
     	}
     	
     	$sess = new Container('register');
     	
-    	return new ViewModel(['data' => $data, 'errors' => $errors, 
+    	$vm = new ViewModel(['data' => $data, 'errors' => $errors,
     			'info_template' => 	$sess['info_template'],
     			'info_vars' => 		$sess['info_vars'],
-    	]);    	
+    	]);
+    	
+    	if ($request->isPost()){
+    		$vm->setVariable('current_form', 'register');
+    	}
+    	
+    	return $vm;
     }
 
     

@@ -13,7 +13,8 @@ use Application\Model\Content\DiplomDb;
 use Application\Model\Content\ReviewDb;
 use Common\ViewHelper\Phone;
 use Zend\View\Model\JsonModel;
-use Common\ViewHelper\Flash;
+use Application\ControllerPlugin\UserFlow;
+use Zend\Session\Container;
 
 /**
  * @Controller
@@ -84,6 +85,23 @@ class IndexController extends SiteController implements LoggerAware{
 			die;
 		}
 	}
+	
+	/**
+	 * @Route(name="session-view",route="/session-view")
+	 */
+	// FIXME remove it from prod
+	public function sessionViewAction(){
+		$this->session = new Container(UserFlow::class);
+		foreach ($this->session['cart'] as $orderDefinition){
+			
+			print_r($orderDefinition);
+			echo "<br /><br /><br />";
+			
+		}	
+		die;
+	}
+	
+	
 	
 	
 }

@@ -1,25 +1,21 @@
 <?
 /* @var $this Common\View */
-$this->headLink()->appendStylesheet("/site/css/video.css");
+$this->headLink()->appendStylesheet("/mobile/css/video.css");
 $video = $this->video;
 $album = $this->album;
 $this->seo($video);
 ?>
 
-
-<ul class="breadcrumb">
-	<li><a href="">Главная</a></li>
-	<li><a href="<?= $this->url('video-index') ?>">Видео</a></li>
-	<? if(!empty($album)){ ?>
-	<li><a href="<?= $this->url('video-album', ['alias' => $album['alias']]) ?>"><?= $album['title'] ?></a></li> 
-	<? } ?>	
-	<li><?= $video['title'] ?></li>
-</ul>
+<? if(!empty($album)){ ?>
+<a href="<?= $this->url('video-album', ['alias' => $album['alias']]) ?>" class="breadcrumb-bar">Видео: <?= $album['title'] ?></a></li> 
+<? } else { ?>
+<a href="<?= $this->url('video-index') ?>" class="breadcrumb-bar">Все видео</a>
+<? } ?>
 
 <h1><?= $video['title'] ?></h1>
 
 <div class="video-container">
-	<?= $video['html'] ?>
+	<?= $video['html_mobile'] ?>
 </div>
 
 <div class="content" data-editable="video-<?= $video['id'] ?>-body" >

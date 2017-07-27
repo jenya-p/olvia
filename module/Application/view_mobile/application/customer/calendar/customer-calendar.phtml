@@ -1,69 +1,44 @@
 <?
 /* @var $this Common\View */
 $this->headTitle("Мое распиание");
-$this->headLink()->appendStylesheet("/site/css/user.css");
+$this->headLink()->appendStylesheet("/mobile/css/user.css");
 
 ?>
 
-<ul class="breadcrumb">
-	<li><a href="/">Главная</a></li>
-	<li>Кабинет пользователя</li>
-</ul>
+<a href="/" class="breadcrumb-bar">Главная</a>
 
-<?= $this->partial('/application/customer/tabs.phtml', $this->vars()); ?>
-
-<? if($this->total != 0 ) {?>
-<style type="text/css">
-
-.info-message{width: 800px;}    
-.info-message .image+div{width: 620px;}
-.main-table-wrapper {margin-top: 230px}
-.info-message+.main-table-wrapper{margin-top: 20px}
-</style>
-<? } ?>
+<h1>Мой календарь</h1>
 
 <?= $this->userFlowFlash() ?>
-<div class="white-bg main-table-wrapper">
-	<table class="shedule-list">
-		<tr>
-			<th>Дата</th>
-			<th class="time">Время</th>
-			<th>Предстоящее мероприятие</th>
-			<th>Тариф</th>
-			<th class="pay">
-				<? if($this->total != 0 ) {?>
-				<div class="pay-tip">
-					<p>Здесь можно оплатить выбранные курсы.
-					<? if($this->totalDiscount != 0 ){ A?> 
-					Экономия при оплате online:<br ><span class="value"><?= number_format($this->totalDiscount, 0, '.', ' ')?></span>р</p>
-					<? } ?>
-					<p><a href="/user-courses.php?action=payment" class="button pink">К оплате: <?= number_format($this->total, 0, '.', ' ')?> р.</a></p>						
-				</div>
-				<? } ?>
-			<th></th>
-		</tr>
-		<? foreach ($this->orders as $order){ 
-			if($order['type'] == 'consult'){
-				// echo $this->partial('customer-calendar.consult.phtml', $order);
-			} else if ($order['type'] == 'order' || $order['type'] == 'preorder') {
-				echo $this->partial('customer-calendar.order.phtml', $order);
-			}
-		} ?>
-		<tr class="totals">
-		<? if($this->total != 0 ) { ?>
-			<td colspan="4">
-				<p class="legend">Всего к оплате <span class="value">28 000</span> р.</p>
-			</td>
-			<td colspan="2">
-				<a href="/user-courses.php?action=payment" class="button pink">Оплатить</a>
-			</td>
-		<? } else { ?>
-			<td colspan="6">&nbsp;</td>
-		<? }?>					
-		</tr>
-	</table>
-</div>
 
+<? if($this->total != 0 ) {?>
+	<div class="white-bg payment-block">
+		<h2>Оплата мероприятий</h2>
+		<p><a href="/user-courses.php?action=payment" class="button pink">К оплате: <?= number_format($this->total, 0, '.', ' ')?> р.</a></p>
+		<? if($this->totalDiscount != 0 ){ ?> 
+		<p>Экономия при оплате online: <span class="value nobr"><?= number_format($this->totalDiscount, 0, '.', ' ')?></span>р</p>
+		<? } ?>						
+	</div>
+<? } ?>
+	
+<? foreach ($this->orders as $order){ 
+	if($order['type'] == 'consult'){
+	// echo $this->partial('customer-calendar.consult.phtml', $order);
+	} else if ($order['type'] == 'order' || $order['type'] == 'preorder') {
+		echo $this->partial('customer-calendar.order.phtml', $order);
+	}
+} ?>
+		
+<? if($this->total != 0 ) {?>
+	<div class="white-bg payment-block">
+		<h2>Оплата мероприятий</h2>
+		<p><a href="/user-courses.php?action=payment" class="button pink">К оплате: <?= number_format($this->total, 0, '.', ' ')?> р.</a></p>
+		<? if($this->totalDiscount != 0 ){ ?> 
+		<p>Экономия при оплате online: <span class="value nobr"><?= number_format($this->totalDiscount, 0, '.', ' ')?></span>р</p>
+		<? } ?>						
+	</div>
+<? } ?>		
+		
 
 <div class="twm-popup" id="removeCoursePopup" >	
 	<form action="/" method="post" class="form">
@@ -74,4 +49,3 @@ $this->headLink()->appendStylesheet("/site/css/user.css");
 		</div>		
 	</form>
 </div>
-<br /><br /><br />

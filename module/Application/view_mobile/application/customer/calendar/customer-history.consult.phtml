@@ -8,16 +8,26 @@ $master = 	$this->master;
 
 ?>
 
-<tr>
-	<td>	
-		<p><?= $this->html()->date($meetDate, 'd M') ?></p>
-		<p><?= $this->html()->date($meetDate, 'l') ?></p>
-	</td>	
-	<td>	
-		<p>Персональная консультация со специалистом <a class="" href="<?= $this->url('master-view', ['alias' => $master['alias']]) ?>"><?= $master['name'] ?></a></p>
-	</td>
-	<td><?= $tarif['name'] ?></td>	
-	<td class="status">	
+<div class="white-bg shedule-block">
+	
+	<div class="date-wrp">
+		<p class="date-big"><?= $this->html()->date($meetDate, 'd')?></p>
+		<p class="date"><?= $this->html()->date($meetDate, 'M')?></p>
+		<p class="date"><?= $this->html()->date($meetDate, ' l')?></p>
+	</div>
+	
+	<div class="text-wrp">
+		<h3>Персональная консультация со специалистом <a class="" href="<?= $this->url('master-view', ['alias' => $master['alias']]) ?>"><?= $master['name'] ?></a></h3>
+		<? if(!empty($tarif)){ ?>
+		<p class="info">Тариф: <?= $tarif['name'] ?></p>
+		<? } ?>
+	</div>
+	
+	<div class="clr"></div>
+	<p class="status">
+		<? if(!empty($this->master['alias'])) { ?>
 		<a href="#reviewPopup" class="button pink twm-popup-link" data-subject="master-<?= $master['alias'] ?>">Оставить отзыв</a>
-	</td>
-</tr>
+		<? } ?>
+	</p>
+	
+</div>

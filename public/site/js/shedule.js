@@ -5,20 +5,7 @@ jQuery(function (){
 	
 	var inpTag = $('[name=tag]', filterForm);
 	var inpTag2 = $('[name=tag2]', filterForm);
-	var inpMasterId = $('[name=master]', filterForm);
-	var inpMaster = $('.master-select', filterForm )
-	
-	inpMaster.autocomplete({
-		serviceUrl: inpMaster.data('url'),
-		paramName: 'q',
-		onSelect : function(suggestion) {
-			inpMasterId.val(suggestion.id);
-			inpMasterId.trigger('change', suggestion);
-		},
-		onInvalidateSelection : function() {
-			inpMasterId.val("");
-		}
-	});
+	var inpMaster = $('[name=master]', filterForm);
 	
 	filterForm.submit(function(e){
 		e.preventDefault();
@@ -29,8 +16,8 @@ jQuery(function (){
 		if(inpTag2.val() != ''){
 			href += '/tag2-'+inpTag2.val()
 		}
-		if(inpMasterId.val() != ''){
-			href += '/master-'+inpMasterId.val()
+		if(inpMaster.val() != ''){
+			href += '/master-'+inpMaster.val()
 		}
 		document.location = href ;
 		return false;

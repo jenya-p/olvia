@@ -6,7 +6,7 @@ use Application\Controller\CatalogController;
 
 
 <ul class="breadcrumb">
-	<li><a>Главная</a></li>
+	<li><a href="/">Главная</a></li> 
 	<li>Расписание мероприятий</li>
 </ul>
 
@@ -30,8 +30,12 @@ use Application\Controller\CatalogController;
 			
 			<td class="field">
 				<label>Специалист тренер</label>
-				<input type="hidden" name="master" class="user-select-hidden" value="<?= $this->filter_master['id'] ?>"/>
-				<input type="text" class="gray master-select" value="<?= $this->filter_master['name'] ?>" data-url="<?= $this->url('master-suggestion')?>"/>
+				<select name="master" class="gray">
+					<?= $this->html()->option('Все', '', $this->filter_master['id'] ) ?>
+					<? foreach ($this->masterOptions as $master){ ?>  
+					<?= $this->html()->option($master['name'], $master['id'], $this->filter_master['id'] ) ?>						
+					<? } ?>
+				</select>
 			</td>
 			
 			<? if (!empty($this->filter_tag2_options)){?>

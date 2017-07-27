@@ -132,5 +132,17 @@ class Utils {
 	public function camelize($dashedString){
 		return str_replace('-', '', ucwords($dashedString, '-'));
 	}
+
+	
+	public static function startOfWeek($time){
+		$time = strtotime('midnight', $time);
+		$w  = intval(date('w', $time));
+		if($w == 0){
+			$w = 6;
+		} else {
+			$w --;
+		}
+		return $time - 60*60*24*$w;
+	}
 	
 }

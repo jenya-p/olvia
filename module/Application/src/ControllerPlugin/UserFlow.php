@@ -119,7 +119,6 @@ class UserFlow extends AbstractPlugin implements ServiceManagerAware{
 			$this->session['cart'] = [];
 		}
 		$this->session['cart'][] = $orderDefinition;
-		
 	}
 	
 	
@@ -158,13 +157,13 @@ class UserFlow extends AbstractPlugin implements ServiceManagerAware{
 		
 		$order['payed'] = 0;
 		$order['message'] = $data['message'];
-				
+		
 		if(!empty($data['date'])){ 
 			// Make event order
 			
 			$shedule = $eventDb->getDate($data['date']);
 			if(empty($shedule)){
-				throw new \Exception('Событие не найдено');
+				throw new \Exception('Событие не найдено (1)');
 			}
 			$shedule = $shedule[0];
 			$eventDb->buildSheduleRecord($shedule, $identity->id);
@@ -200,7 +199,7 @@ class UserFlow extends AbstractPlugin implements ServiceManagerAware{
 			
 			$event = $eventDb->get($eventId);
 			if(empty($event) || $event['type'] != \Admin\Model\Courses\EventDb::TYPE_ANNOUNCE ){
-				throw new \Exception('Событие не найдено');
+				throw new \Exception('Событие не найдено (2)');
 			}
 						
 			if(!empty($tarifId)){
@@ -264,7 +263,6 @@ class UserFlow extends AbstractPlugin implements ServiceManagerAware{
 		}
 		
 		if($this->session->offsetExists('cart')){
-				
 			foreach ($this->session['cart'] as $orderDefinition){
 				
 				$data = $orderDefinition['data'];

@@ -4,15 +4,11 @@
 $this->inlineScript()->appendFile('/assets/fancybox/jquery.fancybox.min.js');
 $this->headLink()->appendStylesheet("/assets/fancybox/jquery.fancybox.min.css");
 
-$this->headLink()->appendStylesheet("/site/css/photo.css");
+$this->headLink()->appendStylesheet("/mobile/css/photo.css");
 
 ?>
 
-<ul class="breadcrumb">
-	<li><a href="/home.php">Главная</a></li>
-	<li><a href="<?= $this->url('photo-index') ?>">Фотоальбомы</a></li>
-	<li>Последние добавленные фото</li>
-</ul>
+<a href="<?= $this->url('photo-index') ?>" class="breadcrumb-bar" >Все фотоальбомы</a>
 
 <h1>Последние добавленные фото</h1>
 

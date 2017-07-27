@@ -123,7 +123,7 @@ function updateQueryString(key, value, url) {
 			if(currentPanel == null) return;
 			var h = currentPanel.outerHeight();			
 			if(currentPanel.data('position') != 'absolute'){
-				currentPanel.css({'margin-left': -currentPanel.outerWidth()/2});
+				// currentPanel.css({'margin-left': -currentPanel.outerWidth()/2});
 				if(h > win.height() - 2*MARGIN){
 					if(panelMode == null || panelMode == 'center') {
 						lastScrollTop = Math.round(win.scrollTop());
@@ -173,7 +173,6 @@ function updateQueryString(key, value, url) {
 			
 			if(delta > 0){ // мотаем вниз
 				if(panelMode == 'top' && surplus > 0){
-					console.log(panel);
 					panelMode = 'fixed';
 					panel.css({'top': top, 'position': 'absolute'});
 				} else if(dBottom > MARGIN && panelMode != 'bottom'){
@@ -191,7 +190,6 @@ function updateQueryString(key, value, url) {
 						panel.css({'top': MARGIN, 'position': 'fixed'});
 					}
 				} else if(panelMode == 'bottom' && dBottom <= MARGIN){
-					console.log(top);
 					panel.css({'top':top, 'bottom':'','position':'absolute'});
 					panelMode = 'fixed';
 				}

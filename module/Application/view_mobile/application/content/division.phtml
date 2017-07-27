@@ -8,24 +8,27 @@ if(!empty($this->article['seo_description'])){
 	$this->headMeta($this->division['seo_description'], "description");
 }
 
-$this->inlineScript()->appendFile("/site/js/article.js");
-$this->headLink()->appendStylesheet('/site/css/content-index.css');
+$this->inlineScript()->appendFile("/mobile/js/article.js");
+$this->headLink()->appendStylesheet('/mobile/css/content-index.css');
 ?>
 
-<ul class="breadcrumb">
-	<li><a href="/">Главная</a></li>
-	<li><a href="<?= $this->url('content-index') ?>">Статьи</a></li>
-	<li><?= $this->division['title'] ?></li>
-</ul>
+<a href="<?= $this->url('content-index') ?>" class="breadcrumb-bar">Все статьи</a>
 
-<h1><?= $this->division['title'] ?></h1>
-
-<img src="<?= $this->image($this->division['image'], 1180, 360) ?>">
+<h1>Статьи: <?= $this->division['title'] ?></h1>
 
 <div class="block-wrp">
+	<img src="<?= $this->image($this->division['image'],  400, 200) ?>">
 	<ul>
 		<? foreach ($articles as $article){ ?>
-		<li><?= $this->html()->hdate($article['created']) ?> <a href="<?= $this->url('content-article', ['alias' => $article['alias']]) ?>"><?= $article['title'] ?> </a></li>
+		<li>
+			<a href="<?= $this->url('content-article', ['alias' => $article['alias']]) ?>">
+			<?= $this->html()->hdate($article['created']) ?>
+			<?= $article['title'] ?>
+			<div>
+				<?= $article['intro'] ?>
+			</div>	
+			</a>			
+			</li>
 		<? } ?> 
 	</ul>
 </div>

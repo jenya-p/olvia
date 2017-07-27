@@ -4,68 +4,69 @@ use Application\Controller\CatalogController;
 /* @var $this Common\View */
 ?>
 
-
-<ul class="breadcrumb">
-	<li><a>Главная</a></li>
-	<li>Расписание мероприятий</li>
-</ul>
-
-<h1>Расписание мероприятий на <?= $this->html()->date($this->currentDate, 'M Y', '', '') ?></h1>
-
+<div class="breadcrumb-bar">
+	<a class="left" href="/">Главная</a>	
+	<a class="right icon-search" href="javascript:;"></a>
+</div>
+<div class="purple-bg">
 <form action="<?= $this->url('shedule', ['type' => $this->type]) ?>" class="form filter" id="sheduleFilterForm" method="get">
-	<table>
-		<tr>
-			<td class="field"><label>Область тренинга</label>
-				<select name="tag" class="gray">				
-					<?= $this->html()->option('Все тренинги', '', $this->filter_tag['id'] ) ?>
-					<? foreach ($this->filter_tag_options as $tagGroup){ ?>  
-					<optgroup label="<?= $tagGroup['group_name'] ?>">	
-						<? foreach ($tagGroup['items'] as $tag){ ?>  
-						<?= $this->html()->option($tag['tag_name'], $tag['tag_id'], $this->filter_tag['id'] ) ?>						
-						<? } ?>
-					</optgroup>
-					<? } ?>					
-				</select>
-			</td>
-			
-			<td class="field">
-				<label>Специалист тренер</label>
-				<input type="hidden" name="master" class="user-select-hidden" value="<?= $this->filter_master['id'] ?>"/>
-				<input type="text" class="gray master-select" value="<?= $this->filter_master['name'] ?>" data-url="<?= $this->url('master-suggestion')?>"/>
-			</td>
-			
-			<? if (!empty($this->filter_tag2_options)){?>
-			<td class="field">
-				<label><?= $this->filter_tag2_options['group_name'] ?></label>
-				<select name="tag2" class="gray">
-					<?= $this->html()->option('Все', '', $this->filter_tag2['id'] ) ?>
-					<? foreach ($this->filter_tag2_options['items'] as $tag){ ?>  
-					<?= $this->html()->option($tag['tag_name'], $tag['tag_id'], $this->filter_tag2['id'] ) ?>						
-					<? } ?>
-				</select>
-			</td>
+	<h2>Поиск по расписанию</h2>
+	<div class="field">
+		<label>Область тренинга</label>
+		<select name="tag" class="gray">				
+			<?= $this->html()->option('Все тренинги', '', $this->filter_tag['id'] ) ?>
+			<? foreach ($this->filter_tag_options as $tagGroup){ ?>  
+			<optgroup label="<?= $tagGroup['group_name'] ?>">	
+				<? foreach ($tagGroup['items'] as $tag){ ?>  
+				<?= $this->html()->option($tag['tag_name'], $tag['tag_id'], $this->filter_tag['id'] ) ?>						
+				<? } ?>
+			</optgroup>
+			<? } ?>					
+		</select>
+	</div>
+	
+	<div class="field">
+		<label>Специалист тренер</label>
+		<select name="master" class="gray">
+			<?= $this->html()->option('Все', '', $this->filter_master['id'] ) ?>
+			<? foreach ($this->masterOptions as $master){ ?>  
+			<?= $this->html()->option($master['name'], $master['id'], $this->filter_master['id'] ) ?>						
 			<? } ?>
-			<td class="button-group">
-				<a href="<?= $this->url('shedule', ['type' => $this->type]) ?>" title="Назад"><i class="icon-undo"></i></a>
-				<button type="submit" class="button purple">Поиск</button> <span class="view-links">
-				<? if($this->type == 'calendar'){ ?>
-					<span><i class="icon-calendar"></i></span>
-				<? } else { ?>
-					<a href="<?= $this->url('shedule', ['type' => 'calendar']) ?>" class="type-switcher"><i class="icon-calendar"></i></a>	
-				<? } ?>									
-				<? if($this->type == 'blocks'){ ?>
-					<span><i class="icon-blocks"></i></span>
-				<? } else { ?>
-					<a href="<?= $this->url('shedule', ['type' => 'blocks']) ?>" class="type-switcher"><i class="icon-blocks"></i></a>	
+		</select>
+	</div>
+	
+<? if (!empty($this->filter_tag2_options)){?>
+	<div class="field">
+		<label><?= $this->filter_tag2_options['group_name'] ?></label>
+		<select name="tag2" class="gray">
+			<?= $this->html()->option('Все', '', $this->filter_tag2['id'] ) ?>
+			<? foreach ($this->filter_tag2_options['items'] as $tag){ ?>  
+			<?= $this->html()->option($tag['tag_name'], $tag['tag_id'], $this->filter_tag2['id'] ) ?>						
+			<? } ?>
+		</select>
+	</div>
+<? } ?>
+
+	<div class="field">
+		<label>Область тренинга</label>
+		<select name="tag" class="gray">				
+			<?= $this->html()->option('Все тренинги', '', $this->filter_tag['id'] ) ?>
+			<? foreach ($this->filter_tag_options as $tagGroup){ ?>  
+			<optgroup label="<?= $tagGroup['group_name'] ?>">	
+				<? foreach ($tagGroup['items'] as $tag){ ?>  
+				<?= $this->html()->option($tag['tag_name'], $tag['tag_id'], $this->filter_tag['id'] ) ?>						
 				<? } ?>
-						
-				<? if($this->type == 'list'){ ?>
-					<span><i class="icon-list"></i></span>
-				<? } else { ?>
-					<a href="<?= $this->url('shedule', ['type' => 'list']) ?>" class="type-switcher"><i class="icon-list"></i></a>	
-				<? } ?>
-				</span> <a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_ANNOUNCEMENTS], [], true) ?>" class="button pink">Анонсы</a>
-			</td>
-		</tr>
-	</table>
+			</optgroup>
+			<? } ?>					
+		</select>
+	</div>
+
+	<div class="button-group">
+				
+		<a href="<?= $this->url('catalog-index', ['type' => CatalogController::TYPE_ANNOUNCEMENTS], [], true) ?>" class="button white">Анонсы</a>
+		<button type="submit" class="button pink">Поиск</button>
+		
+	</div>
+
 </form>
+</div>

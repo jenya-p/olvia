@@ -2,18 +2,17 @@
 use Common\ImageService;
 use Admin\Model\Content\ReviewRefsDb;
 /* @var $this Common\View */
-foreach ($this->items as $key => $review){
-		
-		$refsTexts = [];
-		if(count($review['refs']) > 0){
-			foreach ($review['refs'] as $ref){				
-				if($ref['entity'] == ReviewRefsDb::ENTITY_MASTER){ 
-					$refsTexts[] = 'специалисте <a href="'. $this->url('master-view', ['alias' => $ref['item_alias']]) .'">'. $ref['item_displayname'] .'</a>';
-				} else {
-					$refsTexts[] = 'курсе <span>'. $ref['item_title'] .'</span>';
-				}					
-			}
+
+	$refsTexts = [];
+	if(count($review['refs']) > 0){
+		foreach ($review['refs'] as $ref){				
+			if($ref['entity'] == ReviewRefsDb::ENTITY_MASTER){ 
+				$refsTexts[] = 'специалисте <a href="'. $this->url('master-view', ['alias' => $ref['item_alias']]) .'">'. $ref['item_displayname'] .'</a>';
+			} else {
+				$refsTexts[] = 'курсе <span>'. $ref['item_title'] .'</span>';
+			}					
 		}
+	}
 	?>
 	<div class="review-block column-view-item">
 		<img src="<?= $this->image($review['userpic'], ImageService::SIZE_REVIEW_USERPICK)?>" alt="<?= htmlentities($review['name']) ?>" />
@@ -35,8 +34,4 @@ foreach ($this->items as $key => $review){
 			<?= $review['body'] ?>
 			</div>
 		</div>
-	</div>
-	<? if($key == 0 && $this->page==1) {
-		echo $this->partial('/application/reviews/index.form.phtml', $this->vars());
-	} ?>
-<? } ?>
+	</div>	
