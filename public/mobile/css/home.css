@@ -4,7 +4,7 @@ section.lay-banner{padding: 0}
 
 .banner .banner-1 h2{	font-size: 6vw;	color: #000;	position: absolute;	top: 26vw;	margin: 0 20px;	color: #b95f9f;	text-shadow: 0 0 81px;
 	text-transform: uppercase;	font-family: "Helvetica Neue";	font-weight: bold;	text-align: left;}
-.banner .banner-1 .text-1{font-size: 3.9vw;color: #fff;position: absolute;bottom: 3vw;font-family: Comfortaa;line-height: 1.4em;margin: 0 20px;font-weight: bold;}
+.banner .banner-1 .text-1{font-size: 3.9vw;color: #000;position: absolute;bottom: 3vw;font-family: Comfortaa;line-height: 1.4em;margin: 0 20px;font-weight: bold;}
 .banner .banner-1 .text-2{display: none;font-family: Comfortaa;position: absolute;top: 137px;line-height: 1.2em;}
 .banner .banner-1 .button{display: none;}
 

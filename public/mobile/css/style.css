@@ -36,11 +36,11 @@ body {
 
 .lay-header .menu-button {
 	line-height: 60px;
-	font-size: 1.1em;
+	font-size: 2.1em;
 	height: 60px;
 	background: #b95f9f;
 	color: white;
-	width: 50px;
+	width: 60px;
 	text-align: center;
 	display: block;
 	z-index: 10001;
@@ -68,12 +68,12 @@ nav.main-menu{color: white;	position: absolute;	right: 0;	top: 57px;	max-width: 
 nav.main-menu ul.lvl-1{text-transform: uppercase;}
 nav.main-menu ul.lvl-1>li{line-height: 45px;/* font-size: 0.9em; */position: relative;}
 nav.main-menu ul.lvl-1>li:LAST-CHILD{margin-right: 0}
-nav.main-menu ul.lvl-1>li>a{color: #ffffff;text-decoration: none;transition: color 200ms ease;padding-left: 45px;padding-right: 10px;}
+nav.main-menu ul.lvl-1>li>a{color: #ffffff;text-decoration: none;transition: color 200ms ease;padding-left: 55px;padding-right: 10px;}
 nav.main-menu ul.lvl-1>li>a.current-user{/* display: inline-block; */text-transform: none;}
 nav.main-menu ul.lvl-1>li>a.icon-logout{display: inline-block;float: right;padding: 0;}
-nav.main-menu ul.lvl-1>li>a.expander{display: inline-block;padding: 0;width: 45px;text-align: center;position: absolute;top: 0;left: 0;}
+nav.main-menu ul.lvl-1>li>a.expander{display: inline-block;padding: 0;width: 55px;text-align: center;position: absolute;top: 0;left: 0;font-size: 1.5em;}
 
-nav.main-menu ul.lvl-1>li>a:BEFORE{margin-left: -45px;width: 45px;display: inline-block;text-align: center;margin-right: 0;}
+nav.main-menu ul.lvl-1>li>a:BEFORE{margin-left: -55px;width: 55px;display: inline-block;text-align: center;margin-right: 0;font-size: 1.2em;}
 nav.main-menu ul.lvl-1>li>a.expander:BEFORE{
 	margin: 0;
 	font-size: 1.2em;
@@ -84,7 +84,7 @@ nav.main-menu ul.lvl-1>li>a.expander:BEFORE{
 	transition: transform 200ms ease, -webkit-transform 200ms ease;
 }
 nav.main-menu ul.lvl-1>li>a.expander.expanded:BEFORE{-webkit-transform: rotate(45deg);-ms-transform: rotate(45deg);transform: rotate(45deg);}
-nav.main-menu ul.lvl-1>li>span{color: #ffffff;text-decoration: none;padding-left: 45px;}
+nav.main-menu ul.lvl-1>li>span{color: #ffffff;text-decoration: none;padding-left: 55px;}
 nav.main-menu ul.lvl-2 {display: none; padding-bottom: 13px;}
 nav.main-menu ul.lvl-2>li{display: block;z-index: 1000;}
 nav.main-menu ul.lvl-2>li>a{line-height: 35px;color: white;text-transform: none;text-decoration: none;padding-left: 60px;padding-right: 10px;}

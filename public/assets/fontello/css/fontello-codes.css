@@ -20,6 +20,7 @@
 .icon-cog:before { content: '\e812'; } /* '' */
 .icon-undo:before { content: '\e813'; } /* '' */
 .icon-spin1:before { content: '\e830'; } /* '' */
+.icon-login:before { content: '\f02c'; } /* '' */
 .icon-logout:before { content: '\f02d'; } /* '' */
 .icon-check:before { content: '\f046'; } /* '' */
 .icon-check-empty:before { content: '\f096'; } /* '' */

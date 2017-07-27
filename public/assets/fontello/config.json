@@ -203,6 +203,12 @@
       "css": "menu",
       "code": 61641,
       "src": "fontawesome"
+    },
+    {
+      "uid": "5adef5b3275fcd874b0815a0637c5800",
+      "css": "login",
+      "code": 61484,
+      "src": "mfglabs"
     }
   ]
 }
