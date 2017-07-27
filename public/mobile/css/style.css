@@ -79,9 +79,11 @@ nav.main-menu ul.lvl-1>li>a.expander:BEFORE{
 	font-size: 1.2em;
 	display: block;
 	line-height: 45px;
+	transition: -webkit-transform 200ms ease;
 	transition: transform 200ms ease;
+	transition: transform 200ms ease, -webkit-transform 200ms ease;
 }
-nav.main-menu ul.lvl-1>li>a.expander.expanded:BEFORE{transform: rotate(45deg);}
+nav.main-menu ul.lvl-1>li>a.expander.expanded:BEFORE{-webkit-transform: rotate(45deg);-ms-transform: rotate(45deg);transform: rotate(45deg);}
 nav.main-menu ul.lvl-1>li>span{color: #ffffff;text-decoration: none;padding-left: 45px;}
 nav.main-menu ul.lvl-2 {display: none; padding-bottom: 13px;}
 nav.main-menu ul.lvl-2>li{display: block;z-index: 1000;}
