@@ -18,13 +18,19 @@
 			<td>
 				<?= $this->html()->date($shedule['date'], 'j M Y, l')?>			
 			</td>
-			<td><?= $this->html()->date($shedule['date'], ' H:i')?></td>
+			<td>
+				<?= $this->html()->date($shedule['date'], ' H:i')?>
+			</td>
 			<td class="tc"><?
 			if(!empty($shedule['order_count'])){
 				echo $shedule['order_count'];
 			}
 			?></td>
 			<td class="options">
+				<a href="<?= $this->url('private/event-edit-shedule', ['id' => $shedule['id']]) ?>" title="Перенос мероприятия"
+				 	data-value="<?= $this->html()->date($shedule['date'], 'd.m.Y H:i') ?>"
+					class="fa fa-pencil item-edit">
+				</a>
 				<? if(empty($shedule['order_count'])){ ?>
 				<a href="<?= $this->url('private/event-delete-shedule', ['id' => $shedule['id']]) ?>" title="Удалить дату"
 					class="fa fa-trash item-delete">
@@ -35,6 +41,7 @@
 		<? } ?>
 	</tbody>
 </table>
+
 <? /* ?>
 <div class="field">
 	<label>Добавить: </label>

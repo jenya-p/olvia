@@ -1,1 +1,7 @@
- 
+.item-list .date-column{
+    background: #fff;
+}
+.item-list .date{text-align: center;display: block;font-size: 1.6em;}
+.item-list .week-day{text-align: center;display: block;color: gray;}
+.item-list .date.holiday{color: #b54e4e;}
+.item-list .week-day.holiday{color: #e78d8d;}

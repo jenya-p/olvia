@@ -381,6 +381,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', e
 .pagination{margin-left: 15px;}
 .pagination>*{margin: 0 3px; padding: 0 3px;}
 .pagination>span{font-weight: bold;}
+.pagination li{display: inline-block;}
+.pagination li a{margin: 0 3px; padding: 0 3px;}
+.pagination li span{font-weight: bold;margin: 0 3px; padding: 0 3px;}
 
 .comments-info {}
 .comments-info .more{font-style: italic;}

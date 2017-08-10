@@ -42,7 +42,7 @@ class EventController extends CRUDController implements CRUDEditModel{
 	 * @Route(name="event-index",route="/event-index[/f-:f][/p-:p]",extends="private",type="segment")
 	 */
 	public function eventIndexAction(){		
-		return $this->crudList($this->db);		
+		return $this->crudCalendar($this->db);		
 	}
 	
 	protected function index(&$return){
@@ -248,6 +248,32 @@ class EventController extends CRUDController implements CRUDEditModel{
     	return new JsonModel([
     			'result' => 'ok',
     			'html' => $html
+    	]);
+    }
+    
+    /**
+     * @Route(name="event-edit-shedule", route="/event-edit-shedule/:id",extends="private",type="segment")
+     */
+    public function editSheduleAction(){
+    	$sheduleId = $this->params('id', null);
+    	$date = $this->params()->fromPost('date', null);
+    	$date = str_replace('.', '-', $date);
+    	$date = strtotime($date);
+    	
+    	if(!empty($sheduleId) && !empty($date) ){
+    		    			
+    		try {
+    			$this->db->updateShedule($sheduleId, $date);
+    		} catch (\Exception $e){
+    			return new JsonModel(['result' => 'error', 'message' => $e->getMessage()]);
+    		} 		   		
+    		
+    	} else {
+    		return new JsonModel(['result' => 'error', 'message' => 'Что то пошло не так']);
+    	}
+    	
+    	return new JsonModel([
+    		'result' => 'ok'
     	]);
     }
     

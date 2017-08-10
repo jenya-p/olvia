@@ -8,6 +8,4 @@ jQuery(function(){
 
 	$('[name=discounts]').discountsElement();
 	
-	
-	
 })

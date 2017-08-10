@@ -3,6 +3,7 @@ namespace Common\ViewHelper;
 
 use Zend\Form\View\Helper\AbstractHelper;
 use ZfAnnotation\Annotation\ViewHelper;
+use Common\Form\Form;
 
 /**
  * @ViewHelper(name="langSwitcher")

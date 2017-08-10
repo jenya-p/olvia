@@ -7,6 +7,29 @@
 		<input type="text" name="f[query]" value="<?= $this->filter['query'] ?>" placeholder="Поиск..." />
 	</div>
 		
+	<div class="field">
+		<label>Ответственный</label>
+		<select name="f[user]">
+			<?= $this->html()->option('Мои и общие задачи', 'self', $this->filter['user']) ?>
+			<?= $this->html()->option('Не указан', 'empty', $this->filter['user']) ?>
+			<? foreach ($this->userOptions as $key => $title){ ?>
+			<?= $this->html()->option($title, $key, $this->filter['user']) ?>
+			<?= $this->html()->option('Все задачи', null, $this->filter['user'], 'class = "empty"') ?>
+			<? } ?>			
+		</select>
+	</div>	
+		
+		
+	<div class="field">
+		<label>Статус</label>
+		<select name="f[status]">
+			<?= $this->html()->option('Все задачи', 'all', $this->filter['status'], 'class = "empty"') ?>
+			<? foreach ($this->statusOptions as $key => $title){ ?>
+			<?= $this->html()->option($title, $key, $this->filter['status']) ?>
+			<? } ?>			
+		</select>
+	</div>		
+		
 	<div class="button-group">
 		<a href="<?= $this->url(null, ['p' => 1, 'f' => null]) ?>" type="submit" class="button reset">Сбросить</a>
 		<button type="submit" class="button">Искать</button>
@@ -15,5 +38,5 @@
 </form>
 <div>
 	<a href="<?= $this->url('private/todos-edit', ['id' => 'new']) ?>" class="button create-item-link">
-		<i class="fa fa-plus-circle"></i>Новый объект</a>
+		<i class="fa fa-plus-circle"></i>Новая задача</a>
 </div>

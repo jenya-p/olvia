@@ -11,6 +11,9 @@ use Common\ViewHelper\Flash;
 use ZfAnnotation\Annotation\Controller;
 use ZfAnnotation\Annotation\Route;
 use Zend\View\Model\JsonModel;
+use Admin\Model\Users\UserDb;
+use Common\Db\Select;
+use Zend\Db\Sql\Join;
 
 /**
  * @Controller
@@ -36,7 +39,10 @@ class TodoController extends CRUDController implements CRUDEditModel{
 	}
 	
 	protected function index(){
-				
+		return [
+				'userOptions' => $this->getUserOptions(),
+				'statusOptions' => $this->db->statusOptions()
+		];
 	}
 	
 	/**
@@ -55,7 +61,12 @@ class TodoController extends CRUDController implements CRUDEditModel{
 	}
 
 	public function create() {
-		// return [];
+		return [
+			'user_id' => $this->identity()->id,
+			'date' => time() + 24*60*60,
+			'priority' => null,
+			'intensity' => null
+		];
 	}
 
 	public function validate(array $data){
@@ -123,5 +134,19 @@ class TodoController extends CRUDController implements CRUDEditModel{
     	return new JsonModel(['result' => 'ok', 'status' => $update['status']]);    	 
     }
     	
+    
+    
+    public function getUserOptions(){
+    	$select = new Select(['u' => 'users_accounts']);
+    	$select->join(['a' => 'users_admins'], 'a.id = u.id', [], Join::JOIN_INNER);
+    	
+    	$select->columns(['id', 'value' => 'displayname']);
+    	
+    	$select->group('u.id')
+	    	->order('u.displayname asc');
+    	
+	    return $select->fetchPairs();
+    }
+    
 }
 

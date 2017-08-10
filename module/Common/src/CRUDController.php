@@ -20,19 +20,21 @@ abstract class CRUDController extends SiteController{
 	var $cache;
 	var $className;
 	
-	var $roteMeaningPart = null;
+	var $routeMeaningPart = null;
 	
-	protected function crudInit($roteMeaningPart = null){
+	var $itemsPerPage = 50;
+	
+	protected function crudInit($routeMeaningPart = null){
 		$this->session = new Container(self::class);
 		
 		$this->cache = $this->serv('Cache/Default');
 		$this->className = get_class($this);
 		$this->className = substr($this->className, strrpos($this->className, '\\')+1);
 		
-		if($roteMeaningPart === null){
-			$this->roteMeaningPart = Utils::camel2snake(str_replace('Controller', '', $this->className));
+		if($routeMeaningPart === null){
+			$this->routeMeaningPart = Utils::camel2snake(str_replace('Controller', '', $this->className));
 		} else {
-			$this->roteMeaningPart = $roteMeaningPart;
+			$this->routeMeaningPart = $routeMeaningPart;
 		}
 		$this->saveHistory();		
 	}	
@@ -83,13 +85,84 @@ abstract class CRUDController extends SiteController{
     	}
     	
     	$counts = $listModel->getTotals($filter);
-    	$items = $listModel->getItems($filter, $p, 50);
+    	$items = $listModel->getItems($filter, $p, $this->itemsPerPage);
     	
     	$return = [
     			'page' => $p,
-    			'pageCount' => ceil($counts['count'] / 50),
+    			'pageCount' => ceil($counts['count'] / $this->itemsPerPage),
     			'counts' => $counts,
     			'items' => $items,
+    			'filter' => $filter
+    	];
+    	
+    	$extra = $this->index($return);
+    	if(is_array($extra) && !empty($extra)){
+    		$return = array_merge($return, $extra);
+    	}
+    	
+    	return $return;
+    }
+    
+    
+    /**
+     * Абстрактный контроллер для списков в админке.
+     * Поддерживает листание по страницам и фильтры
+     * */
+    protected function crudCalendar(CRUDCalendarModel $listModel){
+    	$p = $this->params('p');
+    	$sort = $this->getSortParam();
+    	
+    	$filter = $this->params()->fromQuery('f', null);
+    	$currentMonth = date('y-m');
+    	if (is_array($filter)){
+    		return $this->redirectToFilteredList(null, $filter, $sort);
+    	} else {
+    		$filterHash = $this->params('f', null);
+    		if(is_string($filterHash) && !empty($filterHash)){
+    			$filter = $this->cache->getItem($this->className._.$filterHash);
+    			if(!empty($sort)){
+    				if(!empty($sort) && is_array($sort) && count($sort) == 2){
+    					$filter['sort'] = $sort;
+    				} else {
+    					unset($filter['sort']);
+    				}
+    				$hash = md5(serialize($filter));
+    				$this->cache->setItem($this->className._.$hash, $filter);
+    				return $this->redirect()->toRoute(null, array('f' => $hash, 'p' => $currentMonth));
+    				
+    			} else {
+    				$this->cache->touchItem($this->className._.$filterHash, 12*60*60);
+    				if(empty($filter)){
+    					return $this->redirect()->toRoute(null, array('f' => null, 'p' => $currentMonth));
+    				}
+    			}
+    		} else if (!empty($sort)){
+    			if(!empty($sort) && is_array($sort) && count($sort) == 2){
+    				$filter = ['sort' => $sort];
+    			}
+    			$hash = md5(serialize($filter));
+    			$this->cache->setItem($this->className._.$hash, $filter);
+    			return $this->redirect()->toRoute(null, array('f' => $hash, 'p' => $currentMonth));
+    		}
+    		if(empty($p)){
+    			return $this->redirect()->toRoute(null, ['f' => $filterHash, 'p' => $currentMonth]);
+    		}
+    	}
+
+    	$pageBounds = [
+    		'from' => strtotime($p.'-01')
+    	];
+    	$pageBounds['to'] = strtotime('+ 1 month', $pageBounds['from']);
+
+    	$calendarBounds = $listModel->getCalendarBounds($filter);
+    	
+    	$calendarItems = $listModel->getCalendarItems($filter, $pageBounds['from'], $pageBounds['to']);
+    	
+    	$return = [
+    			'page' => $p,
+    			'page_bounds' => $pageBounds,
+    			'calendar_bounds' => $calendarBounds,
+    			'calendar_items' => $calendarItems,
     			'filter' => $filter
     	];
     	
@@ -187,7 +260,7 @@ abstract class CRUDController extends SiteController{
 
      	if(!empty($this->form->hasField('submit'))){
      		$this->form->field('submit')
-     			->addExtra('cancel-url', $this->historyBackUri ?: $this->url()->fromRoute('private/'.$this->roteMeaningPart.'-index'));
+     			->addExtra('cancel-url', $this->historyBackUri ?: $this->url()->fromRoute('private/'.$this->routeMeaningPart.'-index'));
      	}
      	     	
     	$extra = $this->edit();
@@ -263,10 +336,10 @@ abstract class CRUDController extends SiteController{
     
     protected function afterSaveRedirect($indexRoute = null, $editRoute = null, $useHistory = true){
     	if($indexRoute === null){
-    		$indexRoute = 'private/'.$this->roteMeaningPart.'-index';
+    		$indexRoute = 'private/'.$this->routeMeaningPart.'-index';
     	}
     	if($editRoute === null){
-    		$editRoute = 'private/'.$this->roteMeaningPart.'-edit';    		
+    		$editRoute = 'private/'.$this->routeMeaningPart.'-edit';    		
     	}
     	if($this->form->value('submit') == 'save'){
     		if(!empty($this->historyBackUri) && $useHistory){

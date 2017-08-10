@@ -12,10 +12,12 @@ use Zend\Db\Adapter\Adapter;
 use Zend\Db\Sql\Expression;
 use Common\Db\Discussion;
 use Common\Db\DiscussionTrait;
+use Common\Traits\IdentityAware;
+use Common\Traits\IdentityTrait;
 
-class TodoDb extends Table implements CRUDListModel, Historical, Discussion {
+class TodoDb extends Table implements CRUDListModel, Historical, Discussion, IdentityAware  {
 	
-	use HistoricalTrait, DiscussionTrait;
+	use HistoricalTrait, DiscussionTrait, IdentityTrait;
 	
 	protected $table = 'todos';
 
@@ -50,6 +52,24 @@ class TodoDb extends Table implements CRUDListModel, Historical, Discussion {
 			}	
 		}
 			
+		
+		if(!empty($filter['user'])){
+			if($filter['user'] == 'self'){
+				
+				$nest = $select->where->nest();
+				$nest->equalTo('t.user_id', $this->identity()->id)
+					->or->isNull('t.user_id');
+				
+			} else if($filter['user'] == 'empty'){
+				$select->where->isNull('t.user_id');
+				
+			} else if(is_numeric($filter['user'])){
+				$select->equalTo('t.user_id', $filter['user']);
+				
+			}
+			
+		}
+		
 		return $select;
 	}
 	
@@ -65,9 +85,25 @@ class TodoDb extends Table implements CRUDListModel, Historical, Discussion {
 	public function getItems($filter, $p = 1, $ipp = 100){
 		$select = $this->getSelect($filter);
 		$select->limit($ipp)->offset(($p-1)*$ipp);
-		$select->order('t.id asc');
 		
 		$select->join(['a' => 'users_accounts'], 'a.id = t.user_id',  ['user_name' => 'displayname'], Select::JOIN_LEFT);
+		
+		$sort = $filter['sort'];
+		if(!empty($sort) && is_array($sort) && count($sort) == 2){
+			
+			if(in_array($sort[0], ['user_name'])){
+				$sort[0] = 'a.displayname';			
+			} else {
+				$sort[0] = 't.'.$sort[0];
+			}
+			
+			$select->order($sort[0]. ' '.$sort[1]);
+		} else {
+			$select
+				->order('t.priority DESC')
+				->order('t.intensity ASC');
+		}
+		
 		
 		$items = $select->fetchAll();
 		foreach ($items as &$item){

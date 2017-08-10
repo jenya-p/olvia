@@ -115,6 +115,10 @@ class Assets extends \Zend\View\Helper\AbstractHelper {
 			'upload' => [
 					'script' => '/assets/jquery.html5uploader/jquery.html5uploader.js',
 					'deps' => ['jquery']
+			],
+			'r-text' => [
+					'script' => '/admin/js/r-text.js',
+					'deps' => ['jquery']
 			],			
 			'photoswipe' => [
 					'style' => ['/assets/photoswipe/photoswipe.css',

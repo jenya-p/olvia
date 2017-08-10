@@ -1,5 +1,6 @@
 <?
 use Common\Utils;
+use Admin\Model\Users\TodoDb;
 
 /* @var $this Common\View */
 $this->headTitle("Напоминания");
@@ -14,26 +15,28 @@ $this->sidebar()->left('admin/users/todo/todo-index.filter.phtml', $this->vars()
 <table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
 	<thead>
 		<tr>
-			<th style="width: 60px" class="tc">№</th>
-			<th style="width: 100px" >Статус</th>
-			<th>Задача</th>		
-			<th>Cотрудник</th>
-			<th  style="width: 60px" class="tc">Приоритет</th>
-			<th  style="width: 60px" class="tc">Трудоемкость</th>
-			<th>Дата</th>
-			<th></th>
+			<th style="width: 60px" class="tc"><?= $this->sorter('№', 'id', $this->filter['sort']) ?></th>
+			
+			<th><?= $this->sorter('Задача', 'title', $this->filter['sort']) ?></th>
+			
+			<th style="width: 100px" >Статус</th>		
+			<th style="width: 200px" ><?= $this->sorter('Сотрудник', 'user_name', $this->filter['sort']) ?></th>
+			<th style="width: 60px" class="tc"><?= $this->sorter('Приоритет', 'priority', $this->filter['sort']) ?></th>
+			<th style="width: 60px" class="tc"><?= $this->sorter('Трудоемкость', 'intensity', $this->filter['sort']) ?></th>
+			<th style="width: 150px" ><?= $this->sorter('Дата', 'till_date', $this->filter['sort']) ?></th>
+			
 		</tr>
 	</thead>
 	<?foreach ($this->items as $item) {?>
 	<tr data-href="<?=$this->url('private/todos-edit', ['id' => $item['id']])?>">
 		<td class="tc"><?= $item['id']?></td>
-		<td class="status-<?= $item['status'] ?>"><?= $item['status_name'] ?></td>
+		
 		<td>
 			<p class="primary"><?= $item['title'] ?></p>
 			<p class="secondary"><?= Utils::substrByWord($item['body'], 100) ?></p>
 		</td>
 				
-		
+		<td class="status-<?= $item['status'] ?>"><?= $item['status_name'] ?></td>
 		<td>		
 			<? if( $item['user_id'] !== null) { ?>
 				<a href="<?= $this->url('private/user-edit', ['id' => $item['user_id']])?>" title="Пользователь">
@@ -44,11 +47,13 @@ $this->sidebar()->left('admin/users/todo/todo-index.filter.phtml', $this->vars()
 		</td>
 		<td class="tc"><?= $item['priority'] ?></td>
 		<td class="tc"><?= $item['intensity'] ?></td>
-		<td><?= $this->html()->hdate($item['till_date']) ?></td>
-		<td class="options">
-
-						
-		</td>
+		
+		<td<? 
+		if($item['till_date'] < time() && $item['status'] == TodoDb::STATUS_NEW){
+			echo ' class="date-expired"';
+		}
+		?>><?= $this->html()->hdate($item['till_date']) ?></td>
+		
 	</tr>
 	<?}?>
 </table>	

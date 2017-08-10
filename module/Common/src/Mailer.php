@@ -4,7 +4,6 @@ namespace  Common;
 
 use Zend\Mail\Transport\TransportInterface;
 use Zend\View\Renderer\RendererInterface;
-use Main\Model\Users;
 
 class Mailer{
 	

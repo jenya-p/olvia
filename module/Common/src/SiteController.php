@@ -15,7 +15,6 @@ use Zend\View\Model\ViewModel;
 use Zend\Stdlib\InitializableInterface;
 use Application\Model\UserDb;
 use Admin\Forms\Users\UserForm;
-use Common\ControllerPlugin\Platform;
 
 /**
  * @method \Common\Identity identity()

@@ -41,28 +41,22 @@ class EventDb extends Table implements Multilingual, ServiceManagerAware, Initia
 	/** @var CourseDb */
 	var $courseDb = null;
 	
+	/** @var AdminEventDb */
+	var $adminEventDb = null;
+	
 	public function init(){
 		$this->masterDb = $this->serv(MasterDb::class);
 		$this->tarifsDb = $this->serv(TarifsDb::class);
 		$this->ordersDb = $this->serv(OrdersDb::class);
 		$this->courseDb = $this->serv(CourseDb::class);
+		$this->adminEventDb = $this->serv(AdminEventDb::class);
 	}
 	
 	
 	public function buildItem(&$item){
 		parent::buildItem($item);	
-		if(!empty($item['time_text'])){
-			$re = '/(\d\d:\d\d).*(\d\d:\d\d)\s?(\S.*)?/';
-			$mastces = [];
-			if(preg_match($re, $item['time_text'], $matches)){
-				$item['time_text_from'] = $matches[1];
-				$item['time_text_till'] = $matches[2];
-				$item['time_text_duration'] = $matches[3];
-			}	
-			else {
-				$item['time_text_duration'] = $item['time_text'];
-			}
-		}
+		$this->adminEventDb->buildEventTime($item);		
+		return $item;
 	}
 
 	/* filter['date_range'] - месяц в формате date('y-m-d').'_'.date('y-m-d')

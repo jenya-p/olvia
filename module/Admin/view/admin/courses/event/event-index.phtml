@@ -9,25 +9,43 @@ $this->sidebar()->left('admin/courses/event/event-index.filter.phtml', $this->va
 <ul class="breadcrumb">
 	<li><a href="<?= $this->url('private') ?>">Главная</a></li>	
 </ul>
-<h1 class="page-header">Мероприятие <small><?= $this->counts['count'] ?></small></h1>
+<h1 class="page-header">Расписание мероприятий / <?= $this->html()->date($this->page_bounds['from'], 'M Y', '', '') ?> 
+	<small>всего: <?= $this->calendar_bounds['count'] ?></small></h1>
 
 <table class="item-list" data-deletion-confirm="Вы уверены, что хотите удалить этот объект?">
 	<thead>
 		<tr>
 			<th style="width: 60px" class="tc">№</th>
-			<th class="tc" style="width: 100px" colspan="3">Дата</th>
+			<th class="tc" style="width: 120px">Дата</th>
+			<th class="tl" style="width: 60px">Время</th>
 			<th>Курс / Мероприятие</th>
 			<th>Периодичность</th>			
 			<th>Заказов</th>
 			<th></th>
 		</tr>
 	</thead>
-	<?foreach ($this->items as $item) {?>
+	<?
+	foreach ($this->calendar_items as $cItem) {
+		$date = strtotime($cItem['formated_date']);
+		$count = count($cItem['items']);
+		$w = date('w', $date);
+		if($w == 0 || $w == 6){
+			$dateClass = ' holiday';
+		} else {
+			$dateClass = '';
+		}
+		foreach ($cItem['items'] as $i => $item) {
+		?>
+		
 	<tr data-href="<?=$this->url('private/event-edit', ['id' => $item['id']])?>">
 		<td class="tc" ><?= $item['id']?></td>
-		<td class="tl" style="width: 40px"><?= $this->html()->date($item['date'],'l') ?></td>
-		<td class="tr" style="width: 30px"><?= $this->html()->date($item['date'],'d') ?></td>
-		<td class="tl" style="width: 70px"><?= $this->html()->date($item['date'],'M', '', '') ?></td>		
+		<? if($i == 0){ ?>
+		<td class="tl date-column" style="width: 40px" rowspan="<?= $count ?>">		
+			<span class="date<?= $dateClass ?>"><?= $this->html()->date($date,'d') ?></span>
+			<span class="week-day<?= $dateClass ?>"><?= $this->html()->date($date,'l') ?></span>
+		</td>
+		<? } ?>
+		<td class="tl" style="width: 70px"><?= $this->html()->date($item['date'],'H:i') ?></td>		
 		<td>
 			<a href="<?= $this->url('private/course-edit', ['id' => $item['course_id']]) ?>" title="Курс: <?= htmlentities($item['course_title'])?>">
 				<?= Utils::substrByWord($item['course_title'], 100)  ?></a>
@@ -46,7 +64,14 @@ $this->sidebar()->left('admin/courses/event/event-index.filter.phtml', $this->va
 				<a href="<?= $this->url('private/event-delete', ['id' => $item['id']]) ?>" class="fa fa-trash item-delete"></a>			
 		</td>
 	</tr>
+		<? } ?>
 	<?}?>
-</table>	
-
-<?= $this->html()->pages($this->page, $this->pageCount) ?>
+</table>
+<div class="pagination">
+<?
+$url = $this->url(null, ['p' => 'dummy_date']);
+echo $this->monthPaginator($this->page_bounds['from'], $this->calendar_bounds, 15, function($dt) use($url){
+			return str_replace('dummy_date', date('y-m', $dt), $url);
+		});
+?>
+</div>

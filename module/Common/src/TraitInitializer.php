@@ -11,6 +11,7 @@ use Common\Traits\Initializable;
 use Common\Traits\ViewAware;
 use Common\Db\Discussion;
 use Admin\Model\CommentsDb;
+use Common\Traits\IdentityAware;
 
 
 class TraitInitializer implements InitializerInterface{
@@ -47,6 +48,11 @@ class TraitInitializer implements InitializerInterface{
 			$instance->setCommentsDb($commentsDb);
 			$userId = $container->get('identity')->id;
 			$instance->setUserId($userId);
+		}
+		
+		if($instance instanceof IdentityAware){
+			$identity = $container->get('identity');
+			$instance->setIdentity($identity);
 		}
 		
 		

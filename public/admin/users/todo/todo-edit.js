@@ -22,5 +22,5 @@ jQuery(function(){
 		},
 		defaultTime: '00:00'
 	});
-	
+
 })

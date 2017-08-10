@@ -18,8 +18,9 @@ use Zend\Db\Sql\Join;
 use Zend\Db\Sql\Sql;
 use Admin\Model\Orders\OrdersDb;
 use Zend\Db\Adapter\Exception\InvalidQueryException;
+use Common\CRUDCalendarModel;
 
-class EventDb extends Table implements CRUDListModel, Multilingual, Historical, OptionsModel, ServiceManagerAware {
+class EventDb extends Table implements CRUDListModel, CRUDCalendarModel, Multilingual, Historical, OptionsModel, ServiceManagerAware {
 						   
 	const SOFT_DAYS = 5; // Кол-во дней в течении которых можно редактировать всякое
 	
@@ -83,16 +84,20 @@ class EventDb extends Table implements CRUDListModel, Multilingual, Historical, 
 		$select = $this->getSelect($filter);
 		$select->reset(Select::GROUP);
 		$select->reset(Select::COLUMNS)
-			->columns(['count' => new Expression('count(ev.id)')]);
+			->columns([
+					'count' => new Expression('count(ev.id)'),
+			]);
 		return $select->fetchRow();
 		
 	}
 	
-	public function getItems($filter, $p = 1, $ipp = 100){
+	public function getItems($filter, $p = 1, $ipp = null){
 		$select = $this->getSelect($filter);
+		
 		$select->limit($ipp)->offset(($p-1)*$ipp);
 		$select->order(new Expression('IFNULL(sh.date, ev.expiration_date) ASC'));
 		$select->order('ev.id asc');
+		
 		$items = $select->fetchAll();
 		foreach ($items as &$item){
 			$this->buildItem($item);
@@ -100,6 +105,41 @@ class EventDb extends Table implements CRUDListModel, Multilingual, Historical, 
 		return $items;
 	}
 		
+	public function getCalendarBounds($filter) {
+		$select = $this->getSelect($filter);
+		$select->reset(Select::GROUP);
+		$select->reset(Select::COLUMNS)
+			->columns([
+					'count' => new Expression('count(ev.id)'),
+					'start' => new Expression('min(sh.date)'),
+					'end' => new Expression('max(sh.date)')
+				]);
+		return $select->fetchRow();
+	}
+	
+	public function getCalendarItems($filter, $from, $to) {
+		$select = $this->getSelect($filter);
+
+		$select->where->greaterThanOrEqualTo('sh.date', $from);
+		$select->where->lessThan('sh.date', $to);
+		$select->columns(['*', 'formated_date' => new Expression('DATE_FORMAT(FROM_UNIXTIME(IFNULL(sh.date, ev.expiration_date)),"%y-%m-%d")')]);
+		
+		$select->order(new Expression('IFNULL(sh.date, ev.expiration_date) ASC'));
+		$select->order('ev.id asc');
+		
+		$itemsByDate = $select->fetchGroups('formated_date');
+		foreach ($itemsByDate as &$itemsByDateItem){
+			foreach ($itemsByDateItem['items'] as &$item){
+				$this->buildItem($item);
+			}			
+		}
+		return $itemsByDate;
+	}
+	
+	
+	
+	
+	
 	public function buildItem(&$item){
 		$item['type_name'] = $this->typeNames[$item['type']];
 		/* @var $orderDb OrdersDb */
@@ -109,9 +149,29 @@ class EventDb extends Table implements CRUDListModel, Multilingual, Historical, 
 		} else {
 			$item['order_count'] = $orderDb->getSheduledOrderCount($item['shedule_id']);
 		}
-		return parent::buildItem($item);
+		
+		parent::buildItem($item);
+		$this->buildEventTime($item);
+		return $item;
 	}
 
+	
+	public function buildEventTime(&$item){
+		if(!empty($item['time_text'])){
+			$re = '/(\d\d:\d\d).*(\d\d:\d\d)\s?(\S.*)?/';
+			$mastces = [];
+			if(preg_match($re, $item['time_text'], $matches)){
+				$item['time_text_from'] = $matches[1];
+				$item['time_text_till'] = $matches[2];
+				$item['time_text_duration'] = $matches[3];
+			}
+			else {
+				$item['time_text_duration'] = $item['time_text'];
+			}
+		}
+		return $item;
+	}
+	
 	public function insert($insert){
     	return parent::insert($insert);    	
     }	
@@ -335,6 +395,31 @@ class EventDb extends Table implements CRUDListModel, Multilingual, Historical, 
 		return $select->fetchAll();
 	}
 	
+	public function updateShedule($sheduleId, $date){
+		
+		$select = new Select(['sh' => 'course_event_shedule']);
+		$select->columns(['event_id']);
+		$select->where->equalTo('sh.id', $sheduleId);
+		$eventId = $select->fetchOne();
+		
+		if(!empty($eventId)){
+			$select = new Select(['sh' => 'course_event_shedule']);
+			$select->columns(['count' => new Expression('count(*)')]);
+			$select->where->equalTo('sh.event_id', $eventId)
+				->and->notEqualTo('sh.id', $sheduleId)
+				->and->between('sh.date', $date-1*60*60, $date+1*60*60);
+			$sheduleCount = $select->fetchOne();
+			if($sheduleCount != 0){				
+				throw new \Exception('На эту дату уже запланировано мероприятие');
+			} else {
+				$this->getAdapter()->updateOne('course_event_shedule', $sheduleId, ['date' => $date]);
+			}			
+		} else {
+			throw new \Exception('Мероприятие не найдено');
+		}
+		
+	}
+	
 	public function canChangeType($event){
 		$event = $this->get($event);
 		if($event['type'] == self::TYPE_ANNOUNCE) return true;
@@ -461,6 +546,7 @@ class EventDb extends Table implements CRUDListModel, Multilingual, Historical, 
 		}
 		return $tarifSubscription - $currentSubscription;
 	}
+
 	
 	/*
  
