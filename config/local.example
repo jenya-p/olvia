@@ -1,0 +1,13 @@
+<?php
+
+return [
+    'db' => [
+		'username' => 'root',
+		'password' => '123456',
+	],
+	'view_manager' => [
+        'display_exceptions' => true,
+    ],
+	'base_url' => 'http://olvia.lh',
+	'environment' => 'dev'
+];
